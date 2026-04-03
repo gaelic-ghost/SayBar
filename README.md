@@ -115,4 +115,7 @@ Target verification milestones for the next pass are:
 
 ## License
 
-This repository does not declare a license yet. Until a license file is added, treat the project as all rights reserved.
+This project is licensed under the Apache License, Version 2.0.
+
+- License text: [LICENSE](LICENSE)
+- Attribution notice: [NOTICE](NOTICE)
