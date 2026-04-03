@@ -10,9 +10,16 @@ import SwiftData
 
 @main
 struct SayBarApp: App {
+
+	// MARK: App State
+
+	@State private var isInserted: Bool = true
+
+	// MARK: Model Container Fetch
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            VoiceProfile.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -23,10 +30,20 @@ struct SayBarApp: App {
         }
     }()
 
+	// MARK: Scene Body
+
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-        .modelContainer(sharedModelContainer)
+		MenuBarExtra(
+			"Title Label",
+			systemImage: "SFSymbol String",
+			isInserted: $isInserted
+		) {
+			MenuBarExtraWindow()
+		}
+		.menuBarExtraStyle(.window)
+		Settings {
+			SettingsWindow()
+		}
+		.modelContainer(sharedModelContainer)
     }
 }

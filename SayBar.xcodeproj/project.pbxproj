@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		49220EB62F7AFA7D00A94BD8 /* MLXAudioCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49220EB52F7AFA7D00A94BD8 /* MLXAudioCore */; };
+		49220EB82F7AFA7D00A94BD8 /* MLXAudioTTS in Frameworks */ = {isa = PBXBuildFile; productRef = 49220EB72F7AFA7D00A94BD8 /* MLXAudioTTS */; };
+		49220EBA2F7AFA7D00A94BD8 /* MLXAudioUI in Frameworks */ = {isa = PBXBuildFile; productRef = 49220EB92F7AFA7D00A94BD8 /* MLXAudioUI */; };
+		496E0E132F7F3F110027D8C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 496E0E122F7F3F110027D8C1 /* README.md */; };
+		496E0E152F7F3F250027D8C1 /* ROADMAP.md in Resources */ = {isa = PBXBuildFile; fileRef = 496E0E142F7F3F250027D8C1 /* ROADMAP.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		49220E8F2F7ADE5B00A94BD8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +35,9 @@
 		49220E7F2F7ADE5A00A94BD8 /* SayBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SayBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49220E8E2F7ADE5B00A94BD8 /* SayBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49220E982F7ADE5B00A94BD8 /* SayBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		496E0E122F7F3F110027D8C1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		496E0E142F7F3F250027D8C1 /* ROADMAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ROADMAP.md; sourceTree = "<group>"; };
+		496E0E162F7F3F3C0027D8C1 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +63,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49220EB62F7AFA7D00A94BD8 /* MLXAudioCore in Frameworks */,
+				49220EBA2F7AFA7D00A94BD8 /* MLXAudioUI in Frameworks */,
+				49220EB82F7AFA7D00A94BD8 /* MLXAudioTTS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +89,9 @@
 		49220E762F7ADE5A00A94BD8 = {
 			isa = PBXGroup;
 			children = (
+				496E0E162F7F3F3C0027D8C1 /* AGENTS.md */,
+				496E0E142F7F3F250027D8C1 /* ROADMAP.md */,
+				496E0E122F7F3F110027D8C1 /* README.md */,
 				49220E812F7ADE5A00A94BD8 /* SayBar */,
 				49220E912F7ADE5B00A94BD8 /* SayBarTests */,
 				49220E9B2F7ADE5B00A94BD8 /* SayBarUITests */,
@@ -112,6 +129,9 @@
 			);
 			name = SayBar;
 			packageProductDependencies = (
+				49220EB52F7AFA7D00A94BD8 /* MLXAudioCore */,
+				49220EB72F7AFA7D00A94BD8 /* MLXAudioTTS */,
+				49220EB92F7AFA7D00A94BD8 /* MLXAudioUI */,
 			);
 			productName = SayBar;
 			productReference = 49220E7F2F7ADE5A00A94BD8 /* SayBar.app */;
@@ -195,6 +215,9 @@
 			);
 			mainGroup = 49220E762F7ADE5A00A94BD8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				49220EB42F7AFA7D00A94BD8 /* XCRemoteSwiftPackageReference "mlx-audio-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49220E802F7ADE5A00A94BD8 /* Products */;
 			projectDirPath = "";
@@ -212,6 +235,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496E0E132F7F3F110027D8C1 /* README.md in Resources */,
+				496E0E152F7F3F250027D8C1 /* ROADMAP.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +354,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -385,7 +412,9 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -403,12 +432,14 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SayBar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -435,12 +466,14 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SayBar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -573,6 +606,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		49220EB42F7AFA7D00A94BD8 /* XCRemoteSwiftPackageReference "mlx-audio-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Blaizzy/mlx-audio-swift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		49220EB52F7AFA7D00A94BD8 /* MLXAudioCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49220EB42F7AFA7D00A94BD8 /* XCRemoteSwiftPackageReference "mlx-audio-swift" */;
+			productName = MLXAudioCore;
+		};
+		49220EB72F7AFA7D00A94BD8 /* MLXAudioTTS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49220EB42F7AFA7D00A94BD8 /* XCRemoteSwiftPackageReference "mlx-audio-swift" */;
+			productName = MLXAudioTTS;
+		};
+		49220EB92F7AFA7D00A94BD8 /* MLXAudioUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49220EB42F7AFA7D00A94BD8 /* XCRemoteSwiftPackageReference "mlx-audio-swift" */;
+			productName = MLXAudioUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 49220E772F7ADE5A00A94BD8 /* Project object */;
 }
