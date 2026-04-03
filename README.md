@@ -40,6 +40,12 @@ The sibling repositories for the planned integrations currently live at:
 
 They are not wired into this app yet, so no extra local package setup is required today.
 
+Repository and workspace role:
+
+- this standalone repository is the source of truth for SayBar development and releases
+- once adopted by the umbrella workspace, `../speak-to-user/apps/SayBar` should be treated as the pinned integration submodule copy
+- umbrella workspace updates should move the submodule pointer to tagged SayBar releases instead of arbitrary branch tips
+
 ## Usage
 
 Right now, running the app gives you the Xcode-template `MenuBarExtra` shell:
@@ -94,6 +100,13 @@ Current project structure:
 - `SayBarTests/` contains unit-test scaffolding.
 - `SayBarUITests/` contains UI-test scaffolding.
 
+Monorepo integration guidance:
+
+- keep standalone app development, app release tags, and app-specific docs in this repository
+- if `speak-to-user` vendors SayBar under `apps/SayBar`, treat that as a pinned submodule copy rather than a second development home
+- make umbrella workspace changes from a dedicated `speak-to-user` worktree branch instead of editing the protected base checkout directly
+- prefer monorepo submodule bumps to tagged SayBar releases
+
 ## Verification
 
 Until more functionality lands, the practical verification loop is:
@@ -112,6 +125,11 @@ Target verification milestones for the next pass are:
 3. The Settings scene opens and renders app-shaped placeholder configuration.
 4. Playback controls render and their action plumbing is visible, even before full backend behavior lands.
 5. Server status and queue status surfaces render clearly enough for iterative backend hookup.
+
+When the umbrella workspace adopts SayBar as a submodule, verify the workspace-level change separately:
+
+1. The `speak-to-user` worktree branch points `apps/SayBar` at the intended SayBar tag.
+2. The umbrella docs describe SayBar as a vendored app submodule instead of a sibling-only repo.
 
 ## License
 

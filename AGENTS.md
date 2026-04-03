@@ -3,8 +3,19 @@
 ## Project shape
 
 - SayBar is a native macOS `MenuBarExtra` app built in Xcode.
+- Treat the standalone `SayBar` repository as the source of truth for app development, tags, and releases.
+- Treat `../speak-to-user/apps/SayBar` as the monorepo integration submodule copy once the umbrella workspace adopts it, not the primary development home.
 - The intended role of this repository is to provide the app shell, menu bar UI, settings UI, and macOS-facing service control surface for the sibling repositories `../SpeakSwiftlyServer` and `../SpeakSwiftlyMCP`.
 - Treat those sibling repositories as the primary homes for server and MCP behavior. SayBar should host, supervise, configure, and present them, not casually re-implement their responsibilities.
+
+## Monorepo and submodule workflow
+
+- Treat the local `../speak-to-user` checkout as a clean protected base checkout only. It must stay on `main`, and it must stay clean.
+- Never do feature work, release work, submodule add work, submodule update work, or umbrella-doc edits directly inside the base `../speak-to-user` checkout.
+- For any `speak-to-user` change related to SayBar, create a new branch in a new `git worktree` and do the monorepo work there.
+- When the monorepo adopts or updates SayBar, prefer bumping the submodule pointer to a tagged SayBar release rather than an arbitrary branch tip.
+- Land monorepo SayBar submodule bumps and related umbrella-doc updates through a pull request against the monorepo instead of pushing those pointer changes directly to monorepo `main`.
+- Keep SayBar-specific build, run, and app implementation guidance here in the standalone repo. Keep umbrella docs in `speak-to-user` focused on workspace shape, pinned submodules, and integration boundaries.
 
 ## Apple and Xcode workflow
 
@@ -35,6 +46,7 @@
 - When wiring `../SpeakSwiftlyServer` or `../SpeakSwiftlyMCP`, document the integration path in `README.md` and keep the boundary honest in code.
 - Prefer one clear integration path over transitional shims or duplicate codepaths.
 - If correct integration requires widening scope beyond the current app file or current repository, stop and ask Gale to approve the broader pass instead of leaving an in-between architecture behind.
+- When SayBar is represented in `speak-to-user`, keep the umbrella docs explicit about whether it is still a sibling repo or already vendored there as a pinned app submodule.
 
 ## Verification
 

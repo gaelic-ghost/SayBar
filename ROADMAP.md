@@ -18,7 +18,7 @@ Build a native macOS menu bar app that gives Gale a calm, reliable control surfa
 - [ ] Milestone 2: Add a basic placeholder UI and verify app build and launch behavior.
 - [ ] Milestone 3: Integrate local SpeakSwiftly server and MCP libraries.
 - [ ] Milestone 4: Add playback controls, server status, queue status, and settings flows.
-- [ ] Milestone 5: Harden packaging, diagnostics, and verification.
+- [ ] Milestone 5: Harden packaging, release, and monorepo adoption.
 
 ## Milestone 1: Real app shell
 
@@ -100,11 +100,11 @@ Give the menu bar app enough behavior to expose playback controls, service state
 - [ ] Server status and queue status are legible from the app UI.
 - [ ] Settings owns deeper configuration while the menu bar surface stays focused on quick control and status.
 
-## Milestone 5: Hardening and release readiness
+## Milestone 5: Hardening, release, and monorepo adoption
 
 ### Scope
 
-Improve reliability, verification, and macOS polish so the app is safe to use as an everyday local controller.
+Improve reliability, verification, and macOS polish so the app is safe to use as an everyday local controller, then adopt it cleanly into the umbrella workspace as a pinned app submodule.
 
 ### Tickets
 
@@ -114,7 +114,9 @@ Improve reliability, verification, and macOS polish so the app is safe to use as
 - [ ] Expand unit and UI coverage beyond Xcode template tests.
 - [ ] Verify menu bar behavior across launch, quit, relaunch, and settings flows.
 - [ ] Review app logging, warnings, and failure modes for operator clarity.
-- [ ] [P] Add release notes and packaging guidance once distribution shape is decided.
+- [ ] Add release notes and packaging guidance for standalone SayBar tags.
+- [ ] Add SayBar to `speak-to-user/apps` as a pinned submodule at a tagged release.
+- [ ] Update umbrella docs so `speak-to-user` describes SayBar as a current vendored app submodule instead of only a sibling repository.
 - [ ] Confirm the app degrades clearly when dependencies or local services are unavailable.
 
 ### Exit criteria
@@ -123,3 +125,4 @@ Improve reliability, verification, and macOS polish so the app is safe to use as
 - [ ] The verification story covers the core menu bar workflows.
 - [ ] Operator-facing failures are actionable and specific.
 - [ ] SayBar is usable as a day-to-day local speech control surface.
+- [ ] The standalone repo and the umbrella workspace agree on SayBar's release and submodule adoption story.
