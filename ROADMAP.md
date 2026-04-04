@@ -114,6 +114,7 @@ Improve reliability, verification, and macOS polish so the app is safe to use as
 - [ ] Expand unit and UI coverage beyond Xcode template tests.
 - [ ] Verify menu bar behavior across launch, quit, relaunch, and settings flows.
 - [ ] Review app logging, warnings, and failure modes for operator clarity.
+- [ ] Keep repo guidance aligned with the installed Apple Dev Skills plugin workflow and skill names.
 - [ ] Add release notes and packaging guidance for standalone SayBar tags.
 - [ ] Add SayBar to `speak-to-user/apps` as a pinned submodule at a tagged release.
 - [ ] Update umbrella docs so `speak-to-user` describes SayBar as a current vendored app submodule instead of only a sibling repository.

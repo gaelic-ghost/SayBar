@@ -46,6 +46,13 @@ Repository and workspace role:
 - once adopted by the umbrella workspace, `../speak-to-user/apps/SayBar` should be treated as the pinned integration submodule copy
 - umbrella workspace updates should move the submodule pointer to tagged SayBar releases instead of arbitrary branch tips
 
+Repo-local Apple workflow plugin:
+
+- this repo now carries a repo-scoped Apple Dev Skills Codex plugin install
+- the local marketplace entry lives at `.agents/plugins/marketplace.json`
+- the local plugin tree lives at `plugins/apple-dev-skills`
+- restart Codex after refreshing that plugin so the updated local skills are discoverable
+
 ## Usage
 
 Right now, running the app gives you the Xcode-template `MenuBarExtra` shell:
@@ -86,6 +93,12 @@ This repository is best treated as a native macOS app project first.
 - Keep operator-facing UI and logs explicit enough that service state is obvious at a glance.
 - Treat `../SpeakSwiftlyServer` and `../SpeakSwiftlyMCP` as the intended integration boundaries rather than recreating their responsibilities inside SayBar.
 
+Preferred Apple Dev Skills entry points for this repo:
+
+- `Apple Dev Skills:xcode-app-project-workflow` for Xcode execution, diagnostics, build, test, run, and mutation-path planning
+- `Apple Dev Skills:explore-apple-swift-docs` for Apple and Swift documentation lookup before design or implementation decisions
+- `Apple Dev Skills:sync-xcode-project-guidance` when repo guidance needs to be refreshed against the current Xcode-app baseline
+
 Planned implementation slices:
 
 - replace template UI with a stable placeholder menu bar window and a real Settings scene
@@ -99,6 +112,8 @@ Current project structure:
 - `SayBar/` contains the app entrypoint, views, assets, and data models.
 - `SayBarTests/` contains unit-test scaffolding.
 - `SayBarUITests/` contains UI-test scaffolding.
+- `plugins/apple-dev-skills/` contains the repo-local Apple Dev Skills plugin install surface for Codex.
+- `.agents/plugins/marketplace.json` contains the repo-local marketplace entry that exposes that plugin to Codex in this repository.
 
 Monorepo integration guidance:
 

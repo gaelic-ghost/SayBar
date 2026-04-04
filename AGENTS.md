@@ -19,10 +19,21 @@
 
 ## Apple and Xcode workflow
 
-- Use the `apple-xcode-workflow` skill first for Xcode-related work.
+- Prefer the repo-local Apple Dev Skills plugin workflow when it is installed here.
+- For active Xcode execution work, use `Apple Dev Skills:xcode-app-project-workflow` as the top-level entry point.
+- For Apple and Swift documentation lookup, use `Apple Dev Skills:explore-apple-swift-docs` before implementation planning.
+- For repo-guidance refresh in this Xcode app repository, use `Apple Dev Skills:sync-xcode-project-guidance`.
+- Older references to `apple-xcode-workflow` should be treated as mapping forward to `Apple Dev Skills:xcode-app-project-workflow`.
 - Read relevant Apple documentation before making architecture or lifecycle decisions for SwiftUI, `MenuBarExtra`, app scenes, SwiftData, settings windows, app lifecycle, or service management.
 - Prefer Xcode-aware tooling and project-safe workflows over manual project-file edits.
 - Never edit `SayBar.xcodeproj/project.pbxproj` directly. If a project configuration change is required, make it through Xcode or another project-aware workflow.
+
+## Repo-local plugin wiring
+
+- The repo-local Codex plugin install surface for Apple workflows lives at `plugins/apple-dev-skills`.
+- The repo-local marketplace entry for that plugin lives at `.agents/plugins/marketplace.json`.
+- When the Apple Dev Skills plugin is refreshed, keep the repo guidance aligned with the actual installed skill names and workflow boundaries.
+- Restart Codex after updating the repo-local plugin tree or marketplace wiring so the refreshed plugin surface is picked up.
 
 ## Swift and macOS guidance
 
