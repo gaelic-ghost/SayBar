@@ -2,7 +2,7 @@
 
 ## Vision
 
-Build a native macOS menu bar app that gives Gale a calm, reliable control surface for local speech services, with SayBar hosting and supervising the SpeakSwiftly server and MCP libraries while keeping status, configuration, and operator actions close at hand.
+Build a native macOS menu bar app that gives Gale a straightforward, reliable, and aesthetically pleasing control surface for local speech services, with SayBar hosting and supervising the SpeakSwiftly server and MCP libraries while keeping status, configuration, and operator actions close at hand.
 
 ## Product principles
 

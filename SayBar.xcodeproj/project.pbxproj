@@ -12,6 +12,7 @@
 		49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */; };
 		49A943402F855A5900F4016C /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = 49A9433F2F855A5900F4016C /* TODO.md */; };
 		49A943422F855A6300F4016C /* FIXME.md in Resources */ = {isa = PBXBuildFile; fileRef = 49A943412F855A6300F4016C /* FIXME.md */; };
+		49EE3DCB2F856E8700A877B1 /* SpeakSwiftlyServerCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49EE3DCA2F856E8700A877B1 /* SpeakSwiftlyServerCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49EE3DCB2F856E8700A877B1 /* SpeakSwiftlyServerCore in Frameworks */,
 				49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +141,7 @@
 			name = SayBar;
 			packageProductDependencies = (
 				49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */,
+				49EE3DCA2F856E8700A877B1 /* SpeakSwiftlyServerCore */,
 			);
 			productName = SayBar;
 			productReference = 49220E7F2F7ADE5A00A94BD8 /* SayBar.app */;
@@ -223,7 +226,7 @@
 			mainGroup = 49220E762F7ADE5A00A94BD8;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				49A9433C2F8559A700F4016C /* XCLocalSwiftPackageReference "../SpeakSwiftlyServer" */,
+				49EE3DC92F856E8700A877B1 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49220E802F7ADE5A00A94BD8 /* Products */;
@@ -618,16 +621,25 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		49A9433C2F8559A700F4016C /* XCLocalSwiftPackageReference "../SpeakSwiftlyServer" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../SpeakSwiftlyServer;
+/* Begin XCRemoteSwiftPackageReference section */
+		49EE3DC92F856E8700A877B1 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gaelic-ghost/SpeakSwiftlyServer";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = SpeakSwiftlyServerCore;
+		};
+		49EE3DCA2F856E8700A877B1 /* SpeakSwiftlyServerCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49EE3DC92F856E8700A877B1 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
 			productName = SpeakSwiftlyServerCore;
 		};
 /* End XCSwiftPackageProductDependency section */

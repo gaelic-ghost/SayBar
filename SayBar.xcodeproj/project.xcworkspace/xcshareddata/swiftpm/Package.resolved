@@ -1,5 +1,5 @@
 {
-  "originHash" : "1b5e0f96b13c6b1e0d2a28fe582b31e7911320102d91de3b5bb7a9377db10a5c",
+  "originHash" : "18d8f75b4bcf8646381ca2aa921830a1b1bfe5a98d3e39bccf0106ad43351f6b",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -13,7 +13,7 @@
     {
       "identity" : "eventsource",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mattt/EventSource.git",
+      "location" : "https://github.com/mattt/eventsource.git",
       "state" : {
         "revision" : "a3a85a85214caf642abaa96ae664e4c772a59f6e",
         "version" : "1.4.1"
@@ -65,6 +65,15 @@
       }
     },
     {
+      "identity" : "speakswiftlyserver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gaelic-ghost/SpeakSwiftlyServer",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6b09d95b6a145094b0da4e07d7984046d33f04e9"
+      }
+    },
+    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
@@ -112,7 +121,7 @@
     {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-collections.git",
+      "location" : "https://github.com/apple/swift-collections",
       "state" : {
         "revision" : "6675bc0ff86e61436e615df6fc5174e043e57924",
         "version" : "1.4.1"
@@ -283,7 +292,7 @@
     {
       "identity" : "swift-system",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-system.git",
+      "location" : "https://github.com/apple/swift-system",
       "state" : {
         "revision" : "7c6ad0fc39d0763e0b699210e4124afd5041c5df",
         "version" : "1.6.4"
