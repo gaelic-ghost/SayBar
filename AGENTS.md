@@ -5,7 +5,7 @@
 - SayBar is a native macOS `MenuBarExtra` app built in Xcode.
 - Treat the standalone `SayBar` repository as the source of truth for app development, tags, and releases.
 - Treat `../speak-to-user/apps/SayBar` as the monorepo integration submodule copy once the umbrella workspace adopts it, not the primary development home.
-- The intended role of this repository is to provide the app shell, menu bar UI, settings UI, and macOS-facing service control surface for the sibling repositories `../SpeakSwiftlyServer` and `../SpeakSwiftlyMCP`.
+- The intended role of this repository is to provide the app shell, menu bar UI, settings UI, and macOS-facing service control surface for `SpeakSwiftlyServer`
 - Treat those sibling repositories as the primary homes for server and MCP behavior. SayBar should host, supervise, configure, and present them, not casually re-implement their responsibilities.
 
 ## Monorepo and submodule workflow
@@ -27,13 +27,6 @@
 - Read relevant Apple documentation before making architecture or lifecycle decisions for SwiftUI, `MenuBarExtra`, app scenes, SwiftData, settings windows, app lifecycle, or service management.
 - Prefer Xcode-aware tooling and project-safe workflows over manual project-file edits.
 - Never edit `SayBar.xcodeproj/project.pbxproj` directly. If a project configuration change is required, make it through Xcode or another project-aware workflow.
-
-## Repo-local plugin wiring
-
-- The repo-local Codex plugin install surface for Apple workflows lives at `plugins/apple-dev-skills`.
-- The repo-local marketplace entry for that plugin lives at `.agents/plugins/marketplace.json`.
-- When the Apple Dev Skills plugin is refreshed, keep the repo guidance aligned with the actual installed skill names and workflow boundaries.
-- Restart Codex after updating the repo-local plugin tree or marketplace wiring so the refreshed plugin surface is picked up.
 
 ## Swift and macOS guidance
 
