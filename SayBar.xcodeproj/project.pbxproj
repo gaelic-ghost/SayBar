@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */; };
 		49ACDC532F8D74E500DA4DD3 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = 49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */; };
 /* End PBXBuildFile section */
 
@@ -67,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */,
 				49ACDC532F8D74E500DA4DD3 /* SpeakSwiftlyServer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,7 +133,6 @@
 			);
 			name = SayBar;
 			packageProductDependencies = (
-				49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */,
 				49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */,
 			);
 			productName = SayBar;
@@ -662,10 +659,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SpeakSwiftlyServerCore;
-		};
 		49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 49ACDC512F8D74E500DA4DD3 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
