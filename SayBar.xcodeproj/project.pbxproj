@@ -7,12 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		496E0E132F7F3F110027D8C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 496E0E122F7F3F110027D8C1 /* README.md */; };
-		496E0E152F7F3F250027D8C1 /* ROADMAP.md in Resources */ = {isa = PBXBuildFile; fileRef = 496E0E142F7F3F250027D8C1 /* ROADMAP.md */; };
+		491A12312F8C64DE0040EE36 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = 491A12302F8C64DE0040EE36 /* SpeakSwiftlyServer */; };
 		49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */; };
-		49A943402F855A5900F4016C /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = 49A9433F2F855A5900F4016C /* TODO.md */; };
-		49A943422F855A6300F4016C /* FIXME.md in Resources */ = {isa = PBXBuildFile; fileRef = 49A943412F855A6300F4016C /* FIXME.md */; };
-		49CD40522F8B040B003EE72A /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = 49CD40512F8B040B003EE72A /* SpeakSwiftlyServer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */,
-				49CD40522F8B040B003EE72A /* SpeakSwiftlyServer in Frameworks */,
+				491A12312F8C64DE0040EE36 /* SpeakSwiftlyServer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,12 +132,11 @@
 			);
 			fileSystemSynchronizedGroups = (
 				49220E812F7ADE5A00A94BD8 /* SayBar */,
-				49A943432F855A6900F4016C /* docs */,
 			);
 			name = SayBar;
 			packageProductDependencies = (
 				49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */,
-				49CD40512F8B040B003EE72A /* SpeakSwiftlyServer */,
+				491A12302F8C64DE0040EE36 /* SpeakSwiftlyServer */,
 			);
 			productName = SayBar;
 			productReference = 49220E7F2F7ADE5A00A94BD8 /* SayBar.app */;
@@ -226,7 +221,7 @@
 			mainGroup = 49220E762F7ADE5A00A94BD8;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				49CD40502F8B040B003EE72A /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
+				491A122F2F8C64DE0040EE36 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49220E802F7ADE5A00A94BD8 /* Products */;
@@ -245,10 +240,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49A943402F855A5900F4016C /* TODO.md in Resources */,
-				496E0E132F7F3F110027D8C1 /* README.md in Resources */,
-				49A943422F855A6300F4016C /* FIXME.md in Resources */,
-				496E0E152F7F3F250027D8C1 /* ROADMAP.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,13 +426,25 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BC73766F69;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SayBar;
@@ -456,6 +459,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -470,13 +479,25 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BC73766F69;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SayBar;
@@ -491,6 +512,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -622,25 +649,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		49CD40502F8B040B003EE72A /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
+		491A122F2F8C64DE0040EE36 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gaelic-ghost/SpeakSwiftlyServer";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		491A12302F8C64DE0040EE36 /* SpeakSwiftlyServer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 491A122F2F8C64DE0040EE36 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
+			productName = SpeakSwiftlyServer;
+		};
 		49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SpeakSwiftlyServerCore;
-		};
-		49CD40512F8B040B003EE72A /* SpeakSwiftlyServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 49CD40502F8B040B003EE72A /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
-			productName = SpeakSwiftlyServer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
