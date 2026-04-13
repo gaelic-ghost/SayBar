@@ -14,7 +14,7 @@ Native macOS menu bar shell for hosting and supervising SayBar's speech-facing s
 
 ## Overview
 
-SayBar is the standalone macOS app repository for the menu bar experience that will sit in front of the speech and MCP services developed in sibling repositories. The current project is still an app-shell stage build: it already has a native `MenuBarExtra` app target, a Settings scene, unit and UI test targets, and package wiring into `SpeakSwiftlyServer` and `SpeakSwiftlyServerCore`, but the menu bar and settings views are still placeholders.
+SayBar is the standalone macOS app repository for the menu bar experience that sits in front of the speech and MCP services developed in sibling repositories. The current project now includes a native `MenuBarExtra` app target, a Settings scene, unit and UI test targets, and package wiring into `SpeakSwiftlyServer`. The app surface has moved beyond scaffolding and now hosts an embedded `SpeakSwiftlyServer` session through a dedicated app-owned controller.
 
 ### Motivation
 
@@ -27,15 +27,17 @@ This repository exists so the macOS app can evolve as its own product surface in
 3. Let Xcode resolve Swift package dependencies the first time you open the project.
 4. Run the app on macOS from Xcode.
 
-The current project signals show a macOS app target named `SayBar`, companion `SayBarTests` and `SayBarUITests` targets, and package dependencies that include `SpeakSwiftlyServer` and `SpeakSwiftlyServerCore`.
+The current project signals show a macOS app target named `SayBar`, companion `SayBarTests` and `SayBarUITests` targets, and package dependencies centered on `SpeakSwiftlyServer`.
 
 ## Usage
 
-The current app launches a menu bar extra and a Settings window from the `SayBar` scheme. At the moment both visible surfaces are still scaffold placeholders, so the practical use of this repository right now is running the shell app, iterating on the menu bar and settings UI, and wiring in the real hosted-service behavior.
+The current app launches a menu bar extra and a Settings window from the `SayBar` scheme. The menu bar surface now shows embedded-session status, queue and playback summaries, and common service actions such as start, stop, restart, pause, resume, and queue clearing. The Settings window expands that with runtime, transport, playback, and diagnostics sections for the embedded `SpeakSwiftlyServer` session.
 
 ## Development
 
 Use Xcode-aware workflows for app changes and keep the standalone `SayBar` repository as the source of truth for app development. For monorepo work in `../speak-to-user`, treat that checkout as a clean protected base and do SayBar-related feature work in a separate worktree rather than directly in the base checkout.
+
+For the current embedded-session direction, see [docs/maintainers/embedded-session-integration-plan.md](docs/maintainers/embedded-session-integration-plan.md) for the maintainer-facing architecture and implementation plan.
 
 Useful local commands:
 
