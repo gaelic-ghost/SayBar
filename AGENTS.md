@@ -55,4 +55,5 @@
 
 - For Xcode app changes, prefer build-and-run validation through the project scheme, plus any relevant unit or UI tests.
 - Keep build and test execution serialized. Do not run concurrent Xcode, SwiftPM, or other heavy validation commands on this machine.
+- Before any UI automation, UI test run, browser automation, screenshot flow, or other focus-stealing interactive validation that may take over Gale's active desktop session, send a clear warning in chat first and wait long enough for Gale to see it before starting the automation.
 - When changing docs, keep edits bounded and preserve intentional document structure.
