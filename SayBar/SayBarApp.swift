@@ -16,7 +16,9 @@ struct SayBarApp: App {
 	private var isInserted: Bool = true
 
 	@State
-	private var ssController = SpeakSwiftlyController()
+	private var ssController = SpeakSwiftlyController(
+		autoStart: !ProcessInfo.processInfo.arguments.contains("--saybar-disable-autostart")
+	)
 
 		// MARK: Scene Body
 

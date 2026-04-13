@@ -36,6 +36,46 @@ final class SpeakSwiftlyController {
 		}
 	}
 
+	struct StatusInputs {
+		struct OverviewSnapshot {
+			var serverMode: String
+			var workerMode: String
+			var workerStage: String
+			var workerReady: Bool
+			var startupError: String?
+			var profileCacheWarning: String?
+		}
+
+		struct RecentErrorSnapshot {
+			var message: String
+		}
+
+		struct TransportSnapshot {
+			var name: String
+			var enabled: Bool
+			var state: String
+			var host: String?
+			var port: Int?
+			var path: String?
+		}
+
+		var isStarting: Bool
+		var hasSession: Bool
+		var lastFailureMessage: String?
+		var overview: OverviewSnapshot?
+		var recentErrors: [RecentErrorSnapshot]
+		var transports: [TransportSnapshot]
+		var playbackState: String?
+		var activeRequestID: String?
+	}
+
+	struct ServicePresentation: Equatable {
+		var state: ServiceState
+		var symbolName: String
+		var headline: String
+		var detail: String
+	}
+
 	private(set) var session: EmbeddedServerSession?
 	private(set) var lifecycleMessage = "SayBar has not started the embedded SpeakSwiftlyServer session yet."
 	private(set) var lastFailureMessage: String?
@@ -55,109 +95,66 @@ final class SpeakSwiftlyController {
 		}
 	}
 
-	var serviceState: ServiceState {
-		if isStarting {
-			return .starting
-		}
-
+	private var statusInputs: StatusInputs {
 		guard let state = serverState else {
-			return lastFailureMessage == nil ? .stopped : .broken
+			return StatusInputs(
+				isStarting: isStarting,
+				hasSession: session != nil,
+				lastFailureMessage: lastFailureMessage,
+				overview: nil,
+				recentErrors: [],
+				transports: [],
+				playbackState: nil,
+				activeRequestID: nil
+			)
 		}
 
-		let overview = state.overview
+		return StatusInputs(
+			isStarting: isStarting,
+			hasSession: session != nil,
+			lastFailureMessage: lastFailureMessage,
+			overview: .init(
+				serverMode: state.overview.serverMode,
+				workerMode: state.overview.workerMode,
+				workerStage: state.overview.workerStage,
+				workerReady: state.overview.workerReady,
+				startupError: state.overview.startupError,
+				profileCacheWarning: state.overview.profileCacheWarning
+			),
+			recentErrors: state.recentErrors.map { .init(message: $0.message) },
+			transports: state.transports.map {
+				.init(
+					name: $0.name,
+					enabled: $0.enabled,
+					state: $0.state,
+					host: $0.host,
+					port: $0.port,
+					path: $0.path
+				)
+			},
+			playbackState: state.playback.state,
+			activeRequestID: state.playback.activeRequest?.id
+		)
+	}
 
-		if let startupError = overview.startupError, !startupError.isEmpty {
-			return .broken
-		}
+	private var presentation: ServicePresentation {
+		Self.makePresentation(from: statusInputs, lifecycleMessage: lifecycleMessage)
+	}
 
-		if overview.serverMode == "ready", overview.workerReady {
-			return state.recentErrors.isEmpty ? .ready : .degraded
-		}
-
-		if overview.serverMode == "starting" || overview.workerMode == "starting" || overview.workerStage == "starting" {
-			return .starting
-		}
-
-		if overview.serverMode == "broken"
-			|| overview.workerMode == "broken"
-			|| overview.workerStage == "broken"
-			|| overview.workerStage == "failed" {
-			return .broken
-		}
-
-		if overview.serverMode == "degraded" || !state.recentErrors.isEmpty {
-			return .degraded
-		}
-
-		return overview.workerReady ? .ready : .starting
+	var serviceState: ServiceState {
+		presentation.state
 	}
 
 	var menuBarSymbolName: String {
-		switch serviceState {
-		case .stopped:
-			"speaker.slash.fill"
-		case .starting:
-			"hourglass.circle.fill"
-		case .ready:
-			"waveform.and.mic"
-		case .degraded:
-			"exclamationmark.triangle.fill"
-		case .broken:
-			"xmark.octagon.fill"
-		}
+		presentation.symbolName
 	}
 
 	var statusHeadline: String {
-		switch serviceState {
-		case .stopped:
-			"SpeakSwiftlyServer is stopped."
-		case .starting:
-			"SpeakSwiftlyServer is starting inside SayBar."
-		case .ready:
-			"SpeakSwiftlyServer is ready."
-		case .degraded:
-			"SpeakSwiftlyServer is running with warnings."
-		case .broken:
-			"SpeakSwiftlyServer needs attention."
-		}
+		presentation.headline
 	}
 
 	var statusDetail: String {
-		if let lastFailureMessage, session == nil {
-			return lastFailureMessage
-		}
-
-		guard let state = serverState else {
-			return lifecycleMessage
-		}
-
-		let overview = state.overview
-
-		if let startupError = overview.startupError, !startupError.isEmpty {
-			return startupError
-		}
-
-		if let recentError = state.recentErrors.first {
-			return recentError.message
-		}
-
-		if let transportIssue = state.transports.first(where: { $0.enabled && $0.state != "listening" }) {
-			return "The \(transportIssue.name.uppercased()) surface is enabled, but it is currently reporting `\(transportIssue.state)` instead of `listening`."
-		}
-
-		if let profileWarning = overview.profileCacheWarning, !profileWarning.isEmpty {
-			return profileWarning
-		}
-
-		if serviceState == .ready {
-			if let activeRequest = state.playback.activeRequest {
-				return "Playback is currently `\(state.playback.state)` for request `\(activeRequest.id)`."
-			}
-
-			return "The embedded session is running inside the SayBar app process."
-		}
-
-		return "Worker mode is `\(overview.workerMode)` at stage `\(overview.workerStage)`."
+		presentation.detail
 	}
 
 	var serverState: ServerState? {
@@ -309,5 +306,103 @@ final class SpeakSwiftlyController {
 
 	var autoStartEnabled: Bool {
 		autoStart
+	}
+
+	static func makePresentation(from inputs: StatusInputs, lifecycleMessage: String) -> ServicePresentation {
+		let state = deriveServiceState(from: inputs)
+
+		let symbolName: String = switch state {
+		case .stopped:
+			"speaker.slash.fill"
+		case .starting:
+			"hourglass.circle.fill"
+		case .ready:
+			"waveform.and.mic"
+		case .degraded:
+			"exclamationmark.triangle.fill"
+		case .broken:
+			"xmark.octagon.fill"
+		}
+
+		let headline: String = switch state {
+		case .stopped:
+			"SpeakSwiftlyServer is stopped."
+		case .starting:
+			"SpeakSwiftlyServer is starting inside SayBar."
+		case .ready:
+			"SpeakSwiftlyServer is ready."
+		case .degraded:
+			"SpeakSwiftlyServer is running with warnings."
+		case .broken:
+			"SpeakSwiftlyServer needs attention."
+		}
+
+		let detail: String
+
+		if let lastFailureMessage = inputs.lastFailureMessage, !inputs.hasSession {
+			detail = lastFailureMessage
+		} else if let overview = inputs.overview {
+			if let startupError = overview.startupError, !startupError.isEmpty {
+				detail = startupError
+			} else if let recentError = inputs.recentErrors.first {
+				detail = recentError.message
+			} else if let transportIssue = inputs.transports.first(where: { $0.enabled && $0.state != "listening" }) {
+				detail = "The \(transportIssue.name.uppercased()) surface is enabled, but it is currently reporting `\(transportIssue.state)` instead of `listening`."
+			} else if let profileWarning = overview.profileCacheWarning, !profileWarning.isEmpty {
+				detail = profileWarning
+			} else if state == .ready {
+				if let activeRequestID = inputs.activeRequestID, let playbackState = inputs.playbackState {
+					detail = "Playback is currently `\(playbackState)` for request `\(activeRequestID)`."
+				} else {
+					detail = "The embedded session is running inside the SayBar app process."
+				}
+			} else {
+				detail = "Worker mode is `\(overview.workerMode)` at stage `\(overview.workerStage)`."
+			}
+		} else {
+			detail = lifecycleMessage
+		}
+
+		return ServicePresentation(
+			state: state,
+			symbolName: symbolName,
+			headline: headline,
+			detail: detail
+		)
+	}
+
+	private static func deriveServiceState(from inputs: StatusInputs) -> ServiceState {
+		if inputs.isStarting {
+			return .starting
+		}
+
+		guard let overview = inputs.overview else {
+			return inputs.lastFailureMessage == nil ? .stopped : .broken
+		}
+
+		if let startupError = overview.startupError, !startupError.isEmpty {
+			return .broken
+		}
+
+		if overview.serverMode == "ready", overview.workerReady {
+			return inputs.recentErrors.isEmpty ? .ready : .degraded
+		}
+
+		if overview.serverMode == "starting" || overview.workerMode == "starting" || overview.workerStage == "starting" {
+			return .starting
+		}
+
+		if overview.serverMode == "broken"
+			|| overview.workerMode == "broken"
+			|| overview.workerStage == "broken"
+			|| overview.workerStage == "failed" {
+			return .broken
+		}
+
+		if overview.serverMode == "degraded" || !inputs.recentErrors.isEmpty {
+			return .degraded
+		}
+
+		return overview.workerReady ? .ready : .starting
 	}
 }

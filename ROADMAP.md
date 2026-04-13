@@ -13,8 +13,8 @@
 
 ## Milestone Progress
 
-- [ ] M1. App shell foundation and service-hosting boundaries
-- [ ] M2. Status-driven menu bar experience
+- [x] M1. App shell foundation and service-hosting boundaries
+- [x] M2. Status-driven menu bar experience
 - [ ] M3. Settings, diagnostics, and operator workflow
 - [ ] M4. Release and monorepo integration discipline
 
@@ -31,14 +31,14 @@
 - [x] Keep a standalone Xcode app target with `SayBar`, `SayBarTests`, and `SayBarUITests`.
 - [x] Wire the project to `SpeakSwiftlyServer` and `SpeakSwiftlyServerCore` package products.
 - [x] Keep repo-facing docs (`README.md`, `ROADMAP.md`, `AGENTS.md`) tracked in the project.
-- [ ] Replace scaffold text in the menu bar and settings views with app-owned UI structure.
-- [ ] Introduce the first real service supervision path from the app shell into sibling services.
+- [x] Replace scaffold text in the menu bar and settings views with app-owned UI structure.
+- [x] Introduce the first real service supervision path from the app shell into sibling services.
 
 ### Exit criteria
 
-- [ ] The app surfaces real status instead of placeholder text.
-- [ ] The first hosted-service integration path is documented and implemented without duplicate service logic in the app repo.
-- [ ] The standalone repo docs accurately describe the app's role and current state.
+- [x] The app surfaces real status instead of placeholder text.
+- [x] The first hosted-service integration path is documented and implemented without duplicate service logic in the app repo.
+- [x] The standalone repo docs accurately describe the app's role and current state.
 
 ## M2. Status-driven menu bar experience
 
@@ -48,15 +48,15 @@
 
 ### Tickets
 
-- [ ] Define app-level service states such as stopped, starting, ready, degraded, and broken.
-- [ ] Present those states clearly in the menu bar UI.
-- [ ] Add quick actions for the most common operator workflows.
-- [ ] Add human-friendly error and warning strings for failed or degraded states.
+- [x] Define app-level service states such as stopped, starting, ready, degraded, and broken.
+- [x] Present those states clearly in the menu bar UI.
+- [x] Add quick actions for the most common operator workflows.
+- [x] Add human-friendly error and warning strings for failed or degraded states.
 
 ### Exit criteria
 
-- [ ] Gale can tell the current service state with minimal interaction.
-- [ ] The menu bar surface supports the core day-to-day control flow without opening Settings.
+- [x] Gale can tell the current service state with minimal interaction.
+- [x] The menu bar surface supports the core day-to-day control flow without opening Settings.
 
 ## M3. Settings, diagnostics, and operator workflow
 
@@ -67,14 +67,14 @@
 ### Tickets
 
 - [ ] Define which state belongs in app persistence versus sibling-service state.
-- [ ] Build settings sections for configuration that genuinely belongs to the macOS app.
-- [ ] Add diagnostics surfaces for logs, startup failures, and likely-cause messaging.
+- [x] Build settings sections for configuration that genuinely belongs to the macOS app.
+- [x] Add diagnostics surfaces for logs, startup failures, and likely-cause messaging.
 - [ ] Verify launch, relaunch, and quit behavior for background work.
 
 ### Exit criteria
 
-- [ ] Settings owns deeper configuration and diagnostics cleanly.
-- [ ] Operator-facing failures are specific, readable, and actionable.
+- [x] Settings owns deeper configuration and diagnostics cleanly.
+- [x] Operator-facing failures are specific, readable, and actionable.
 - [ ] App lifecycle behavior is explicit across launch and shutdown.
 
 ## M4. Release and monorepo integration discipline
