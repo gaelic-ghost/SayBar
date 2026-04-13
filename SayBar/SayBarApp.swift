@@ -6,28 +6,37 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct SayBarApp: App {
 
-	// MARK: App State
+		// MARK: App State
 
-	@State private var isInserted: Bool = true
+	@AppStorage("showMenuBarExtra")
+	private var isInserted: Bool = true
 
-	// MARK: Scene Body
+	@State
+	private var ssController = SpeakSwiftlyController()
+
+		// MARK: Scene Body
 
     var body: some Scene {
+
+			// MARK: macOS Menu Bar Scene
+
 		MenuBarExtra(
-			"Title Label",
-			systemImage: "SFSymbol String",
+			"SayBar",
+			systemImage: ssController.menuBarSymbolName,
 			isInserted: $isInserted
 		) {
-			MenuBarExtraWindow()
+			MenuBarExtraWindow(ssController: ssController)
 		}
 		.menuBarExtraStyle(.window)
+
+			// MARK: macOS Settings Scene
+
 		Settings {
-			SettingsWindow()
+			SettingsWindow(ssController: ssController)
 		}
     }
 }
