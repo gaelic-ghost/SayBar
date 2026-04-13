@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		491A12312F8C64DE0040EE36 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = 491A12302F8C64DE0040EE36 /* SpeakSwiftlyServer */; };
 		49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */; };
+		49ACDC532F8D74E500DA4DD3 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = 49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A9433E2F8559A700F4016C /* SpeakSwiftlyServerCore in Frameworks */,
-				491A12312F8C64DE0040EE36 /* SpeakSwiftlyServer in Frameworks */,
+				49ACDC532F8D74E500DA4DD3 /* SpeakSwiftlyServer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +136,7 @@
 			name = SayBar;
 			packageProductDependencies = (
 				49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */,
-				491A12302F8C64DE0040EE36 /* SpeakSwiftlyServer */,
+				49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */,
 			);
 			productName = SayBar;
 			productReference = 49220E7F2F7ADE5A00A94BD8 /* SayBar.app */;
@@ -221,7 +221,7 @@
 			mainGroup = 49220E762F7ADE5A00A94BD8;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				491A122F2F8C64DE0040EE36 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
+				49ACDC512F8D74E500DA4DD3 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49220E802F7ADE5A00A94BD8 /* Products */;
@@ -535,7 +535,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BC73766F69;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -556,7 +556,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BC73766F69;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -576,6 +576,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BC73766F69;
 				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -595,6 +596,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BC73766F69;
 				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -649,25 +651,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		491A122F2F8C64DE0040EE36 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
+		49ACDC512F8D74E500DA4DD3 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gaelic-ghost/SpeakSwiftlyServer";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				kind = exactVersion;
+				version = 3.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		491A12302F8C64DE0040EE36 /* SpeakSwiftlyServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 491A122F2F8C64DE0040EE36 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
-			productName = SpeakSwiftlyServer;
-		};
 		49A9433D2F8559A700F4016C /* SpeakSwiftlyServerCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SpeakSwiftlyServerCore;
+		};
+		49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49ACDC512F8D74E500DA4DD3 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
+			productName = SpeakSwiftlyServer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
