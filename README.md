@@ -39,6 +39,8 @@ Use Xcode-aware workflows for app changes and keep the standalone `SayBar` repos
 
 For the current embedded-session direction, see [docs/maintainers/embedded-session-integration-plan.md](docs/maintainers/embedded-session-integration-plan.md) for the maintainer-facing architecture and implementation plan.
 
+For the controller-oriented future direction, including external attachment, launch-agent ownership options, and the possible later `SMAppService` packaging pivot, see [docs/maintainers/controller-architecture-options.md](docs/maintainers/controller-architecture-options.md).
+
 Useful local commands:
 
 ```sh

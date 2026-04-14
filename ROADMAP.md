@@ -63,18 +63,21 @@
 ### Scope
 
 - Move deeper configuration and diagnostics into the Settings experience.
+- Decide whether SayBar remains embedded-first or evolves toward an optional controller that can attach to an external `SpeakSwiftlyServer`.
 
 ### Tickets
 
 - [ ] Define which state belongs in app persistence versus sibling-service state.
 - [x] Build settings sections for configuration that genuinely belongs to the macOS app.
 - [x] Add diagnostics surfaces for logs, startup failures, and likely-cause messaging.
+- [ ] Choose and document the long-term controller model for embedded, attached, and launch-agent-backed service ownership.
 - [ ] Verify launch, relaunch, and quit behavior for background work.
 
 ### Exit criteria
 
 - [x] Settings owns deeper configuration and diagnostics cleanly.
 - [x] Operator-facing failures are specific, readable, and actionable.
+- [ ] The app's process-ownership model is explicit for embedded, attached, or launch-agent-backed service control.
 - [ ] App lifecycle behavior is explicit across launch and shutdown.
 
 ## M4. Release and monorepo integration discipline
