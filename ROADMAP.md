@@ -63,7 +63,7 @@
 ### Scope
 
 - Move deeper configuration and diagnostics into the Settings experience.
-- Keep the embedded-session operator surface grounded while deciding whether SayBar should remain embedded-first or evolve toward an optional controller that can attach to an external `SpeakSwiftlyServer`.
+- Keep the embedded-session operator surface grounded while hardening the accepted embedded-session product model.
 
 ### Tickets
 
@@ -72,7 +72,7 @@
 - [x] Surface runtime, playback, transport, and diagnostics sections in Settings.
 - [x] Build settings sections for configuration that genuinely belongs to the macOS app.
 - [x] Add diagnostics surfaces for logs, startup failures, and likely-cause messaging.
-- [ ] Choose and document the long-term controller model for embedded, attached, and launch-agent-backed service ownership.
+- [x] Choose and document the long-term product-baseline controller model for App Store-compatible delivery.
 - [ ] Verify launch, relaunch, and quit behavior for background work.
 
 ### Exit criteria
@@ -80,8 +80,13 @@
 - [x] Settings owns deeper configuration and diagnostics cleanly.
 - [x] Operator-facing failures are specific, readable, and actionable.
 - [x] The current embedded-session operator surface is implemented and documented.
-- [ ] The app's process-ownership model is explicit for embedded, attached, or launch-agent-backed service control.
+- [x] The app's product-baseline process-ownership model is explicit.
 - [ ] App lifecycle behavior is explicit across launch and shutdown.
+
+### Notes
+
+- The accepted architecture decision is recorded in [docs/maintainers/adr-0001-keep-embedded-session-architecture.md](docs/maintainers/adr-0001-keep-embedded-session-architecture.md).
+- Future attached-session or bundled-helper exploration remains a separate product decision, not an implied follow-up to the current roadmap.
 
 ## M4. Release and monorepo integration discipline
 

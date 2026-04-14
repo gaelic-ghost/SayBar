@@ -4,6 +4,8 @@
 
 This document captures the main architectural options for moving SayBar from its current embedded-session model toward a more optional macOS controller that can attach to a separately running `SpeakSwiftlyServer`.
 
+The current repo decision is to keep the embedded-session architecture as the product baseline. See [adr-0001-keep-embedded-session-architecture.md](adr-0001-keep-embedded-session-architecture.md).
+
 This is a future-direction decision memo, not the current architecture source of truth for the repo. The current implemented architecture is the embedded-session-first model described in [embedded-session-integration-plan.md](embedded-session-integration-plan.md).
 
 The goal is to make the decision space explicit before code changes widen scope. The important split is:

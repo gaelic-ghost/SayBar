@@ -47,6 +47,8 @@ Use Xcode-aware workflows for app changes and keep the standalone `SayBar` repos
 
 The maintainer docs are split intentionally:
 
+- [docs/maintainers/README.md](docs/maintainers/README.md) is the maintainer-doc index and recommended reading order.
+- [docs/maintainers/adr-0001-keep-embedded-session-architecture.md](docs/maintainers/adr-0001-keep-embedded-session-architecture.md) records the current architectural decision to keep the embedded-session model as SayBar's product baseline, especially for App Store compatibility.
 - [docs/maintainers/embedded-session-integration-plan.md](docs/maintainers/embedded-session-integration-plan.md) describes the current embedded-session architecture and the implemented app-owned controller model.
 - [docs/maintainers/controller-architecture-options.md](docs/maintainers/controller-architecture-options.md) captures the future decision space if SayBar later pivots toward external attachment or launch-agent-backed service ownership.
 

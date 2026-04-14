@@ -4,6 +4,8 @@
 
 This document now serves as the current architecture record for SayBar's embedded-session-first implementation. SayBar currently hosts `SpeakSwiftlyServer` through the server package's embedded-session API instead of supervising a separate LaunchAgent-managed server process.
 
+The active architecture decision that keeps this embedded-session model as the product baseline is recorded in [adr-0001-keep-embedded-session-architecture.md](adr-0001-keep-embedded-session-architecture.md).
+
 This remains the preferred implemented path because it keeps the ownership boundaries honest:
 
 - SayBar owns the macOS app lifecycle, menu bar UI, settings UI, and app-facing supervision surface.
