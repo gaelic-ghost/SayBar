@@ -27,11 +27,14 @@ struct SayBarApp: App {
 			// MARK: macOS Menu Bar Scene
 
 		MenuBarExtra(
-			"SayBar",
-			systemImage: ssController.menuBarSymbolName,
 			isInserted: $isInserted
 		) {
 			MenuBarExtraWindow(ssController: ssController)
+		} label: {
+			Label("SayBar", systemImage: ssController.menuBarSymbolName)
+				.labelStyle(.iconOnly)
+				.accessibilityLabel("SayBar")
+				.accessibilityIdentifier("saybar-menu-bar-extra")
 		}
 		.menuBarExtraStyle(.window)
 

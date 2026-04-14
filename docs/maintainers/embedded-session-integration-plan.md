@@ -46,6 +46,8 @@ That scene split maps to SayBar's current product shape:
 - the menu bar window shows immediate status and common actions
 - the Settings scene holds deeper configuration, diagnostics, and explanatory surfaces
 
+Current accessibility and UI-automation findings for the menu bar surface are maintained separately in [accessibility-and-ui-automation-notes.md](accessibility-and-ui-automation-notes.md) so the implementation record here stays focused on product architecture and ownership boundaries.
+
 ### Server package behavior
 
 This implementation depends on the public `SpeakSwiftlyServer` embedding surface already described in the server repository:
@@ -145,6 +147,40 @@ The app currently starts the embedded session through the controller during app 
 
 The controller remains the only app-repo type that directly touches `EmbeddedServerSession`.
 
+### 3a. Current runtime ownership and actor boundaries
+
+The current ownership model is app-wide and process-local:
+
+- `SayBarApp` owns one `SpeakSwiftlyController`
+- `SpeakSwiftlyController` owns one optional `EmbeddedServerSession`
+- `EmbeddedServerSession` owns the app-facing `ServerState` and the internal host lifecycle hooks
+- `ServerHost` owns the actual runtime, transport publishing, and host-side background tasks
+
+That means the embedded session is:
+
+- app-owned, not view-owned
+- shared by the menu bar surface and Settings
+- persistent for the lifetime of the app process
+- intentionally not persistent beyond app quit
+
+The current actor split is important:
+
+- `SpeakSwiftlyController` is `@MainActor`
+- `EmbeddedServerSession` is `@MainActor`
+- `ServerState` is `@MainActor`
+- `ServerHost` is an actor
+- the `SpeakSwiftly` runtime uses its own task-driven preload, queue, and status-event work underneath the host
+
+So the current startup path is not "everything runs on the main thread." The app-facing bootstrap and observable state are main-actor-isolated, but the host and runtime already fan out into concurrent task work after bootstrap.
+
+The current implementation detail that still deserves scrutiny is that the app-facing bootstrap wrapper is more main-actor-shaped than the underlying host likely requires. The most likely future cleanup direction is:
+
+- keep UI-facing observable state and final session attachment on the main actor
+- move as much expensive embedded-session bootstrap work off the main actor as the package boundary safely allows
+- keep the ownership model the same while reducing how much startup orchestration has to pass through a main-actor wrapper
+
+One current caveat remains: local playback setup is intentionally more main-actor-bound than the rest of runtime startup. `SpeakSwiftly` currently creates its playback controller through a `@MainActor` dependency hook, and `AudioPlaybackDriver` is itself `@MainActor` because it owns `AVAudioEngine`, workspace notifications, and macOS routing-arbitration behavior. That means not all startup work is an accidental main-actor hop.
+
 ### 4. Menu bar surface
 
 The menu bar window is implemented in:
@@ -166,6 +202,12 @@ Current menu bar contents include:
 - playback pause or resume when relevant
 - playback queue clearing when relevant
 - open Settings
+
+One implementation rule is now important enough to call out explicitly:
+
+- keep `MenuBarExtraWindow` reading app-facing controller snapshots, not nested live `ServerState` graphs through computed optional indirection
+
+The current menu-window freeze investigation showed that the scene stays stable when the view renders flattened controller-owned metrics, and becomes unstable when the view directly traverses `ssController.serverState` into nested `ServerState` properties during scene construction.
 
 ### 5. Settings surface
 
@@ -227,6 +269,14 @@ Minimum verification for embedded-session app work:
 3. confirm the menu bar extra opens and reflects real embedded-session state
 4. confirm the Settings scene opens and shows deeper runtime detail
 5. verify start, stop, and restart behavior does not create duplicate sessions
+
+Current runtime-architecture and sandbox follow-up checks before the next deeper integration pass:
+
+1. verify the effective signed SayBar app includes both `com.apple.security.network.server` and `com.apple.security.network.client`
+2. re-check Xcode runtime logs after the latest `SpeakSwiftlyServer` bootstrap changes land
+3. confirm whether the current Security and audio-runtime warnings still reproduce when embedded autostart is enabled
+4. isolate which remaining startup work is truly required on the main actor versus only initiated from a main-actor wrapper today
+5. keep the app-wide controller ownership model stable unless a broader architecture decision is made explicitly
 
 ## Follow-On Documentation Work
 

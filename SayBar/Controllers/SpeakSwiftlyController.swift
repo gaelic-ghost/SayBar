@@ -67,6 +67,8 @@ final class SpeakSwiftlyController {
 		var transports: [TransportSnapshot]
 		var playbackState: String?
 		var activeRequestID: String?
+		var generationQueueCount: Int
+		var playbackQueueCount: Int
 	}
 
 	struct ServicePresentation: Equatable {
@@ -74,6 +76,17 @@ final class SpeakSwiftlyController {
 		var symbolName: String
 		var headline: String
 		var detail: String
+	}
+
+	struct MenuMetrics: Equatable {
+		struct Row: Equatable, Identifiable {
+			let title: String
+			let value: String
+
+			var id: String { title }
+		}
+
+		var rows: [Row]
 	}
 
 	private(set) var session: EmbeddedServerSession?
@@ -105,7 +118,9 @@ final class SpeakSwiftlyController {
 				recentErrors: [],
 				transports: [],
 				playbackState: nil,
-				activeRequestID: nil
+				activeRequestID: nil,
+				generationQueueCount: 0,
+				playbackQueueCount: 0
 			)
 		}
 
@@ -133,7 +148,9 @@ final class SpeakSwiftlyController {
 				)
 			},
 			playbackState: state.playback.state,
-			activeRequestID: state.playback.activeRequest?.id
+			activeRequestID: state.playback.activeRequest?.id,
+			generationQueueCount: state.generationQueue.queuedCount,
+			playbackQueueCount: state.playbackQueue.queuedCount
 		)
 	}
 
@@ -159,6 +176,21 @@ final class SpeakSwiftlyController {
 
 	var serverState: ServerState? {
 		session?.state
+	}
+
+	var menuMetrics: MenuMetrics? {
+		guard let overview = statusInputs.overview else {
+			return nil
+		}
+
+		return MenuMetrics(
+			rows: [
+				.init(title: "Worker", value: overview.workerMode),
+				.init(title: "Playback", value: statusInputs.playbackState ?? "idle"),
+				.init(title: "Generation Queue", value: "\(statusInputs.generationQueueCount) queued"),
+				.init(title: "Playback Queue", value: "\(statusInputs.playbackQueueCount) queued")
+			]
+		)
 	}
 
 	var canStart: Bool {

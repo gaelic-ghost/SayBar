@@ -21,37 +21,33 @@ struct MenuBarExtraWindow: View {
 					.font(.title2)
 					.symbolRenderingMode(.hierarchical)
 					.foregroundStyle(statusTint)
+					.accessibilityIdentifier("saybar-status-icon")
 
 				VStack(alignment: .leading, spacing: 4) {
 					Text(ssController.statusHeadline)
 						.font(.headline)
+						.accessibilityIdentifier("saybar-status-headline")
 
 					Text(ssController.statusDetail)
 						.font(.caption)
 						.foregroundStyle(.secondary)
 						.fixedSize(horizontal: false, vertical: true)
+						.accessibilityIdentifier("saybar-status-detail")
 				}
 			}
 
 			Divider()
 
-			if let state = ssController.serverState {
-				Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 6) {
-					GridRow {
-						metricLabel("Worker")
-						metricValue(state.overview.workerMode)
-					}
-					GridRow {
-						metricLabel("Playback")
-						metricValue(state.playback.state)
-					}
-					GridRow {
-						metricLabel("Generation Queue")
-						metricValue("\(state.generationQueue.queuedCount) queued")
-					}
-					GridRow {
-						metricLabel("Playback Queue")
-						metricValue("\(state.playbackQueue.queuedCount) queued")
+			if let metrics = ssController.menuMetrics {
+				VStack(alignment: .leading, spacing: 6) {
+					ForEach(metrics.rows) { row in
+						HStack(alignment: .firstTextBaseline, spacing: 12) {
+							Text(row.title)
+								.font(.caption)
+								.foregroundStyle(.secondary)
+							Text(row.value)
+								.font(.caption.weight(.medium))
+						}
 					}
 				}
 			}
@@ -66,16 +62,18 @@ struct MenuBarExtraWindow: View {
 						}
 					}
 				}
-				.buttonStyle(.borderedProminent)
+				.buttonStyle(.plain)
 				.disabled(!ssController.canRestart)
+				.accessibilityIdentifier("saybar-primary-action")
 
 				Button("Stop") {
 					Task {
 						await ssController.stopIfRunning()
 					}
 				}
-				.buttonStyle(.bordered)
+				.buttonStyle(.plain)
 				.disabled(!ssController.canStop)
+				.accessibilityIdentifier("saybar-stop")
 			}
 
 			if ssController.canPausePlayback || ssController.canResumePlayback || ssController.canClearPlaybackQueue {
@@ -89,14 +87,18 @@ struct MenuBarExtraWindow: View {
 							}
 						}
 					}
+					.buttonStyle(.plain)
 					.disabled(!ssController.canPausePlayback && !ssController.canResumePlayback)
+					.accessibilityIdentifier("saybar-playback-action")
 
 					Button("Clear Queue") {
 						Task {
 							await ssController.clearPlaybackQueue()
 						}
 					}
+					.buttonStyle(.plain)
 					.disabled(!ssController.canClearPlaybackQueue)
+					.accessibilityIdentifier("saybar-clear-queue")
 				}
 				.font(.caption)
 			}
@@ -104,10 +106,13 @@ struct MenuBarExtraWindow: View {
 			Button("Open Settings") {
 				openSettings()
 			}
+			.buttonStyle(.plain)
 			.font(.caption)
+			.accessibilityIdentifier("saybar-open-settings")
 		}
 		.padding(16)
 		.frame(width: 340, alignment: .leading)
+		.accessibilityIdentifier("saybar-menu-window")
     }
 
 	private var statusTint: Color {
@@ -123,19 +128,6 @@ struct MenuBarExtraWindow: View {
 		case .broken:
 			.red
 		}
-	}
-
-	@ViewBuilder
-	private func metricLabel(_ title: String) -> some View {
-		Text(title)
-			.font(.caption)
-			foregroundStyle(.secondary)
-	}
-
-	@ViewBuilder
-	private func metricValue(_ value: String) -> some View {
-		Text(value)
-			.font(.caption.weight(.medium))
 	}
 }
 
