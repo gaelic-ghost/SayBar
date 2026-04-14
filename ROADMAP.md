@@ -29,7 +29,7 @@
 ### Tickets
 
 - [x] Keep a standalone Xcode app target with `SayBar`, `SayBarTests`, and `SayBarUITests`.
-- [x] Wire the project to `SpeakSwiftlyServer` and `SpeakSwiftlyServerCore` package products.
+- [x] Wire the project to the `SpeakSwiftlyServer` package product used by the app shell.
 - [x] Keep repo-facing docs (`README.md`, `ROADMAP.md`, `AGENTS.md`) tracked in the project.
 - [x] Replace scaffold text in the menu bar and settings views with app-owned UI structure.
 - [x] Introduce the first real service supervision path from the app shell into sibling services.
@@ -63,11 +63,13 @@
 ### Scope
 
 - Move deeper configuration and diagnostics into the Settings experience.
-- Decide whether SayBar remains embedded-first or evolves toward an optional controller that can attach to an external `SpeakSwiftlyServer`.
+- Keep the embedded-session operator surface grounded while deciding whether SayBar should remain embedded-first or evolve toward an optional controller that can attach to an external `SpeakSwiftlyServer`.
 
 ### Tickets
 
-- [ ] Define which state belongs in app persistence versus sibling-service state.
+- [x] Keep app persistence narrow and app-owned instead of mirroring sibling-service runtime state locally.
+- [x] Host the embedded `SpeakSwiftlyServer` session through an app-owned controller.
+- [x] Surface runtime, playback, transport, and diagnostics sections in Settings.
 - [x] Build settings sections for configuration that genuinely belongs to the macOS app.
 - [x] Add diagnostics surfaces for logs, startup failures, and likely-cause messaging.
 - [ ] Choose and document the long-term controller model for embedded, attached, and launch-agent-backed service ownership.
@@ -77,6 +79,7 @@
 
 - [x] Settings owns deeper configuration and diagnostics cleanly.
 - [x] Operator-facing failures are specific, readable, and actionable.
+- [x] The current embedded-session operator surface is implemented and documented.
 - [ ] The app's process-ownership model is explicit for embedded, attached, or launch-agent-backed service control.
 - [ ] App lifecycle behavior is explicit across launch and shutdown.
 

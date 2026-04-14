@@ -1,6 +1,6 @@
 # SayBar
 
-Native macOS menu bar shell for hosting and supervising SayBar's speech-facing sibling services from one lightweight app surface.
+Native macOS menu bar app for hosting and supervising an embedded `SpeakSwiftlyServer` session from one lightweight app surface.
 
 ## Table of Contents
 
@@ -14,11 +14,11 @@ Native macOS menu bar shell for hosting and supervising SayBar's speech-facing s
 
 ## Overview
 
-SayBar is the standalone macOS app repository for the menu bar experience that sits in front of the speech and MCP services developed in sibling repositories. The current project now includes a native `MenuBarExtra` app target, a Settings scene, unit and UI test targets, and package wiring into `SpeakSwiftlyServer`. The app surface has moved beyond scaffolding and now hosts an embedded `SpeakSwiftlyServer` session through a dedicated app-owned controller.
+SayBar is the standalone macOS app repository for the menu bar experience that sits in front of the speech runtime exposed through `SpeakSwiftlyServer`. The current app includes a native `MenuBarExtra`, a Settings scene, unit and UI test targets, and an app-owned `SpeakSwiftlyController` that starts and supervises one embedded `SpeakSwiftlyServer` session inside the app process.
 
 ### Motivation
 
-This repository exists so the macOS app can evolve as its own product surface instead of being treated as an incidental wrapper around server code. Keeping the app in its own Xcode project makes it easier to build menu bar UX, settings, service supervision, diagnostics, and release flow in one place while still keeping the service and MCP implementations in their primary sibling repositories.
+This repository exists so the macOS app can evolve as its own product surface instead of being treated as incidental glue around server code. Keeping the app in its own Xcode project makes it easier to build the menu bar UX, settings UI, app-owned status vocabulary, diagnostics surfaces, and release flow in one place while still keeping server and MCP implementation details in their sibling repositories.
 
 ## Setup
 
@@ -27,19 +27,28 @@ This repository exists so the macOS app can evolve as its own product surface in
 3. Let Xcode resolve Swift package dependencies the first time you open the project.
 4. Run the app on macOS from Xcode.
 
-The current project signals show a macOS app target named `SayBar`, companion `SayBarTests` and `SayBarUITests` targets, and package dependencies centered on `SpeakSwiftlyServer`.
+The current project includes these Xcode targets:
+
+- `SayBar`
+- `SayBarTests`
+- `SayBarUITests`
+
+The current package dependency surface in this repo is centered on `SpeakSwiftlyServer`.
 
 ## Usage
 
-The current app launches a menu bar extra and a Settings window from the `SayBar` scheme. The menu bar surface now shows embedded-session status, queue and playback summaries, and common service actions such as start, stop, restart, pause, resume, and queue clearing. The Settings window expands that with runtime, transport, playback, and diagnostics sections for the embedded `SpeakSwiftlyServer` session.
+Launch the `SayBar` scheme to start the app. The menu bar surface shows the current embedded-session status, a compact status headline and detail string, queue summaries, and common operator actions such as start, stop, restart, pause, resume, and queue clearing.
+
+Open Settings for deeper runtime, playback, transport, and diagnostics detail. The current implementation is embedded-session-first: SayBar hosts `SpeakSwiftlyServer` inside the app process rather than attaching to an external background service.
 
 ## Development
 
 Use Xcode-aware workflows for app changes and keep the standalone `SayBar` repository as the source of truth for app development. For monorepo work in `../speak-to-user`, treat that checkout as a clean protected base and do SayBar-related feature work in a separate worktree rather than directly in the base checkout.
 
-For the current embedded-session direction, see [docs/maintainers/embedded-session-integration-plan.md](docs/maintainers/embedded-session-integration-plan.md) for the maintainer-facing architecture and implementation plan.
+The maintainer docs are split intentionally:
 
-For the controller-oriented future direction, including external attachment, launch-agent ownership options, and the possible later `SMAppService` packaging pivot, see [docs/maintainers/controller-architecture-options.md](docs/maintainers/controller-architecture-options.md).
+- [docs/maintainers/embedded-session-integration-plan.md](docs/maintainers/embedded-session-integration-plan.md) describes the current embedded-session architecture and the implemented app-owned controller model.
+- [docs/maintainers/controller-architecture-options.md](docs/maintainers/controller-architecture-options.md) captures the future decision space if SayBar later pivots toward external attachment or launch-agent-backed service ownership.
 
 Useful local commands:
 
@@ -56,8 +65,9 @@ xcodebuild -project SayBar.xcodeproj -scheme SayBar test
 - App marketing version: `0.1.0`
 - App deployment target: macOS `15.6`
 - Test targets: `SayBarTests`, `SayBarUITests`
+- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer)
 
-The project also exposes package-managed schemes for the server package, but this repository's app-facing work should stay centered on the `SayBar` scheme unless a task explicitly targets package internals.
+The project also exposes package-managed schemes for the server package, but app-facing work in this repository should stay centered on the `SayBar` scheme unless a task explicitly targets package internals.
 
 ## Verification
 

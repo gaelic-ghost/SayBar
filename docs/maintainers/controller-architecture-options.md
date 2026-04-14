@@ -4,6 +4,8 @@
 
 This document captures the main architectural options for moving SayBar from its current embedded-session model toward a more optional macOS controller that can attach to a separately running `SpeakSwiftlyServer`.
 
+This is a future-direction decision memo, not the current architecture source of truth for the repo. The current implemented architecture is the embedded-session-first model described in [embedded-session-integration-plan.md](embedded-session-integration-plan.md).
+
 The goal is to make the decision space explicit before code changes widen scope. The important split is:
 
 - process ownership: who installs, starts, stops, and keeps the server alive
@@ -23,11 +25,13 @@ Today SayBar uses the embedded-server package surface directly:
 
 That is the current source of truth in the app repo because it is the path actually implemented and tested.
 
-Relevant local surfaces:
+Relevant app-repo and sibling-repo surfaces:
 
 - `SayBar/Controllers/SpeakSwiftlyController.swift`
 - `../speak-to-user/monorepo/packages/SpeakSwiftlyServer/Sources/SpeakSwiftlyServer/EmbeddedServerSession.swift`
 - `../speak-to-user/monorepo/packages/SpeakSwiftlyServer/Sources/SpeakSwiftlyServer/Host/ServerState.swift`
+
+This document assumes that embedded-session-first implementation as the baseline and explores what would need to change only if the product deliberately pivots away from it.
 
 ## Documented Platform Constraints
 
@@ -287,17 +291,17 @@ SayBar tries to attach to an external server first and falls back to embedding t
 
 This is a broad capability expansion, not the right first simplification pass. It should only happen if SayBar genuinely needs to support both worlds at once.
 
-## Recommended Direction
+## Recommended Direction If SayBar Pivots Beyond Embedded Session
 
-## Recommendation
+### Recommendation
 
-Take Option 2 first: SayBar becomes a controller that can attach to an external `SpeakSwiftlyServer` and can delegate launch-agent install and status behavior to `SpeakSwiftlyServerTool`.
+If SayBar deliberately pivots beyond the current embedded-session architecture, take Option 2 first: SayBar becomes a controller that can attach to an external `SpeakSwiftlyServer` and can delegate launch-agent install and status behavior to `SpeakSwiftlyServerTool`.
 
 Do not jump straight from today's embedded model to the full bundled-helper `SMAppService` path unless the product requirement is already clear that SayBar itself must own installation as a polished Mac app.
 
-## Why this is the recommended first move
+### Why this is the recommended first move
 
-It gives SayBar the controller behavior you are actually exploring:
+It gives SayBar the controller behavior you would be exploring in that pivot:
 
 - optional app surface
 - attach to an existing running server
@@ -311,9 +315,9 @@ This direction also keeps the future path open:
 - if it proves sufficient, SayBar stays a controller over a server-owned launch-agent model
 - if later product polish demands Apple-native app-owned helper registration, SayBar can still move to Option 1 as a deliberate packaging migration
 
-## Proposed migration phases
+### Proposed migration phases
 
-### Phase A: Introduce a backend-mode-aware controller
+#### Phase A: Introduce a backend-mode-aware controller
 
 Refactor SayBar's app-owned controller so it can represent:
 
@@ -323,7 +327,7 @@ Refactor SayBar's app-owned controller so it can represent:
 
 Do this before adding launch-agent UI. Otherwise the controller remains structurally embedded-only.
 
-### Phase B: Add a remote-session client
+#### Phase B: Add a remote-session client
 
 Create a SayBar-side client that:
 
@@ -334,7 +338,7 @@ Create a SayBar-side client that:
 
 This keeps the menu bar and Settings mostly backend-agnostic.
 
-### Phase C: Delegate install and status actions to `SpeakSwiftlyServer`
+#### Phase C: Delegate install and status actions to `SpeakSwiftlyServer`
 
 Teach SayBar to surface actions such as:
 
@@ -345,7 +349,7 @@ Teach SayBar to surface actions such as:
 
 But implement those actions by invoking or linking the server-side launch-agent logic instead of reproducing it in SayBar.
 
-### Phase D: Decide whether the product needs the bundled-helper `SMAppService` pivot
+#### Phase D: Decide whether the product needs the bundled-helper `SMAppService` pivot
 
 Only after the controller model is working should SayBar decide whether the external launch-agent arrangement is enough or whether the app should become the true installer and owner through bundled-helper packaging.
 
@@ -357,7 +361,7 @@ That later pivot would be:
 
 and should be treated as a separate architecture decision.
 
-## Concrete App Changes If Phase A And B Start
+### Concrete app changes if Phase A and Phase B start
 
 If SayBar begins the controller migration now, the most likely app-repo work is:
 
@@ -375,7 +379,7 @@ If SayBar begins the controller migration now, the most likely app-repo work is:
 - keep menu bar actions focused on operational clarity instead of setup complexity
 - move launch-agent install and repair detail into Settings rather than the menu bar window
 
-## Things SayBar Should Not Do During This Migration
+### Things SayBar should not do during this migration
 
 - Do not let SayBar become a second source of truth for server filesystem layout.
 - Do not duplicate launch-agent bootstrap and retry logic if `SpeakSwiftlyServer` already owns it.
@@ -383,7 +387,7 @@ If SayBar begins the controller migration now, the most likely app-repo work is:
 - Do not present vague UI that hides whether SayBar is embedding a runtime or controlling some other process.
 - Do not widen to embedded plus external plus bundled-helper support all at once unless there is a concrete product requirement for that breadth.
 
-## Open Questions
+### Open questions
 
 - Should SayBar invoke `SpeakSwiftlyServerTool` as a subprocess, or should it link the server package's launch-agent types directly and call them in-process?
 - What is the right user-facing term for the external service mode: `attached`, `connected`, `controller`, or something more explicit like `attached to background server`?
@@ -393,7 +397,7 @@ If SayBar begins the controller migration now, the most likely app-repo work is:
 
 ## Decision Summary
 
-If the immediate goal is "SayBar should behave more like an optional controller that can attach to a running server," the next good architecture is:
+If the product goal becomes "SayBar should behave more like an optional controller that can attach to a running server," the next good architecture is:
 
 - keep SayBar's app-facing state and UI
 - add a remote-session backend
