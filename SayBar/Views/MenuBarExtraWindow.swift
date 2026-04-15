@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SpeakSwiftlyServer
 
 struct MenuBarExtraWindow: View {
 	@Environment(\.openSettings)
@@ -14,109 +13,96 @@ struct MenuBarExtraWindow: View {
 
 	let ssController: SpeakSwiftlyController
 
-    var body: some View {
+	var body: some View {
 		VStack(alignment: .leading, spacing: 14) {
-			HStack(alignment: .top, spacing: 12) {
-				Image(systemName: ssController.menuBarSymbolName)
-					.font(.title2)
-					.symbolRenderingMode(.hierarchical)
-					.foregroundStyle(statusTint)
-					.accessibilityIdentifier("saybar-status-icon")
-
-				VStack(alignment: .leading, spacing: 4) {
-					Text(ssController.statusHeadline)
-						.font(.headline)
-						.accessibilityIdentifier("saybar-status-headline")
-
-					Text(ssController.statusDetail)
-						.font(.caption)
-						.foregroundStyle(.secondary)
-						.fixedSize(horizontal: false, vertical: true)
-						.accessibilityIdentifier("saybar-status-detail")
-				}
-			}
+			MenuBarStatusHeader(
+				symbolName: ssController.menuBarSymbolName,
+				serviceState: ssController.serviceState,
+				headline: ssController.statusHeadline,
+				detail: ssController.statusDetail
+			)
 
 			Divider()
 
 			if let metrics = ssController.menuMetrics {
-				VStack(alignment: .leading, spacing: 6) {
-					ForEach(metrics.rows) { row in
-						HStack(alignment: .firstTextBaseline, spacing: 12) {
-							Text(row.title)
-								.font(.caption)
-								.foregroundStyle(.secondary)
-							Text(row.value)
-								.font(.caption.weight(.medium))
-						}
-					}
-				}
+				MenuBarMetricsSection(metrics: metrics)
 			}
 
-			HStack(spacing: 8) {
-				Button(ssController.primaryActionTitle) {
-					Task {
-						if ssController.canStart {
-							await ssController.startIfNeeded()
-						} else {
-							await ssController.restart()
-						}
+			MenuBarServiceControls(
+				primaryActionTitle: ssController.primaryActionTitle,
+				canRestart: ssController.canRestart,
+				canStop: ssController.canStop,
+				startOrRestart: {
+					if ssController.canStart {
+						await ssController.startIfNeeded()
+					} else {
+						await ssController.restart()
 					}
+				},
+				stop: {
+					await ssController.stopIfRunning()
 				}
-				.buttonStyle(.plain)
-				.disabled(!ssController.canRestart)
-				.accessibilityIdentifier("saybar-primary-action")
-
-				Button("Stop") {
-					Task {
-						await ssController.stopIfRunning()
-					}
-				}
-				.buttonStyle(.plain)
-				.disabled(!ssController.canStop)
-				.accessibilityIdentifier("saybar-stop")
-			}
+			)
 
 			if ssController.canPausePlayback || ssController.canResumePlayback || ssController.canClearPlaybackQueue {
-				HStack(spacing: 8) {
-					Button(ssController.canResumePlayback ? "Resume Playback" : "Pause Playback") {
-						Task {
-							if ssController.canResumePlayback {
-								await ssController.resumePlayback()
-							} else {
-								await ssController.pausePlayback()
-							}
+				MenuBarPlaybackControls(
+					canPausePlayback: ssController.canPausePlayback,
+					canResumePlayback: ssController.canResumePlayback,
+					canClearPlaybackQueue: ssController.canClearPlaybackQueue,
+					playbackActionTitle: ssController.canResumePlayback ? "Resume Playback" : "Pause Playback",
+					playbackAction: {
+						if ssController.canResumePlayback {
+							await ssController.resumePlayback()
+						} else {
+							await ssController.pausePlayback()
 						}
+					},
+					clearQueue: {
+						await ssController.clearPlaybackQueue()
 					}
-					.buttonStyle(.plain)
-					.disabled(!ssController.canPausePlayback && !ssController.canResumePlayback)
-					.accessibilityIdentifier("saybar-playback-action")
-
-					Button("Clear Queue") {
-						Task {
-							await ssController.clearPlaybackQueue()
-						}
-					}
-					.buttonStyle(.plain)
-					.disabled(!ssController.canClearPlaybackQueue)
-					.accessibilityIdentifier("saybar-clear-queue")
-				}
-				.font(.caption)
+				)
 			}
 
-			Button("Open Settings") {
+			MenuBarSettingsButton {
 				openSettings()
 			}
-			.buttonStyle(.plain)
-			.font(.caption)
-			.accessibilityIdentifier("saybar-open-settings")
 		}
 		.padding(16)
 		.frame(width: 340, alignment: .leading)
 		.accessibilityIdentifier("saybar-menu-window")
-    }
+	}
+}
+
+private struct MenuBarStatusHeader: View {
+	let symbolName: String
+	let serviceState: SpeakSwiftlyController.ServiceState
+	let headline: String
+	let detail: String
+
+	var body: some View {
+		HStack(alignment: .top, spacing: 12) {
+			Image(systemName: symbolName)
+				.font(.title2)
+				.symbolRenderingMode(.hierarchical)
+				.foregroundStyle(statusTint)
+				.accessibilityIdentifier("saybar-status-icon")
+
+			VStack(alignment: .leading, spacing: 4) {
+				Text(headline)
+					.font(.headline)
+					.accessibilityIdentifier("saybar-status-headline")
+
+				Text(detail)
+					.font(.caption)
+					.foregroundStyle(.secondary)
+					.fixedSize(horizontal: false, vertical: true)
+					.accessibilityIdentifier("saybar-status-detail")
+			}
+		}
+	}
 
 	private var statusTint: Color {
-		switch ssController.serviceState {
+		switch serviceState {
 		case .stopped:
 			.secondary
 		case .starting:
@@ -131,6 +117,87 @@ struct MenuBarExtraWindow: View {
 	}
 }
 
+private struct MenuBarMetricsSection: View {
+	let metrics: SpeakSwiftlyController.MenuMetrics
+
+	var body: some View {
+		VStack(alignment: .leading, spacing: 6) {
+			ForEach(metrics.rows) { row in
+				LabeledContent(row.title, value: row.value)
+					.font(.caption)
+			}
+		}
+	}
+}
+
+private struct MenuBarServiceControls: View {
+	let primaryActionTitle: String
+	let canRestart: Bool
+	let canStop: Bool
+	let startOrRestart: @MainActor () async -> Void
+	let stop: @MainActor () async -> Void
+
+	var body: some View {
+		ControlGroup {
+			Button(primaryActionTitle) {
+				Task {
+					await startOrRestart()
+				}
+			}
+			.disabled(!canRestart)
+			.accessibilityIdentifier("saybar-primary-action")
+
+			Button("Stop") {
+				Task {
+					await stop()
+				}
+			}
+			.disabled(!canStop)
+			.accessibilityIdentifier("saybar-stop")
+		}
+	}
+}
+
+private struct MenuBarPlaybackControls: View {
+	let canPausePlayback: Bool
+	let canResumePlayback: Bool
+	let canClearPlaybackQueue: Bool
+	let playbackActionTitle: String
+	let playbackAction: @MainActor () async -> Void
+	let clearQueue: @MainActor () async -> Void
+
+	var body: some View {
+		ControlGroup {
+			Button(playbackActionTitle) {
+				Task {
+					await playbackAction()
+				}
+			}
+			.disabled(!canPausePlayback && !canResumePlayback)
+			.accessibilityIdentifier("saybar-playback-action")
+
+			Button("Clear Queue") {
+				Task {
+					await clearQueue()
+				}
+			}
+			.disabled(!canClearPlaybackQueue)
+			.accessibilityIdentifier("saybar-clear-queue")
+		}
+		.font(.caption)
+	}
+}
+
+private struct MenuBarSettingsButton: View {
+	let openSettings: () -> Void
+
+	var body: some View {
+		Button("Open Settings", action: openSettings)
+			.font(.caption)
+			.accessibilityIdentifier("saybar-open-settings")
+	}
+}
+
 #Preview {
-    MenuBarExtraWindow(ssController: SpeakSwiftlyController(autoStart: false))
+	MenuBarExtraWindow(ssController: SpeakSwiftlyController(autoStart: false))
 }

@@ -205,13 +205,37 @@ These warnings still need to be re-checked after the next `SpeakSwiftlyServer` b
 
 The current repo does not have a checked-in `.entitlements` file, so effective sandbox verification must be done from the signed product, not by inspecting a source entitlement file in the repo.
 
-The last inspected signed SayBar products showed:
+The current signed debug app now verifies with:
 
 - `com.apple.security.app-sandbox`
+- `com.apple.security.network.client`
 - `com.apple.security.network.server`
-- but not `com.apple.security.network.client`
 
-Because Gale had already enabled the client entitlement in Xcode, treat that as a "rebuild and re-verify" gap first, not as proof that the capability change failed.
+So the network-capability mismatch is no longer an open question for the currently rebuilt app.
+
+### Current embedded HTTP verification finding
+
+The embedded HTTP surface is now verified end to end for profile creation and live playback.
+
+The current successful path is:
+
+- `POST /voices/from-description`
+- `GET /voices`
+- `POST /speech/live`
+- `GET /playback/state`
+- `GET /playback/queue`
+
+The verified behavior is:
+
+- the generated voice profile is written into the app sandbox profile store
+- the generated profile then appears in the host's active cached profile list
+- a live speech request using that profile is accepted and advances into active playback
+
+The current operator-facing caveat is latency rather than correctness:
+
+- profile creation can sit at `loading_profile_model` for a long time during first-use model load, network download, and Metal compilation
+- the app can look stuck if that request is inspected too early
+- the request can still complete successfully once those long-running setup steps finish
 
 ### Current follow-up checklist
 
@@ -221,3 +245,4 @@ Before the next SayBar-versus-`SpeakSwiftlyServer` integration review, re-check 
 2. Do the current Xcode runtime warnings still reproduce after the latest `SpeakSwiftlyServer` bootstrap changes?
 3. If they still reproduce, which warning belongs to playback-driver startup versus earlier host bootstrap work?
 4. Can more embedded-session bootstrap work move off the main actor without changing the app-wide ownership model?
+5. Does the app need a clearer operator-facing progress surface for long-running profile-model load and first-use compilation work?

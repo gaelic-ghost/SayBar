@@ -36,41 +36,6 @@ final class SpeakSwiftlyController {
 		}
 	}
 
-	struct StatusInputs {
-		struct OverviewSnapshot {
-			var serverMode: String
-			var workerMode: String
-			var workerStage: String
-			var workerReady: Bool
-			var startupError: String?
-			var profileCacheWarning: String?
-		}
-
-		struct RecentErrorSnapshot {
-			var message: String
-		}
-
-		struct TransportSnapshot {
-			var name: String
-			var enabled: Bool
-			var state: String
-			var host: String?
-			var port: Int?
-			var path: String?
-		}
-
-		var isStarting: Bool
-		var hasSession: Bool
-		var lastFailureMessage: String?
-		var overview: OverviewSnapshot?
-		var recentErrors: [RecentErrorSnapshot]
-		var transports: [TransportSnapshot]
-		var playbackState: String?
-		var activeRequestID: String?
-		var generationQueueCount: Int
-		var playbackQueueCount: Int
-	}
-
 	struct ServicePresentation: Equatable {
 		var state: ServiceState
 		var symbolName: String
@@ -108,54 +73,17 @@ final class SpeakSwiftlyController {
 		}
 	}
 
-	private var statusInputs: StatusInputs {
-		guard let state = serverState else {
-			return StatusInputs(
-				isStarting: isStarting,
-				hasSession: session != nil,
-				lastFailureMessage: lastFailureMessage,
-				overview: nil,
-				recentErrors: [],
-				transports: [],
-				playbackState: nil,
-				activeRequestID: nil,
-				generationQueueCount: 0,
-				playbackQueueCount: 0
-			)
-		}
-
-		return StatusInputs(
+	private var presentation: ServicePresentation {
+		Self.makePresentation(
 			isStarting: isStarting,
 			hasSession: session != nil,
+			lifecycleMessage: lifecycleMessage,
 			lastFailureMessage: lastFailureMessage,
-			overview: .init(
-				serverMode: state.overview.serverMode,
-				workerMode: state.overview.workerMode,
-				workerStage: state.overview.workerStage,
-				workerReady: state.overview.workerReady,
-				startupError: state.overview.startupError,
-				profileCacheWarning: state.overview.profileCacheWarning
-			),
-			recentErrors: state.recentErrors.map { .init(message: $0.message) },
-			transports: state.transports.map {
-				.init(
-					name: $0.name,
-					enabled: $0.enabled,
-					state: $0.state,
-					host: $0.host,
-					port: $0.port,
-					path: $0.path
-				)
-			},
-			playbackState: state.playback.state,
-			activeRequestID: state.playback.activeRequest?.id,
-			generationQueueCount: state.generationQueue.queuedCount,
-			playbackQueueCount: state.playbackQueue.queuedCount
+			overview: serverState?.overview,
+			recentErrors: serverState?.recentErrors ?? [],
+			transports: serverState?.transports ?? [],
+			playback: serverState?.playback
 		)
-	}
-
-	private var presentation: ServicePresentation {
-		Self.makePresentation(from: statusInputs, lifecycleMessage: lifecycleMessage)
 	}
 
 	var serviceState: ServiceState {
@@ -179,16 +107,16 @@ final class SpeakSwiftlyController {
 	}
 
 	var menuMetrics: MenuMetrics? {
-		guard let overview = statusInputs.overview else {
+		guard let state = serverState else {
 			return nil
 		}
 
 		return MenuMetrics(
 			rows: [
-				.init(title: "Worker", value: overview.workerMode),
-				.init(title: "Playback", value: statusInputs.playbackState ?? "idle"),
-				.init(title: "Generation Queue", value: "\(statusInputs.generationQueueCount) queued"),
-				.init(title: "Playback Queue", value: "\(statusInputs.playbackQueueCount) queued")
+				.init(title: "Worker", value: state.overview.workerMode),
+				.init(title: "Playback", value: state.playback.state),
+				.init(title: "Generation Queue", value: "\(state.generationQueue.queuedCount) queued"),
+				.init(title: "Playback Queue", value: "\(state.playbackQueue.queuedCount) queued")
 			]
 		)
 	}
@@ -340,8 +268,22 @@ final class SpeakSwiftlyController {
 		autoStart
 	}
 
-	static func makePresentation(from inputs: StatusInputs, lifecycleMessage: String) -> ServicePresentation {
-		let state = deriveServiceState(from: inputs)
+	static func makePresentation(
+		isStarting: Bool,
+		hasSession: Bool,
+		lifecycleMessage: String,
+		lastFailureMessage: String?,
+		overview: HostOverviewSnapshot?,
+		recentErrors: [RecentErrorSnapshot],
+		transports: [TransportStatusSnapshot],
+		playback: PlaybackStatusSnapshot?
+	) -> ServicePresentation {
+		let state = deriveServiceState(
+			isStarting: isStarting,
+			lastFailureMessage: lastFailureMessage,
+			overview: overview,
+			recentErrors: recentErrors
+		)
 
 		let symbolName: String = switch state {
 		case .stopped:
@@ -371,19 +313,19 @@ final class SpeakSwiftlyController {
 
 		let detail: String
 
-		if let lastFailureMessage = inputs.lastFailureMessage, !inputs.hasSession {
+		if let lastFailureMessage, !hasSession {
 			detail = lastFailureMessage
-		} else if let overview = inputs.overview {
+		} else if let overview {
 			if let startupError = overview.startupError, !startupError.isEmpty {
 				detail = startupError
-			} else if let recentError = inputs.recentErrors.first {
+			} else if let recentError = recentErrors.first {
 				detail = recentError.message
-			} else if let transportIssue = inputs.transports.first(where: { $0.enabled && $0.state != "listening" }) {
+			} else if let transportIssue = transports.first(where: { $0.enabled && $0.state != "listening" }) {
 				detail = "The \(transportIssue.name.uppercased()) surface is enabled, but it is currently reporting `\(transportIssue.state)` instead of `listening`."
 			} else if let profileWarning = overview.profileCacheWarning, !profileWarning.isEmpty {
 				detail = profileWarning
 			} else if state == .ready {
-				if let activeRequestID = inputs.activeRequestID, let playbackState = inputs.playbackState {
+				if let activeRequestID = playback?.activeRequest?.id, let playbackState = playback?.state {
 					detail = "Playback is currently `\(playbackState)` for request `\(activeRequestID)`."
 				} else {
 					detail = "The embedded session is running inside the SayBar app process."
@@ -403,13 +345,18 @@ final class SpeakSwiftlyController {
 		)
 	}
 
-	private static func deriveServiceState(from inputs: StatusInputs) -> ServiceState {
-		if inputs.isStarting {
+	private static func deriveServiceState(
+		isStarting: Bool,
+		lastFailureMessage: String?,
+		overview: HostOverviewSnapshot?,
+		recentErrors: [RecentErrorSnapshot]
+	) -> ServiceState {
+		if isStarting {
 			return .starting
 		}
 
-		guard let overview = inputs.overview else {
-			return inputs.lastFailureMessage == nil ? .stopped : .broken
+		guard let overview else {
+			return lastFailureMessage == nil ? .stopped : .broken
 		}
 
 		if let startupError = overview.startupError, !startupError.isEmpty {
@@ -417,7 +364,7 @@ final class SpeakSwiftlyController {
 		}
 
 		if overview.serverMode == "ready", overview.workerReady {
-			return inputs.recentErrors.isEmpty ? .ready : .degraded
+			return recentErrors.isEmpty ? .ready : .degraded
 		}
 
 		if overview.serverMode == "starting" || overview.workerMode == "starting" || overview.workerStage == "starting" {
@@ -431,7 +378,7 @@ final class SpeakSwiftlyController {
 			return .broken
 		}
 
-		if overview.serverMode == "degraded" || !inputs.recentErrors.isEmpty {
+		if overview.serverMode == "degraded" || !recentErrors.isEmpty {
 			return .degraded
 		}
 

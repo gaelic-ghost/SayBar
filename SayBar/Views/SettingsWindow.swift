@@ -14,26 +14,27 @@ struct SettingsWindow: View {
 
 	let ssController: SpeakSwiftlyController
 
-    var body: some View {
-		ScrollView {
-			VStack(alignment: .leading, spacing: 18) {
-				statusSection
-				generalSection
-				runtimeSection
-				playbackSection
-				transportSection
-				diagnosticsSection
-			}
-			.padding(20)
+	var body: some View {
+		Form {
+			SettingsStatusSection(ssController: ssController)
+			GeneralSettingsSection(
+				isInserted: $isInserted,
+				autoStartEnabled: ssController.autoStartEnabled
+			)
+			RuntimeSettingsSection(serverState: ssController.serverState)
+			PlaybackSettingsSection(ssController: ssController)
+			TransportSettingsSection(ssController: ssController)
+			DiagnosticsSettingsSection(ssController: ssController)
 		}
 		.frame(minWidth: 460, minHeight: 520)
-    }
+	}
+}
 
-	private var statusSection: some View {
-		VStack(alignment: .leading, spacing: 10) {
-			Text("Service")
-				.font(.title3.weight(.semibold))
+private struct SettingsStatusSection: View {
+	let ssController: SpeakSwiftlyController
 
+	var body: some View {
+		Section("Service") {
 			Text(ssController.statusHeadline)
 				.font(.headline)
 
@@ -42,7 +43,7 @@ struct SettingsWindow: View {
 				.foregroundStyle(.secondary)
 				.fixedSize(horizontal: false, vertical: true)
 
-			HStack(spacing: 10) {
+			ControlGroup {
 				Button(ssController.primaryActionTitle) {
 					Task {
 						if ssController.canStart {
@@ -52,7 +53,6 @@ struct SettingsWindow: View {
 						}
 					}
 				}
-				.buttonStyle(.borderedProminent)
 				.disabled(!ssController.canRestart)
 
 				Button("Stop") {
@@ -64,12 +64,17 @@ struct SettingsWindow: View {
 			}
 		}
 	}
+}
 
-	private var generalSection: some View {
-		settingsSection("General") {
+private struct GeneralSettingsSection: View {
+	@Binding var isInserted: Bool
+	let autoStartEnabled: Bool
+
+	var body: some View {
+		Section("General") {
 			Toggle("Show SayBar in the menu bar", isOn: $isInserted)
 
-			Text(ssController.autoStartEnabled
+			Text(autoStartEnabled
 				? "SayBar is currently configured to start the embedded SpeakSwiftlyServer session automatically when the app launches."
 				: "SayBar is currently configured to wait for a manual embedded-session start.")
 				.font(.caption)
@@ -77,34 +82,44 @@ struct SettingsWindow: View {
 				.fixedSize(horizontal: false, vertical: true)
 		}
 	}
+}
 
-	private var runtimeSection: some View {
-		settingsSection("Runtime") {
-			if let state = ssController.serverState {
-				settingsRow("Server Mode", state.overview.serverMode)
-				settingsRow("Worker Mode", state.overview.workerMode)
-				settingsRow("Worker Stage", state.overview.workerStage)
-				settingsRow("Worker Ready", state.overview.workerReady ? "Yes" : "No")
-				settingsRow("Profile Cache", state.overview.profileCacheState)
-				settingsRow("Profile Count", "\(state.overview.profileCount)")
-				settingsRow("Speech Backend", state.runtimeConfiguration.activeRuntimeSpeechBackend)
+private struct RuntimeSettingsSection: View {
+	let serverState: ServerState?
+
+	var body: some View {
+		Section("Runtime") {
+			if let state = serverState {
+				LabeledContent("Server Mode", value: state.overview.serverMode)
+				LabeledContent("Worker Mode", value: state.overview.workerMode)
+				LabeledContent("Worker Stage", value: state.overview.workerStage)
+				LabeledContent("Worker Ready", value: state.overview.workerReady ? "Yes" : "No")
+				LabeledContent("Profile Cache", value: state.overview.profileCacheState)
+				LabeledContent("Profile Count", value: "\(state.overview.profileCount)")
+				LabeledContent("Speech Backend", value: state.runtimeConfiguration.activeRuntimeSpeechBackend)
 			} else {
-				Text("The embedded server has not started yet, so runtime details are not available.")
-					.font(.callout)
-					.foregroundStyle(.secondary)
+				ContentUnavailableView(
+					"Runtime Details Unavailable",
+					systemImage: "server.rack",
+					description: Text("The embedded server has not started yet, so runtime details are not available.")
+				)
 			}
 		}
 	}
+}
 
-	private var playbackSection: some View {
-		settingsSection("Playback") {
+private struct PlaybackSettingsSection: View {
+	let ssController: SpeakSwiftlyController
+
+	var body: some View {
+		Section("Playback") {
 			if let state = ssController.serverState {
-				settingsRow("Playback State", state.playback.state)
-				settingsRow("Active Request", state.playback.activeRequest?.id ?? "None")
-				settingsRow("Generation Queue", "\(state.generationQueue.queuedCount) queued")
-				settingsRow("Playback Queue", "\(state.playbackQueue.queuedCount) queued")
+				LabeledContent("Playback State", value: state.playback.state)
+				LabeledContent("Active Request", value: state.playback.activeRequest?.id ?? "None")
+				LabeledContent("Generation Queue", value: "\(state.generationQueue.queuedCount) queued")
+				LabeledContent("Playback Queue", value: "\(state.playbackQueue.queuedCount) queued")
 
-				HStack(spacing: 10) {
+				ControlGroup {
 					Button(ssController.canResumePlayback ? "Resume Playback" : "Pause Playback") {
 						Task {
 							if ssController.canResumePlayback {
@@ -124,15 +139,21 @@ struct SettingsWindow: View {
 					.disabled(!ssController.canClearPlaybackQueue)
 				}
 			} else {
-				Text("Playback controls become available once the embedded session is running.")
-					.font(.callout)
-					.foregroundStyle(.secondary)
+				ContentUnavailableView(
+					"Playback Controls Unavailable",
+					systemImage: "speaker.wave.2",
+					description: Text("Playback controls become available once the embedded session is running.")
+				)
 			}
 		}
 	}
+}
 
-	private var transportSection: some View {
-		settingsSection("Transports") {
+private struct TransportSettingsSection: View {
+	let ssController: SpeakSwiftlyController
+
+	var body: some View {
+		Section("Transports") {
 			if let state = ssController.serverState, !state.transports.isEmpty {
 				ForEach(Array(state.transports.enumerated()), id: \.offset) { _, transport in
 					VStack(alignment: .leading, spacing: 2) {
@@ -145,15 +166,21 @@ struct SettingsWindow: View {
 					}
 				}
 			} else {
-				Text("The embedded session has not reported transport state yet.")
-					.font(.callout)
-					.foregroundStyle(.secondary)
+				ContentUnavailableView(
+					"Transport State Unavailable",
+					systemImage: "network",
+					description: Text("The embedded session has not reported transport state yet.")
+				)
 			}
 		}
 	}
+}
 
-	private var diagnosticsSection: some View {
-		settingsSection("Diagnostics") {
+private struct DiagnosticsSettingsSection: View {
+	let ssController: SpeakSwiftlyController
+
+	var body: some View {
+		Section("Diagnostics") {
 			if let state = ssController.serverState, !state.recentErrors.isEmpty {
 				ForEach(Array(state.recentErrors.enumerated()), id: \.offset) { _, error in
 					VStack(alignment: .leading, spacing: 4) {
@@ -169,37 +196,16 @@ struct SettingsWindow: View {
 					.font(.callout)
 					.foregroundStyle(.secondary)
 			} else {
-				Text("SayBar has not recorded any recent embedded-session errors.")
-					.font(.callout)
-					.foregroundStyle(.secondary)
+				ContentUnavailableView(
+					"No Recent Errors",
+					systemImage: "checkmark.circle",
+					description: Text("SayBar has not recorded any recent embedded-session errors.")
+				)
 			}
 		}
-	}
-
-	@ViewBuilder
-	private func settingsSection<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
-		VStack(alignment: .leading, spacing: 10) {
-			Text(title)
-				.font(.headline)
-			content()
-		}
-		.frame(maxWidth: .infinity, alignment: .leading)
-		.padding(.bottom, 8)
-	}
-
-	@ViewBuilder
-	private func settingsRow(_ label: String, _ value: String) -> some View {
-		HStack(alignment: .firstTextBaseline) {
-			Text(label)
-				.foregroundStyle(.secondary)
-			Spacer()
-			Text(value)
-				.multilineTextAlignment(.trailing)
-		}
-		.font(.callout)
 	}
 }
 
 #Preview {
-    SettingsWindow(ssController: SpeakSwiftlyController(autoStart: false))
+	SettingsWindow(ssController: SpeakSwiftlyController(autoStart: false))
 }

@@ -9,9 +9,6 @@ import SwiftUI
 
 @main
 struct SayBarApp: App {
-
-		// MARK: App State
-
 	@AppStorage("showMenuBarExtra")
 	private var isInserted: Bool = true
 
@@ -20,15 +17,8 @@ struct SayBarApp: App {
 		autoStart: !ProcessInfo.processInfo.arguments.contains("--saybar-disable-autostart")
 	)
 
-		// MARK: Scene Body
-
-    var body: some Scene {
-
-			// MARK: macOS Menu Bar Scene
-
-		MenuBarExtra(
-			isInserted: $isInserted
-		) {
+	var body: some Scene {
+		MenuBarExtra(isInserted: $isInserted) {
 			MenuBarExtraWindow(ssController: ssController)
 		} label: {
 			Label("SayBar", systemImage: ssController.menuBarSymbolName)
@@ -38,10 +28,8 @@ struct SayBarApp: App {
 		}
 		.menuBarExtraStyle(.window)
 
-			// MARK: macOS Settings Scene
-
 		Settings {
 			SettingsWindow(ssController: ssController)
 		}
-    }
+	}
 }

@@ -25,6 +25,7 @@ Implemented surfaces in the app repo include:
 - menu bar status and quick-action controls
 - Settings sections for runtime, playback, transports, and diagnostics
 - app-owned status presentation tests
+- verified embedded HTTP control routes for profile creation, profile listing, and live speech playback
 
 Open work that still sits outside this document's completed embedded-session pass includes:
 
@@ -249,6 +250,35 @@ The current status-presentation logic is covered by app-owned tests in:
 - `SayBarTests/SayBarTests.swift`
 
 Those tests cover the derived presentation for stopped, starting, ready, degraded, and broken cases.
+
+### Embedded HTTP verification
+
+The current embedded session is now verified through the app-owned HTTP surface as well as through the SwiftUI control surface.
+
+The verified end-to-end path is:
+
+- `POST /voices/from-description` accepts a voice-design request and creates a profile in the app sandbox profile store
+- `GET /voices` returns that generated profile through the host's cached-profile list
+- `POST /speech/live` accepts the generated profile for live playback
+- `GET /playback/state` and `GET /playback/queue` reflect the accepted live playback request and the active playback state
+
+The most recent successful verification used SayBar's embedded development server on `127.0.0.1:7339` and confirmed all of these outcomes in one app run:
+
+- the profile-generation request completed successfully
+- the generated profile appeared in the active profile list
+- a live speech request using that profile advanced into active playback
+
+This means the app currently has a verified in-process control path for:
+
+- embedded profile creation
+- embedded profile enumeration
+- embedded live playback
+
+The current rough edge in this path is latency and operator visibility, not correctness:
+
+- first-use profile generation can spend a long time in model loading, download, and Metal compilation
+- that path can look stuck if the operator only inspects the request too early
+- the HTTP route itself is currently healthy when those long-running steps complete
 
 ## Remaining work outside this document
 
