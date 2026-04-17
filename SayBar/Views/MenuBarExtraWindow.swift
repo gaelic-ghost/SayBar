@@ -16,16 +16,13 @@ struct MenuBarExtraWindow: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 14) {
 			MenuBarStatusHeader(
-				symbolName: ssController.menuBarSymbolName,
 				serviceState: ssController.serviceState,
 				headline: ssController.statusHeadline,
 				detail: ssController.statusDetail
 			)
 
-			Divider()
-
 			if let metrics = ssController.menuMetrics {
-				MenuBarMetricsSection(metrics: metrics)
+				MenuBarQuickStatus(metrics: metrics)
 			}
 
 			MenuBarServiceControls(
@@ -63,8 +60,17 @@ struct MenuBarExtraWindow: View {
 				)
 			}
 
-			MenuBarSettingsButton {
-				openSettings()
+			HStack {
+				MenuBarSettingsButton {
+					openSettings()
+				}
+
+				Spacer()
+
+				Image(systemName: ssController.menuBarSymbolName)
+					.font(.caption)
+					.foregroundStyle(.secondary)
+					.accessibilityHidden(true)
 			}
 		}
 		.padding(16)
@@ -74,59 +80,126 @@ struct MenuBarExtraWindow: View {
 }
 
 private struct MenuBarStatusHeader: View {
-	let symbolName: String
 	let serviceState: SpeakSwiftlyController.ServiceState
 	let headline: String
 	let detail: String
 
 	var body: some View {
-		HStack(alignment: .top, spacing: 12) {
-			Image(systemName: symbolName)
-				.font(.title2)
-				.symbolRenderingMode(.hierarchical)
-				.foregroundStyle(statusTint)
-				.accessibilityIdentifier("saybar-status-icon")
+		VStack(alignment: .leading, spacing: 8) {
+			HStack(spacing: 8) {
+				Circle()
+					.fill(statusTint)
+					.frame(width: 10, height: 10)
+					.accessibilityIdentifier("saybar-status-icon")
 
-			VStack(alignment: .leading, spacing: 4) {
-				Text(headline)
-					.font(.headline)
-					.accessibilityIdentifier("saybar-status-headline")
+				Text(serviceState.displayName)
+					.font(.caption.weight(.semibold))
+					.foregroundStyle(statusTint)
 
-				Text(detail)
+				Spacer()
+
+				Text("Embedded Session")
 					.font(.caption)
 					.foregroundStyle(.secondary)
-					.fixedSize(horizontal: false, vertical: true)
-					.accessibilityIdentifier("saybar-status-detail")
 			}
+
+			Text(headline)
+				.font(.headline)
+				.accessibilityIdentifier("saybar-status-headline")
+
+			Text(detail)
+				.font(.caption)
+				.foregroundStyle(.secondary)
+				.fixedSize(horizontal: false, vertical: true)
+				.accessibilityIdentifier("saybar-status-detail")
 		}
 	}
 
 	private var statusTint: Color {
 		switch serviceState {
-		case .stopped:
-			.secondary
-		case .starting:
-			.orange
 		case .ready:
-			.green
-		case .degraded:
-			.yellow
-		case .broken:
-			.red
+			greenStatus
+		case .starting, .degraded:
+			yellowStatus
+		case .stopped, .broken:
+			redStatus
+		}
+	}
+
+	private var greenStatus: Color {
+		Color(nsColor: .systemGreen)
+	}
+
+	private var yellowStatus: Color {
+		Color(nsColor: .systemYellow)
+	}
+
+	private var redStatus: Color {
+		Color(nsColor: .systemRed)
+	}
+}
+
+private struct MenuBarQuickStatus: View {
+	let metrics: SpeakSwiftlyController.MenuMetrics
+
+	var body: some View {
+		HStack(spacing: 10) {
+			ForEach(metrics.rows.prefix(3)) { row in
+				VStack(alignment: .leading, spacing: 2) {
+					Text(row.title)
+						.font(.caption2)
+						.foregroundStyle(.secondary)
+
+					Text(row.value)
+						.font(.caption.weight(.medium))
+						.lineLimit(1)
+				}
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.horizontal, 10)
+				.padding(.vertical, 8)
+				.background {
+					RoundedRectangle(cornerRadius: 10, style: .continuous)
+						.fill(.quaternary.opacity(0.35))
+				}
+			}
 		}
 	}
 }
 
-private struct MenuBarMetricsSection: View {
-	let metrics: SpeakSwiftlyController.MenuMetrics
+private struct MenuBarSectionLabel: View {
+	let title: String
 
 	var body: some View {
-		VStack(alignment: .leading, spacing: 6) {
-			ForEach(metrics.rows) { row in
-				LabeledContent(row.title, value: row.value)
-					.font(.caption)
-			}
+		Text(title)
+			.font(.caption.weight(.semibold))
+			.foregroundStyle(.secondary)
+			.textCase(.uppercase)
+	}
+}
+
+private struct MenuBarActionButtonStyle: ButtonStyle {
+	let isPrimary: Bool
+
+	func makeBody(configuration: Configuration) -> some View {
+		configuration.label
+			.font(.caption.weight(.semibold))
+			.frame(maxWidth: .infinity)
+			.padding(.vertical, 8)
+			.background(backgroundColor(configuration: configuration), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+			.foregroundStyle(foregroundColor)
+			.opacity(configuration.isPressed ? 0.88 : 1)
+	}
+
+	private func backgroundColor(configuration: Configuration) -> Color {
+		if isPrimary {
+			return Color.accentColor.opacity(configuration.isPressed ? 0.78 : 1)
 		}
+
+		return Color.secondary.opacity(configuration.isPressed ? 0.16 : 0.12)
+	}
+
+	private var foregroundColor: Color {
+		isPrimary ? .white : .primary
 	}
 }
 
@@ -138,22 +211,28 @@ private struct MenuBarServiceControls: View {
 	let stop: @MainActor () async -> Void
 
 	var body: some View {
-		ControlGroup {
-			Button(primaryActionTitle) {
-				Task {
-					await startOrRestart()
-				}
-			}
-			.disabled(!canRestart)
-			.accessibilityIdentifier("saybar-primary-action")
+		VStack(alignment: .leading, spacing: 8) {
+			MenuBarSectionLabel(title: "Service")
 
-			Button("Stop") {
-				Task {
-					await stop()
+			HStack(spacing: 10) {
+				Button(primaryActionTitle) {
+					Task {
+						await startOrRestart()
+					}
 				}
+				.buttonStyle(MenuBarActionButtonStyle(isPrimary: true))
+				.disabled(!canRestart)
+				.accessibilityIdentifier("saybar-primary-action")
+
+				Button("Stop") {
+					Task {
+						await stop()
+					}
+				}
+				.buttonStyle(MenuBarActionButtonStyle(isPrimary: false))
+				.disabled(!canStop)
+				.accessibilityIdentifier("saybar-stop")
 			}
-			.disabled(!canStop)
-			.accessibilityIdentifier("saybar-stop")
 		}
 	}
 }
@@ -167,24 +246,29 @@ private struct MenuBarPlaybackControls: View {
 	let clearQueue: @MainActor () async -> Void
 
 	var body: some View {
-		ControlGroup {
-			Button(playbackActionTitle) {
-				Task {
-					await playbackAction()
-				}
-			}
-			.disabled(!canPausePlayback && !canResumePlayback)
-			.accessibilityIdentifier("saybar-playback-action")
+		VStack(alignment: .leading, spacing: 8) {
+			MenuBarSectionLabel(title: "Playback")
 
-			Button("Clear Queue") {
-				Task {
-					await clearQueue()
+			HStack(spacing: 10) {
+				Button(playbackActionTitle) {
+					Task {
+						await playbackAction()
+					}
 				}
+				.buttonStyle(MenuBarActionButtonStyle(isPrimary: false))
+				.disabled(!canPausePlayback && !canResumePlayback)
+				.accessibilityIdentifier("saybar-playback-action")
+
+				Button("Clear Queue") {
+					Task {
+						await clearQueue()
+					}
+				}
+				.buttonStyle(MenuBarActionButtonStyle(isPrimary: false))
+				.disabled(!canClearPlaybackQueue)
+				.accessibilityIdentifier("saybar-clear-queue")
 			}
-			.disabled(!canClearPlaybackQueue)
-			.accessibilityIdentifier("saybar-clear-queue")
 		}
-		.font(.caption)
 	}
 }
 
