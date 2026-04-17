@@ -51,13 +51,13 @@ This keeps the menu window reading one app-facing observable surface instead of 
 
 The current real-path UI test findings are:
 
-- the menu bar status item is discoverable from macOS XCUITest when SayBar uses the custom `label:` initializer
-- the status item is clickable from XCUITest
-- the current test can wait for and interact with the real menu bar item identified as `saybar-menu-bar-extra`
+- the checked-in UI test target currently validates app launch with `--saybar-disable-autostart`
+- that launch-only path confirms the app shell can register and finish launching without the embedded runtime starting automatically
+- the repo currently does not keep a checked-in UI test that clicks and traverses the real menu bar extra content
 
 ### What still fails
 
-After clicking the real status item, the `.menuBarExtraStyle(.window)` content still does not currently appear in the expected XCUITest accessibility tree.
+In earlier interactive inspection, after clicking the real status item, the `.menuBarExtraStyle(.window)` content still did not appear in the expected XCUITest accessibility tree.
 
 That means the current failure boundary is narrower than "the window content has no accessibility metadata." The current app already exposes accessibility identifiers such as:
 
@@ -104,8 +104,9 @@ Use this checklist when comparing SayBar with other menu bar apps:
 ### SayBar
 
 - current presentation model: SwiftUI `MenuBarExtra(...).menuBarExtraStyle(.window)`
-- status item: currently discoverable and clickable from XCUITest after switching to the custom `label:` initializer
-- opened surface: still not visible where the current XCUITest expects the root `saybar-menu-window` element
+- checked-in UI coverage: launch-only validation with embedded autostart disabled
+- experimentally inspected status item: previously discoverable and clickable from XCUITest after switching to the custom `label:` initializer
+- experimentally inspected opened surface: still not visible where the current XCUITest expected the root `saybar-menu-window` element
 
 ### PCalc
 
@@ -136,6 +137,12 @@ Only reach for a debug-only or test-only host for `MenuBarExtraWindow` if we exp
 
 - reliable CI coverage of the menu bar content matters more than proving the exact real menu bar transition path
 - and we are comfortable recording that as a deliberate testing tradeoff instead of pretending it validates the full production interaction
+
+For the current repo state, the honest validation split is:
+
+- unit tests cover the app-owned status-presentation logic directly
+- UI tests cover launch behavior without embedded autostart
+- real menu bar content automation remains an open investigation rather than a stable checked-in guarantee
 
 ## Runtime And Sandbox Findings
 

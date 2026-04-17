@@ -5,33 +5,122 @@
 //  Created by Gale Williams on 3/30/26.
 //
 
+import Foundation
+import SpeakSwiftlyServer
 import Testing
 @testable import SayBar
 
 struct SayBarTests {
 
+	private func makeOverview(
+		serverMode: String,
+		workerMode: String,
+		workerStage: String,
+		workerReady: Bool,
+		startupError: String? = nil,
+		profileCacheWarning: String? = nil
+	) throws -> HostOverviewSnapshot {
+		try decode(
+			HostOverviewSnapshot.self,
+			from: [
+				"service": "embedded",
+				"environment": "tests",
+				"default_voice_profile_name": NSNull(),
+				"server_mode": serverMode,
+				"worker_mode": workerMode,
+				"worker_stage": workerStage,
+				"worker_ready": workerReady,
+				"startup_error": startupError ?? NSNull(),
+				"profile_cache_state": "ready",
+				"profile_cache_warning": profileCacheWarning ?? NSNull(),
+				"profile_count": 0,
+				"last_profile_refresh_at": NSNull()
+			]
+		)
+	}
+
+	private func makeRecentError(message: String) throws -> RecentErrorSnapshot {
+		try decode(
+			RecentErrorSnapshot.self,
+			from: [
+				"occurred_at": "2026-04-17T00:00:00Z",
+				"source": "playback",
+				"code": "decoder_warning",
+				"message": message
+			]
+		)
+	}
+
+	private func makeTransport(
+		name: String,
+		enabled: Bool,
+		state: String,
+		host: String? = nil,
+		port: Int? = nil,
+		path: String? = nil
+	) throws -> TransportStatusSnapshot {
+		try decode(
+			TransportStatusSnapshot.self,
+			from: [
+				"name": name,
+				"enabled": enabled,
+				"state": state,
+				"host": host ?? NSNull(),
+				"port": port ?? NSNull(),
+				"path": path ?? NSNull(),
+				"advertised_address": NSNull()
+			]
+		)
+	}
+
+	private func makePlayback(
+		state: String,
+		activeRequestID: String? = nil
+	) throws -> PlaybackStatusSnapshot {
+		let activeRequest: Any = activeRequestID.map { id in
+			[
+				"id": id,
+				"op": "speak",
+				"profile_name": "default-femme",
+			]
+		} ?? NSNull()
+
+		return try decode(
+			PlaybackStatusSnapshot.self,
+			from: [
+				"state": state,
+				"active_request": activeRequest,
+				"is_stable_for_concurrent_generation": true,
+				"is_rebuffering": false,
+				"stable_buffered_audio_ms": NSNull(),
+				"stable_buffer_target_ms": NSNull()
+			]
+		)
+	}
+
+	private func decode<T: Decodable>(_ type: T.Type, from object: [String: Any]) throws -> T {
+		let data = try JSONSerialization.data(withJSONObject: object)
+		return try JSONDecoder().decode(type, from: data)
+	}
+
 	@Test
 	@MainActor
-	func brokenPresentationUsesStartupErrorDetails() {
+	func brokenPresentationUsesStartupErrorDetails() throws {
 		let presentation = SpeakSwiftlyController.makePresentation(
-			from: .init(
-				isStarting: false,
-				hasSession: true,
-				lastFailureMessage: nil,
-				overview: .init(
-					serverMode: "broken",
-					workerMode: "broken",
-					workerStage: "failed",
-					workerReady: false,
-					startupError: "The embedded runtime could not load its startup configuration.",
-					profileCacheWarning: nil
-				),
-				recentErrors: [],
-				transports: [],
-				playbackState: nil,
-				activeRequestID: nil
+			isStarting: false,
+			hasSession: true,
+			lifecycleMessage: "unused",
+			lastFailureMessage: nil,
+			overview: try makeOverview(
+				serverMode: "broken",
+				workerMode: "broken",
+				workerStage: "failed",
+				workerReady: false,
+				startupError: "The embedded runtime could not load its startup configuration."
 			),
-			lifecycleMessage: "unused"
+			recentErrors: [],
+			transports: [],
+			playback: nil
 		)
 
 		#expect(presentation.state == .broken)
@@ -41,28 +130,24 @@ struct SayBarTests {
 
 	@Test
 	@MainActor
-	func degradedPresentationPrefersRecentErrorsOverTransportWarnings() {
+	func degradedPresentationPrefersRecentErrorsOverTransportWarnings() throws {
 		let presentation = SpeakSwiftlyController.makePresentation(
-			from: .init(
-				isStarting: false,
-				hasSession: true,
-				lastFailureMessage: nil,
-				overview: .init(
-					serverMode: "ready",
-					workerMode: "ready",
-					workerStage: "idle",
-					workerReady: true,
-					startupError: nil,
-					profileCacheWarning: "unused"
-				),
-				recentErrors: [.init(message: "Playback drained with a decoder warning.")],
-				transports: [
-					.init(name: "mcp", enabled: true, state: "connecting", host: "127.0.0.1", port: 8080, path: nil)
-				],
-				playbackState: nil,
-				activeRequestID: nil
+			isStarting: false,
+			hasSession: true,
+			lifecycleMessage: "unused",
+			lastFailureMessage: nil,
+			overview: try makeOverview(
+				serverMode: "ready",
+				workerMode: "ready",
+				workerStage: "idle",
+				workerReady: true,
+				profileCacheWarning: "unused"
 			),
-			lifecycleMessage: "unused"
+			recentErrors: [try makeRecentError(message: "Playback drained with a decoder warning.")],
+			transports: [
+				try makeTransport(name: "mcp", enabled: true, state: "connecting", host: "127.0.0.1", port: 8080)
+			],
+			playback: nil
 		)
 
 		#expect(presentation.state == .degraded)
@@ -72,28 +157,23 @@ struct SayBarTests {
 
 	@Test
 	@MainActor
-	func readyPresentationReportsActivePlaybackRequest() {
+	func readyPresentationReportsActivePlaybackRequest() throws {
 		let presentation = SpeakSwiftlyController.makePresentation(
-			from: .init(
-				isStarting: false,
-				hasSession: true,
-				lastFailureMessage: nil,
-				overview: .init(
-					serverMode: "ready",
-					workerMode: "ready",
-					workerStage: "idle",
-					workerReady: true,
-					startupError: nil,
-					profileCacheWarning: nil
-				),
-				recentErrors: [],
-				transports: [
-					.init(name: "mcp", enabled: true, state: "listening", host: "127.0.0.1", port: 8080, path: nil)
-				],
-				playbackState: "playing",
-				activeRequestID: "req-123"
+			isStarting: false,
+			hasSession: true,
+			lifecycleMessage: "unused",
+			lastFailureMessage: nil,
+			overview: try makeOverview(
+				serverMode: "ready",
+				workerMode: "ready",
+				workerStage: "idle",
+				workerReady: true
 			),
-			lifecycleMessage: "unused"
+			recentErrors: [],
+			transports: [
+				try makeTransport(name: "mcp", enabled: true, state: "listening", host: "127.0.0.1", port: 8080)
+			],
+			playback: try makePlayback(state: "playing", activeRequestID: "req-123")
 		)
 
 		#expect(presentation.state == .ready)
@@ -105,17 +185,14 @@ struct SayBarTests {
 	@MainActor
 	func stoppedPresentationUsesLifecycleMessageWithoutSession() {
 		let presentation = SpeakSwiftlyController.makePresentation(
-			from: .init(
-				isStarting: false,
-				hasSession: false,
-				lastFailureMessage: nil,
-				overview: nil,
-				recentErrors: [],
-				transports: [],
-				playbackState: nil,
-				activeRequestID: nil
-			),
-			lifecycleMessage: "SayBar has not started the embedded session yet."
+			isStarting: false,
+			hasSession: false,
+			lifecycleMessage: "SayBar has not started the embedded session yet.",
+			lastFailureMessage: nil,
+			overview: nil,
+			recentErrors: [],
+			transports: [],
+			playback: nil
 		)
 
 		#expect(presentation.state == .stopped)
@@ -125,26 +202,22 @@ struct SayBarTests {
 
 	@Test
 	@MainActor
-	func startingPresentationWinsWhileStartupIsInFlight() {
+	func startingPresentationWinsWhileStartupIsInFlight() throws {
 		let presentation = SpeakSwiftlyController.makePresentation(
-			from: .init(
-				isStarting: true,
-				hasSession: false,
-				lastFailureMessage: nil,
-				overview: .init(
-					serverMode: "broken",
-					workerMode: "broken",
-					workerStage: "failed",
-					workerReady: false,
-					startupError: "This error should not outrank the startup state.",
-					profileCacheWarning: nil
-				),
-				recentErrors: [],
-				transports: [],
-				playbackState: nil,
-				activeRequestID: nil
+			isStarting: true,
+			hasSession: false,
+			lifecycleMessage: "unused",
+			lastFailureMessage: nil,
+			overview: try makeOverview(
+				serverMode: "broken",
+				workerMode: "broken",
+				workerStage: "failed",
+				workerReady: false,
+				startupError: "This error should not outrank the startup state."
 			),
-			lifecycleMessage: "unused"
+			recentErrors: [],
+			transports: [],
+			playback: nil
 		)
 
 		#expect(presentation.state == .starting)
