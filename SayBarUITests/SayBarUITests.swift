@@ -9,7 +9,7 @@ import XCTest
 
 final class SayBarUITests: XCTestCase {
 
-	private func makeApp() -> XCUIApplication {
+	@MainActor private func makeApp() -> XCUIApplication {
 		let app = XCUIApplication()
 		app.launchArguments.append("--saybar-disable-autostart")
 		return app

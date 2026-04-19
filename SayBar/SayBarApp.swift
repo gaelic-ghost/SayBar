@@ -6,22 +6,19 @@
 //
 
 import SwiftUI
+import SpeakSwiftlyServer
 
 @main
 struct SayBarApp: App {
 	@AppStorage("showMenuBarExtra")
 	private var isInserted: Bool = true
 
-	@State
-	private var ssController = SpeakSwiftlyController(
-		autoStart: !ProcessInfo.processInfo.arguments.contains("--saybar-disable-autostart")
-	)
 
 	var body: some Scene {
 		MenuBarExtra(isInserted: $isInserted) {
-			MenuBarExtraWindow(ssController: ssController)
+			MenuBarExtraWindow()
 		} label: {
-			Label("SayBar", systemImage: ssController.menuBarSymbolName)
+			Label("SayBar", systemImage: "")
 				.labelStyle(.iconOnly)
 				.accessibilityLabel("SayBar")
 				.accessibilityIdentifier("saybar-menu-bar-extra")
@@ -29,7 +26,7 @@ struct SayBarApp: App {
 		.menuBarExtraStyle(.window)
 
 		Settings {
-			SettingsWindow(ssController: ssController)
+			SettingsWindow()
 		}
 	}
 }
