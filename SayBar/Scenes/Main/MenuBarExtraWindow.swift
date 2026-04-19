@@ -19,12 +19,6 @@ struct MenuBarExtraWindow: View {
 	private var openSettings
 
 	@State
-	private var selectedVoiceProfileName = ""
-
-	@State
-	private var selectedBackend: SpeakSwiftly.SpeechBackend = .qwen3
-
-	@State
 	private var actionMessage: String?
 
 	@State
@@ -41,18 +35,100 @@ struct MenuBarExtraWindow: View {
 
 	private static let logger = Logger(subsystem: "com.galewilliams.SayBar", category: "menu-bar")
 
-	private var header: MenuBarHeaderPresentation {
-		makeMenuBarHeaderPresentation(
-			overview: server.overview,
-			playback: server.playback,
-			recentErrors: server.recentErrors,
-			actionMessage: actionMessage,
-			autostartEnabled: autostartEnabled,
-		)
+	private var statusHeadline: String {
+		if !autostartEnabled {
+			return "SpeakSwiftlyServer is idle for this launch."
+		}
+
+		if let recentError = server.recentErrors.first?.message, !recentError.isEmpty {
+			return "SpeakSwiftlyServer is running with warnings."
+		}
+
+		if let startupError = server.overview.startupError, !startupError.isEmpty {
+			return "SpeakSwiftlyServer hit a startup problem."
+		}
+
+		if server.playback.state == "playing" {
+			return "SpeakSwiftlyServer is playing audio."
+		}
+
+		if server.playback.state == "paused" {
+			return "SpeakSwiftlyServer playback is paused."
+		}
+
+		if server.overview.workerStage == "resident_models_unloaded" {
+			return "SpeakSwiftlyServer is ready with models unloaded."
+		}
+
+		switch server.overview.serverMode {
+			case "broken":
+				return "SpeakSwiftlyServer is unavailable."
+			case "degraded":
+				return "SpeakSwiftlyServer is degraded."
+			case "ready":
+				return "SpeakSwiftlyServer is ready."
+			default:
+				return "SpeakSwiftlyServer is starting."
+		}
+	}
+
+	private var statusDetail: String {
+		if !autostartEnabled {
+			return "Embedded autostart is disabled, so SayBar has not started the in-process runtime."
+		}
+
+		if let actionMessage, !actionMessage.isEmpty {
+			return actionMessage
+		}
+
+		if let recentError = server.recentErrors.first?.message, !recentError.isEmpty {
+			return recentError
+		}
+
+		if let startupError = server.overview.startupError, !startupError.isEmpty {
+			return startupError
+		}
+
+		if server.playback.state == "playing", let requestID = server.playback.activeRequest?.id {
+			return "Playback is active for request \(requestID)."
+		}
+
+		if server.playback.state == "paused" {
+			return "The current playback queue is paused and can resume immediately."
+		}
+
+		if server.overview.workerStage == "resident_models_unloaded" {
+			return "Use the power control to load the resident model again before the next speech request."
+		}
+
+		if server.overview.workerReady || server.overview.serverMode == "ready" {
+			return "The embedded runtime is ready for voice, playback, and queue actions."
+		}
+
+		switch server.overview.workerStage {
+			case "resident_model_ready":
+				return "The embedded runtime is live and the resident model is loaded."
+			case "resident_models_unloaded":
+				return "The embedded runtime is live, but resident models are currently unloaded."
+			case "starting":
+				return "The embedded runtime is still starting inside SayBar."
+			default:
+				return "The embedded runtime is currently reporting worker stage \(server.overview.workerStage)."
+		}
 	}
 
 	private var queueSlotCount: Int {
 		min(server.generationQueue.activeCount + server.generationQueue.queuedCount, 8)
+	}
+
+	private var selectedVoiceProfileName: String {
+		server.overview.defaultVoiceProfileName ?? server.voiceProfiles.first?.profileName ?? ""
+	}
+
+	private var selectedBackend: SpeakSwiftly.SpeechBackend {
+		SpeakSwiftly.SpeechBackend.normalized(
+			rawValue: server.runtimeConfiguration.activeRuntimeSpeechBackend,
+		) ?? .qwen3
 	}
 
 	private var powerSymbolName: String {
@@ -73,8 +149,8 @@ struct MenuBarExtraWindow: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 12) {
 			MenuHeaderComponent(
-				headline: header.headline,
-				detail: header.detail,
+				headline: statusHeadline,
+				detail: statusDetail,
 			)
 
 			QueueCountComponent(
@@ -84,8 +160,18 @@ struct MenuBarExtraWindow: View {
 			)
 
 			MenuControlGroupComponent(
-				selectedVoiceProfileName: $selectedVoiceProfileName,
-				selectedBackend: $selectedBackend,
+				selectedVoiceProfileName: Binding(
+					get: { selectedVoiceProfileName },
+					set: { newValue in
+						handleVoiceSelection(newValue)
+					},
+				),
+				selectedBackend: Binding(
+					get: { selectedBackend },
+					set: { newValue in
+						handleBackendSelection(newValue)
+					},
+				),
 				voiceProfiles: server.voiceProfiles,
 				availableBackends: SpeakSwiftly.SpeechBackend.allCases,
 				powerSymbolName: powerSymbolName,
@@ -97,44 +183,18 @@ struct MenuBarExtraWindow: View {
 				powerAction: toggleResidentModels,
 				playbackAction: handlePlaybackButton,
 				openSettingsAction: { openSettings() },
-				voiceSelectionAction: handleVoiceSelection,
-				backendSelectionAction: handleBackendSelection,
 			)
 		}
 		.padding(14)
 		.frame(width: 320)
 		.accessibilityIdentifier("saybar-menu-window")
 		.task {
-			await syncSelectionState()
 			await refreshVoiceProfilesIfNeeded()
-		}
-		.onChange(of: server.overview.defaultVoiceProfileName) { _, _ in
-			Task { @MainActor in
-				await syncSelectionState()
-			}
-		}
-		.onChange(of: server.runtimeConfiguration.activeRuntimeSpeechBackend) { _, _ in
-			Task { @MainActor in
-				await syncSelectionState()
-			}
 		}
 	}
 }
 
 private extension MenuBarExtraWindow {
-	@MainActor
-	func syncSelectionState() async {
-		if let defaultVoiceProfileName = server.overview.defaultVoiceProfileName {
-			selectedVoiceProfileName = defaultVoiceProfileName
-		} else if selectedVoiceProfileName.isEmpty, let firstProfileName = server.voiceProfiles.first?.profileName {
-			selectedVoiceProfileName = firstProfileName
-		}
-
-		selectedBackend = SpeakSwiftly.SpeechBackend.normalized(
-			rawValue: server.runtimeConfiguration.activeRuntimeSpeechBackend,
-		) ?? .qwen3
-	}
-
 	@MainActor
 	func refreshVoiceProfilesIfNeeded() async {
 		guard server.voiceProfiles.isEmpty else {
@@ -144,7 +204,6 @@ private extension MenuBarExtraWindow {
 		do {
 			isRunningVoiceAction = true
 			_ = try await server.refreshVoiceProfiles()
-			await syncSelectionState()
 		} catch {
 			handleActionError(
 				error,
@@ -221,10 +280,7 @@ private extension MenuBarExtraWindow {
 		defer { isSubmittingClipboardSpeech = false }
 
 		do {
-			try await EmbeddedServerLiveSpeechClient().queueClipboardSpeech(
-				text: pastedText,
-				server: server,
-			)
+			_ = try await server.queueLiveSpeech(text: pastedText)
 			actionMessage = "Queued clipboard text for live speech."
 		} catch {
 			handleActionError(
@@ -244,7 +300,6 @@ private extension MenuBarExtraWindow {
 			isRunningVoiceAction = true
 			do {
 				let resolvedProfileName = try await server.setDefaultVoiceProfileName(profileName)
-				selectedVoiceProfileName = resolvedProfileName
 				actionMessage = "Default voice profile set to \(resolvedProfileName)."
 			} catch {
 				handleActionError(
@@ -262,7 +317,6 @@ private extension MenuBarExtraWindow {
 			isRunningBackendAction = true
 			do {
 				_ = try await server.switchSpeechBackend(to: backend)
-				selectedBackend = backend
 				actionMessage = "Speech backend switched to \(backend.rawValue)."
 			} catch {
 				handleActionError(
@@ -349,8 +403,6 @@ private struct MenuControlGroupComponent: View {
 	let powerAction: () -> Void
 	let playbackAction: () -> Void
 	let openSettingsAction: () -> Void
-	let voiceSelectionAction: (String) -> Void
-	let backendSelectionAction: (SpeakSwiftly.SpeechBackend) -> Void
 
 	var body: some View {
 		ControlGroup {
@@ -385,9 +437,6 @@ private struct MenuControlGroupComponent: View {
 					.pickerStyle(.menu)
 					.frame(maxWidth: .infinity)
 					.disabled(isVoicePickerDisabled)
-					.onChange(of: selectedVoiceProfileName) { _, newValue in
-						voiceSelectionAction(newValue)
-					}
 
 					Picker("Speech Backend", selection: $selectedBackend) {
 						ForEach(availableBackends, id: \.self) { backend in
@@ -398,9 +447,6 @@ private struct MenuControlGroupComponent: View {
 					.pickerStyle(.menu)
 					.frame(maxWidth: .infinity)
 					.disabled(isBackendPickerDisabled)
-					.onChange(of: selectedBackend) { _, newValue in
-						backendSelectionAction(newValue)
-					}
 				}
 			}
 		}

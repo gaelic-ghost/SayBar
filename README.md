@@ -24,6 +24,8 @@ The current app architecture is intentionally thin:
 
 SayBar does not keep a second app-owned server controller anymore. The public `SpeakSwiftlyServer` library surface is already designed to be the app-facing `@Observable` model, so the app now treats `EmbeddedServer` as the source of truth for lifecycle, queue state, playback state, transport status, runtime configuration, and voice profile selection.
 
+The menu bar scene now reads those observable properties directly. SayBar keeps only genuinely app-local state alongside the server object, such as transient action feedback and button busy flags.
+
 ### Motivation
 
 This repository exists so the macOS app can evolve as its own product surface instead of being treated as incidental glue around server code. Keeping the app in its own Xcode project makes it easier to build the menu bar UX, settings UI, app-owned wording, diagnostics surfaces, and release flow in one place while still keeping server and MCP implementation details in their sibling repositories.

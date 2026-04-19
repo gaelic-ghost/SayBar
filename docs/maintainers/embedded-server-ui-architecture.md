@@ -36,15 +36,13 @@ The current menu bar window is composed from small SwiftUI component views:
 
 `MenuBarExtraWindow` owns local UI state for:
 
-- the currently selected voice profile in the picker
-- the currently selected backend in the picker
 - local action feedback text
 - local button-busy flags for asynchronous actions
 
-That local state is deliberately UI-local. It is not a second source of truth for runtime state. The server remains the source of truth, and the view only keeps enough local state to drive controls cleanly.
+That local state is deliberately UI-local. It is not a second source of truth for runtime state. Picker selections, queue counts, status text, playback state, active backend, and default voice profile are all read directly from the observable `EmbeddedServer` surface at render time.
 
-## Current Exceptions
+## Clipboard Speech
 
-The current clipboard-to-speech button still uses the embedded HTTP route at `POST /speech/live`.
+The clipboard-to-speech button now calls `EmbeddedServer.queueLiveSpeech(...)` directly.
 
-That is a conscious local fallback because the current `EmbeddedServer` surface exposes runtime, playback, and profile control actions directly, but it does not yet expose a direct Swift method for queueing one live speech request from app code. The fallback is intentionally narrow and should stay local to that one button path unless the package later adds a direct app-facing speech submission API.
+That keeps the app on one package-owned control path instead of mixing direct embedded actions for some controls with localhost HTTP for others.

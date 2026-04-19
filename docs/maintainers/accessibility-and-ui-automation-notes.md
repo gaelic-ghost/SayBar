@@ -43,8 +43,7 @@ The current stable rule is simpler:
 
 - keep one app-owned `EmbeddedServer` at the app boundary
 - let views read that same `EmbeddedServer` directly
-- keep view-local state limited to UI control state and action feedback
-- keep status wording in pure helper functions rather than another lifecycle wrapper
+- keep view-local state limited to transient action feedback and busy flags
 
 ### What XCUITest can currently do
 
@@ -66,7 +65,7 @@ Treat the current SayBar automation problem as a system-presentation boundary fi
 
 For the current repo state, the honest validation split is:
 
-- unit tests cover the app-owned presentation helpers directly
+- unit tests are minimal because the app no longer keeps a separate presentation layer over the server model
 - UI tests cover launch behavior without embedded autostart
 - real menu bar content automation remains an open investigation rather than a stable checked-in guarantee
 
@@ -87,7 +86,7 @@ The current embedded app shape is:
 
 - one app-owned `EmbeddedServer` in `SayBarApp`
 - menu bar and settings scenes that both read that same object directly
-- small view-local state only for picker selection and action feedback
+- small view-local state only for transient action feedback and busy flags
 
 The app-facing model is now exactly the package-owned observable object rather than a second app-owned wrapper.
 
@@ -95,8 +94,8 @@ The app-facing model is now exactly the package-owned observable object rather t
 
 The current repo does not have a checked-in `.entitlements` file, so effective sandbox verification must still be done from the signed product, not by inspecting a source entitlement file in the repo.
 
-### Current embedded HTTP fallback finding
+### Current clipboard speech finding
 
-The menu bar clipboard button currently uses the embedded HTTP `POST /speech/live` route as a narrow fallback because the app-facing `EmbeddedServer` API does not yet expose a direct live-speech queue method.
+The menu bar clipboard button now uses `EmbeddedServer.queueLiveSpeech(...)` directly.
 
-That fallback should remain local to that one control path unless the server package grows a direct embedded speech-submission API later.
+That keeps the menu bar surface on the same embedded control path as the other runtime actions instead of routing clipboard speech through a local HTTP fallback.
