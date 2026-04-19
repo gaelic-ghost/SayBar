@@ -52,7 +52,8 @@ Launch the `SayBar` scheme to start the app. The menu bar surface is intentional
 - a status headline
 - a detail line for the current warning, error, or runtime detail
 - an eight-slot queue indicator for generation work
-- direct controls for resident-model power, playback or clipboard speech, settings, voice profile selection, and speech backend selection
+- one compact control row for resident-model power, playback or clipboard speech, and settings
+- one picker row for voice profile selection and speech backend selection
 
 Open Settings for deeper app and runtime diagnostics. The current settings surface shows the app version, autostart state, menu bar insertion preference, runtime summary values, transport details, and recent retained errors.
 

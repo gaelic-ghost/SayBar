@@ -33,6 +33,7 @@ The current menu bar window is composed from small SwiftUI component views:
 - `MenuHeaderComponent`
 - `QueueCountComponent`
 - `MenuControlGroupComponent`
+- `MenuPickerComponent`
 
 `MenuBarExtraWindow` owns local UI state for:
 
@@ -40,6 +41,13 @@ The current menu bar window is composed from small SwiftUI component views:
 - local button-busy flags for asynchronous actions
 
 That local state is deliberately UI-local. It is not a second source of truth for runtime state. Picker selections, queue counts, status text, playback state, active backend, and default voice profile are all read directly from the observable `EmbeddedServer` surface at render time.
+
+The current compact menu layout is:
+
+- header at the top
+- queue indicator in the middle
+- one button control row for power, playback or clipboard speech, and settings
+- one picker row for voice profile and speech backend
 
 ## Clipboard Speech
 

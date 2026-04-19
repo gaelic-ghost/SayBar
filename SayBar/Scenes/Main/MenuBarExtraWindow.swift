@@ -146,6 +146,8 @@ struct MenuBarExtraWindow: View {
 		}
 	}
 
+	// MARK: Main View Body
+
 	var body: some View {
 		VStack(alignment: .leading, spacing: 12) {
 			MenuHeaderComponent(
@@ -160,6 +162,17 @@ struct MenuBarExtraWindow: View {
 			)
 
 			MenuControlGroupComponent(
+
+				powerSymbolName: powerSymbolName,
+				playbackSymbolName: playbackSymbolName,
+				isPowerButtonDisabled: isRunningModelAction,
+				isPlaybackButtonDisabled: isSubmittingClipboardSpeech,
+				powerAction: toggleResidentModels,
+				playbackAction: handlePlaybackButton,
+				openSettingsAction: { openSettings() },
+			)
+
+			MenuPickerComponent(
 				selectedVoiceProfileName: Binding(
 					get: { selectedVoiceProfileName },
 					set: { newValue in
@@ -174,15 +187,8 @@ struct MenuBarExtraWindow: View {
 				),
 				voiceProfiles: server.voiceProfiles,
 				availableBackends: SpeakSwiftly.SpeechBackend.allCases,
-				powerSymbolName: powerSymbolName,
-				playbackSymbolName: playbackSymbolName,
 				isVoicePickerDisabled: server.voiceProfiles.isEmpty || isRunningVoiceAction,
 				isBackendPickerDisabled: isRunningBackendAction,
-				isPowerButtonDisabled: isRunningModelAction,
-				isPlaybackButtonDisabled: isSubmittingClipboardSpeech,
-				powerAction: toggleResidentModels,
-				playbackAction: handlePlaybackButton,
-				openSettingsAction: { openSettings() },
 			)
 		}
 		.padding(14)
@@ -364,7 +370,7 @@ private struct QueueCountComponent: View {
 			Text("\(label): \(filledSlotCount) of \(totalSlotCount)")
 				.font(.caption)
 				.foregroundStyle(.secondary)
-			HStack(spacing: 4) {
+			HStack(alignment: .center, spacing: 6) {
 				ForEach(0..<totalSlotCount, id: \.self) { index in
 					QueueSlotShape(isFilled: index < filledSlotCount)
 				}
@@ -383,21 +389,15 @@ private struct QueueSlotShape: View {
 				Rectangle()
 					.stroke(Color.accentColor, lineWidth: 1)
 			}
-			.frame(width: 16, height: 10)
+			.frame(width: 32, height: 40)
 			.accessibilityHidden(true)
 	}
 }
 
 private struct MenuControlGroupComponent: View {
-	@Binding var selectedVoiceProfileName: String
-	@Binding var selectedBackend: SpeakSwiftly.SpeechBackend
 
-	let voiceProfiles: [ProfileSnapshot]
-	let availableBackends: [SpeakSwiftly.SpeechBackend]
 	let powerSymbolName: String
 	let playbackSymbolName: String
-	let isVoicePickerDisabled: Bool
-	let isBackendPickerDisabled: Bool
 	let isPowerButtonDisabled: Bool
 	let isPlaybackButtonDisabled: Bool
 	let powerAction: () -> Void
@@ -406,8 +406,7 @@ private struct MenuControlGroupComponent: View {
 
 	var body: some View {
 		ControlGroup {
-			VStack(alignment: .leading, spacing: 10) {
-				HStack(spacing: 10) {
+			HStack(alignment: .center, spacing: 20) {
 					Button(action: powerAction) {
 						Image(systemName: powerSymbolName)
 					}
@@ -426,29 +425,41 @@ private struct MenuControlGroupComponent: View {
 					.buttonStyle(.bordered)
 					.accessibilityIdentifier("saybar-open-settings")
 				}
+		}
+	}
+}
 
-				HStack(spacing: 10) {
-					Picker("Voice Profile", selection: $selectedVoiceProfileName) {
-						ForEach(voiceProfiles, id: \.profileName) { profile in
-							Text(profile.profileName).tag(profile.profileName)
-						}
-					}
-					.labelsHidden()
-					.pickerStyle(.menu)
-					.frame(maxWidth: .infinity)
-					.disabled(isVoicePickerDisabled)
+private struct MenuPickerComponent: View {
 
-					Picker("Speech Backend", selection: $selectedBackend) {
-						ForEach(availableBackends, id: \.self) { backend in
-							Text(backend.rawValue).tag(backend)
-						}
-					}
-					.labelsHidden()
-					.pickerStyle(.menu)
-					.frame(maxWidth: .infinity)
-					.disabled(isBackendPickerDisabled)
+	@Binding var selectedVoiceProfileName: String
+	@Binding var selectedBackend: SpeakSwiftly.SpeechBackend
+
+	let voiceProfiles: [ProfileSnapshot]
+	let availableBackends: [SpeakSwiftly.SpeechBackend]
+	let isVoicePickerDisabled: Bool
+	let isBackendPickerDisabled: Bool
+
+	var body: some View {
+		HStack(alignment: .center) {
+			Picker("Voice Profile", selection: $selectedVoiceProfileName) {
+				ForEach(voiceProfiles, id: \.profileName) { profile in
+					Text(profile.profileName).tag(profile.profileName)
 				}
 			}
+			.labelsHidden()
+			.pickerStyle(.menu)
+			.frame(maxWidth: .infinity)
+			.disabled(isVoicePickerDisabled)
+
+			Picker("Speech Backend", selection: $selectedBackend) {
+				ForEach(availableBackends, id: \.self) { backend in
+					Text(backend.rawValue).tag(backend)
+				}
+			}
+			.labelsHidden()
+			.pickerStyle(.menu)
+			.frame(maxWidth: .infinity)
+			.disabled(isBackendPickerDisabled)
 		}
 	}
 }
