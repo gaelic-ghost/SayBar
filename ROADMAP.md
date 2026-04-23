@@ -68,11 +68,11 @@
 ### Tickets
 
 - [x] Keep app persistence narrow and app-owned instead of mirroring sibling-service runtime state locally.
-- [x] Host the embedded `SpeakSwiftlyServer` session through an app-owned controller.
+- [x] Host the embedded `SpeakSwiftlyServer` runtime through one app-owned `EmbeddedServer` model.
 - [x] Surface runtime, playback, transport, and diagnostics sections in Settings.
 - [x] Build settings sections for configuration that genuinely belongs to the macOS app.
 - [x] Add diagnostics surfaces for logs, startup failures, and likely-cause messaging.
-- [x] Choose and document the long-term product-baseline controller model for App Store-compatible delivery.
+- [x] Choose and document the long-term direct-embedding product baseline for App Store-compatible delivery.
 - [ ] Verify launch, relaunch, and quit behavior for background work.
 
 ### Exit criteria
@@ -86,6 +86,7 @@
 ### Notes
 
 - The accepted architecture decision is recorded in [docs/maintainers/adr-0001-keep-embedded-session-architecture.md](docs/maintainers/adr-0001-keep-embedded-session-architecture.md).
+- Launch, terminate, and relaunch behavior is now explicit in app code and covered by launch-only UI tests with embedded autostart disabled. A fuller runtime-on verification pass remains open work.
 - Future attached-session or bundled-helper exploration remains a separate product decision, not an implied follow-up to the current roadmap.
 
 ## M4. Release and monorepo integration discipline

@@ -47,9 +47,15 @@ The current stable rule is simpler:
 
 ### What XCUITest can currently do
 
-The checked-in UI test target currently validates app launch with `--saybar-disable-autostart`.
+The checked-in UI test target currently follows Apple's documented `XCUIApplication` launch and state-wait pattern.
 
-That launch-only path confirms the app shell can register and finish launching without the embedded runtime starting automatically.
+The current checked-in tests validate these shell-level behaviors with `--saybar-disable-autostart`:
+
+- initial launch completes
+- explicit app termination completes
+- the app can relaunch after termination
+
+That test shape keeps the UI suite aligned with the supported XCUITest surface while avoiding a full embedded-runtime bootstrap in every UI test run.
 
 The repo currently does not keep a checked-in UI test that clicks and traverses the real menu bar extra content.
 
@@ -66,7 +72,7 @@ Treat the current SayBar automation problem as a system-presentation boundary fi
 For the current repo state, the honest validation split is:
 
 - unit tests are minimal because the app no longer keeps a separate presentation layer over the server model
-- UI tests cover launch behavior without embedded autostart
+- UI tests cover launch, termination, and relaunch behavior without embedded autostart
 - real menu bar content automation remains an open investigation rather than a stable checked-in guarantee
 
 ## Runtime And Sandbox Findings
@@ -78,7 +84,13 @@ Current Xcode launches split cleanly into two behaviors:
 - when SayBar launches normally, the embedded runtime starts during app launch
 - when SayBar launches with `--saybar-disable-autostart`, the app shell launches without embedded runtime startup
 
-That means the autostart toggle remains useful for launch-only UI tests and shell-level debugging.
+That means the autostart toggle remains useful for shell-focused UI tests and shell-level debugging.
+
+### Current quit-path finding
+
+The app now requests embedded-runtime shutdown through `EmbeddedServer.land()` before allowing macOS termination to finish.
+
+That makes the launch and quit ownership story explicit in app code even though the UI test target still exercises the lighter autostart-disabled path.
 
 ### Current ownership finding
 
