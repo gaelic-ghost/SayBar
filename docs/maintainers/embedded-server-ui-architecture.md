@@ -6,7 +6,7 @@ SayBar is a native macOS menu bar app that owns one embedded `SpeakSwiftlyServer
 
 The current boundary is intentionally direct:
 
-- `SayBarApp` creates one `EmbeddedServer`
+- `SayBarApp` stores one `EmbeddedServer` in SwiftUI `@State`
 - the menu bar scene reads and controls that `EmbeddedServer` directly
 - the settings scene reads that same `EmbeddedServer` directly
 - SayBar does not add a second controller or session wrapper on top of the package's app-facing observable model
@@ -18,6 +18,7 @@ The current boundary is intentionally direct:
 - lifecycle entrypoints such as `liftoff()` and `land()`
 - observable snapshots for overview, queues, playback, runtime configuration, transports, and recent errors
 - direct embedded-host control actions such as voice-profile refresh, default voice selection, backend switching, model reload and unload, and playback controls
+- newer standalone-install helpers such as `ServerInstallLayout` and retained-log snapshots for a future app-managed standalone mode
 
 Because the package already owns those responsibilities, SayBar should stay focused on:
 
@@ -25,6 +26,20 @@ Because the package already owns those responsibilities, SayBar should stay focu
 - settings diagnostics
 - app wording and app-specific control arrangement
 - native macOS affordances like settings presentation and clipboard access
+
+SayBar is intentionally not adopting the standalone-install helper surface yet. That part of the package is useful future app-facing API, but the current product baseline is still the embedded runtime that lives inside the app process.
+
+## Lifecycle Ownership
+
+Apple's Observation guidance for `@Observable` reference models is to keep app-owned model instances in SwiftUI `@State`, and `SpeakSwiftlyServer` now documents the embedded app contract the same way.
+
+SayBar follows that model directly:
+
+- `SayBarApp` creates one `EmbeddedServer`
+- app launch calls `liftoff()` unless UI tests or operator launch arguments explicitly disable autostart
+- app termination requests `land()` before allowing macOS termination to finish
+
+That keeps ownership flat and keeps runtime startup and cleanup attached to the same app-owned model instead of splitting lifecycle work between multiple wrappers.
 
 ## UI Ownership
 
