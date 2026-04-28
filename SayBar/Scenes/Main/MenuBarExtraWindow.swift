@@ -150,7 +150,12 @@ private extension MenuBarExtraWindow {
 
         do {
             isRunningVoiceAction = true
-            _ = try await server.refreshVoiceProfiles()
+            _ = try await MenuBarActionSupport.refreshVoiceProfilesIfNeeded(
+                voiceProfilesAreEmpty: true,
+                refreshVoiceProfiles: {
+                    _ = try await server.refreshVoiceProfiles()
+                }
+            )
         } catch {
             handleActionError(
                 error,
@@ -216,11 +221,8 @@ private extension MenuBarExtraWindow {
 
     @MainActor
     func submitClipboardSpeech() async {
-        let pastedText = MenuBarActionSupport.normalizedClipboardText(
-            NSPasteboard.general.string(forType: .string)
-        )
-
-        guard !pastedText.isEmpty else {
+        let clipboardText = NSPasteboard.general.string(forType: .string)
+        guard !MenuBarActionSupport.normalizedClipboardText(clipboardText).isEmpty else {
             actionMessage = "The clipboard does not contain text to speak."
             return
         }
@@ -229,8 +231,18 @@ private extension MenuBarExtraWindow {
         defer { isSubmittingClipboardSpeech = false }
 
         do {
-            _ = try await server.queueLiveSpeech(text: pastedText)
-            actionMessage = "Queued clipboard text for live speech."
+            let result = try await MenuBarActionSupport.queueClipboardSpeech(
+                clipboardText: clipboardText,
+                queueLiveSpeech: { pastedText in
+                    _ = try await server.queueLiveSpeech(text: pastedText)
+                }
+            )
+            switch result {
+                case .emptyClipboard:
+                    actionMessage = "The clipboard does not contain text to speak."
+                case .queued:
+                    actionMessage = "Queued clipboard text for live speech."
+            }
         } catch {
             handleActionError(
                 error,
@@ -242,14 +254,16 @@ private extension MenuBarExtraWindow {
     @MainActor
     func handleVoiceSelection(_ profileName: String) {
         Task { @MainActor in
-            guard !profileName.isEmpty else {
-                return
-            }
-
             isRunningVoiceAction = true
             do {
-                let resolvedProfileName = try await server.setDefaultVoiceProfileName(profileName)
-                actionMessage = "Default voice profile set to \(resolvedProfileName)."
+                if let resolvedProfileName = try await MenuBarActionSupport.setDefaultVoiceProfile(
+                    profileName: profileName,
+                    setDefaultVoiceProfileName: { profileName in
+                        try await server.setDefaultVoiceProfileName(profileName)
+                    }
+                ) {
+                    actionMessage = "Default voice profile set to \(resolvedProfileName)."
+                }
             } catch {
                 handleActionError(
                     error,
@@ -265,8 +279,13 @@ private extension MenuBarExtraWindow {
         Task { @MainActor in
             isRunningBackendAction = true
             do {
-                _ = try await server.switchSpeechBackend(to: backend)
-                actionMessage = "Speech backend switched to \(backend.rawValue)."
+                let backendName = try await MenuBarActionSupport.switchSpeechBackend(
+                    to: backend,
+                    switchSpeechBackend: { backend in
+                        _ = try await server.switchSpeechBackend(to: backend)
+                    }
+                )
+                actionMessage = "Speech backend switched to \(backendName)."
             } catch {
                 handleActionError(
                     error,

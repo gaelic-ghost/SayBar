@@ -32,6 +32,7 @@ Current test coverage is intentionally narrow:
 
 - `SayBarAppEnvironmentTests` covers autostart argument parsing and runtime profile-root resolution
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
+- `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
 - `SayBarUITests` covers launch and termination with embedded autostart disabled
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
@@ -52,7 +53,7 @@ Planned coverage:
 - add focused tests for app status mapping once status wording is factored into a small testable unit: done for menu status headline/detail
 - add focused tests for queue-count clamping once queue display mapping is factored into a small testable unit: done for menu queue slots
 - add focused tests for transport summary formatting once the Settings transport summary is factored into a small testable unit: done
-- add focused tests for recent-error precedence once menu status selection is factored into a small testable unit
+- add focused tests for recent-error precedence once menu status selection is factored into a small testable unit: done for headline and detail precedence
 
 Implementation notes:
 
@@ -73,14 +74,14 @@ Planned coverage:
 - voice profile refresh path: empty profile cache triggers `refreshVoiceProfiles()`
 - voice selection path: picker selection calls `setDefaultVoiceProfileName(_:)`
 - backend selection path: picker selection calls `switchSpeechBackend(to:)`
-- resident model power path: unloaded models call `reloadModels()`, loaded models call `unloadModels()`
-- playback button path: playing calls `pausePlayback()`, paused calls `resumePlayback()`, idle submits clipboard speech
-- clipboard speech path: empty clipboard reports a local message; non-empty clipboard calls `queueLiveSpeech(text:)`
+- resident model power path: unloaded models call `reloadModels()`, loaded models call `unloadModels()`: command routing covered
+- playback button path: playing calls `pausePlayback()`, paused calls `resumePlayback()`, idle submits clipboard speech: command routing covered
+- clipboard speech path: empty clipboard reports a local message; non-empty clipboard calls `queueLiveSpeech(text:)`: covered through the local menu action seam
 - observable state consumption: menu and Settings read `overview`, `generationQueue`, `playbackQueue`, `playback`, `runtimeConfiguration`, `voiceProfiles`, `transports`, and `recentErrors` directly
 
 Implementation notes:
 
-- add test seams only where the current direct `EmbeddedServer` baseline cannot otherwise be observed
+- add test seams only where the current direct `EmbeddedServer` baseline cannot otherwise be observed: currently `MenuBarActionSupport` accepts async closures for the real server calls while `MenuBarExtraWindow` keeps direct `EmbeddedServer` ownership
 - if a seam is needed, keep it as a local implementation detail for app action testing, not as a new app-owned runtime model
 - do not adopt `ServerInstallLayout`, `ServerInstalledLogs`, LaunchAgent install helpers, or standalone-server paths in this phase
 - runtime-on integration tests should be explicit and isolated from the existing autostart-disabled shell UI tests

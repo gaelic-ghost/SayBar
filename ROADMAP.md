@@ -120,7 +120,7 @@
 - [x] Add a checked-in `SayBar.xctestplan` and wire it to the shared `SayBar` scheme.
 - [x] Add focused foundation tests for menu status mapping, queue display mapping, control symbols, selected voice fallback, and Settings transport summaries.
 - [ ] Expand app-foundation tests for environment parsing, profile path construction, status mapping, queue display mapping, transport summaries, and recent-error precedence.
-- [ ] Cover implemented embedded-session actions for lifecycle, voice refresh, default voice selection, backend switching, resident model reload/unload, playback pause/resume, and clipboard speech submission.
+- [ ] Cover implemented embedded-session actions for lifecycle, voice refresh, default voice selection, backend switching, resident model reload/unload, playback pause/resume, and clipboard speech submission. Voice refresh, default voice selection, backend switching, resident-model command routing, playback command routing, and clipboard speech submission now have focused unit coverage through local menu action support.
 - [ ] Review and streamline menu and Settings view implementations before adding deeper UI assertions.
 - [ ] Add Settings and menu bar UI coverage after the view implementations are simpler and more testable.
 
@@ -128,5 +128,5 @@
 
 - [ ] `xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar` reports the checked-in `SayBar` test plan.
 - [ ] `xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar` is the documented baseline test command.
-- [ ] Implemented embedded-session behavior has focused coverage without adding a second app-owned runtime model.
+- [ ] Implemented embedded-session behavior has focused coverage without adding a second app-owned runtime model. The first menu action coverage uses async closures for existing `EmbeddedServer` calls while keeping direct server ownership in the view.
 - [ ] UI coverage starts from a streamlined, stable menu and Settings implementation.
