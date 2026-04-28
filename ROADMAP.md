@@ -118,6 +118,7 @@
 ### Tickets
 
 - [x] Add a checked-in `SayBar.xctestplan` and wire it to the shared `SayBar` scheme.
+- [x] Add focused foundation tests for menu status mapping, queue display mapping, control symbols, selected voice fallback, and Settings transport summaries.
 - [ ] Expand app-foundation tests for environment parsing, profile path construction, status mapping, queue display mapping, transport summaries, and recent-error precedence.
 - [ ] Cover implemented embedded-session actions for lifecycle, voice refresh, default voice selection, backend switching, resident model reload/unload, playback pause/resume, and clipboard speech submission.
 - [ ] Review and streamline menu and Settings view implementations before adding deeper UI assertions.

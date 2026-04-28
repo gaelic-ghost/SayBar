@@ -36,93 +36,42 @@ struct MenuBarExtraWindow: View {
     let autostartEnabled: Bool
 
     private var statusHeadline: String {
-        if !autostartEnabled {
-            return "SpeakSwiftlyServer is idle for this launch."
-        }
-
-        if let recentError = server.recentErrors.first?.message, !recentError.isEmpty {
-            return "SpeakSwiftlyServer is running with warnings."
-        }
-
-        if let startupError = server.overview.startupError, !startupError.isEmpty {
-            return "SpeakSwiftlyServer hit a startup problem."
-        }
-
-        if server.playback.state == "playing" {
-            return "SpeakSwiftlyServer is playing audio."
-        }
-
-        if server.playback.state == "paused" {
-            return "SpeakSwiftlyServer playback is paused."
-        }
-
-        if server.overview.workerStage == "resident_models_unloaded" {
-            return "SpeakSwiftlyServer is ready with models unloaded."
-        }
-
-        switch server.overview.serverMode {
-            case "broken":
-                return "SpeakSwiftlyServer is unavailable."
-            case "degraded":
-                return "SpeakSwiftlyServer is degraded."
-            case "ready":
-                return "SpeakSwiftlyServer is ready."
-            default:
-                return "SpeakSwiftlyServer is starting."
-        }
+        MenuBarDisplaySupport.statusHeadline(
+            autostartEnabled: autostartEnabled,
+            recentErrorMessage: server.recentErrors.first?.message,
+            startupError: server.overview.startupError,
+            playbackState: server.playback.state,
+            workerStage: server.overview.workerStage,
+            serverMode: server.overview.serverMode
+        )
     }
 
     private var statusDetail: String {
-        if !autostartEnabled {
-            return "Embedded autostart is disabled, so SayBar has not started the in-process runtime."
-        }
-
-        if let actionMessage, !actionMessage.isEmpty {
-            return actionMessage
-        }
-
-        if let recentError = server.recentErrors.first?.message, !recentError.isEmpty {
-            return recentError
-        }
-
-        if let startupError = server.overview.startupError, !startupError.isEmpty {
-            return startupError
-        }
-
-        if server.playback.state == "playing", let requestID = server.playback.activeRequest?.id {
-            return "Playback is active for request \(requestID)."
-        }
-
-        if server.playback.state == "paused" {
-            return "The current playback queue is paused and can resume immediately."
-        }
-
-        if server.overview.workerStage == "resident_models_unloaded" {
-            return "Use the power control to load the resident model again before the next speech request."
-        }
-
-        if server.overview.workerReady || server.overview.serverMode == "ready" {
-            return "The embedded runtime is ready for voice, playback, and queue actions."
-        }
-
-        switch server.overview.workerStage {
-            case "resident_model_ready":
-                return "The embedded runtime is live and the resident model is loaded."
-            case "resident_models_unloaded":
-                return "The embedded runtime is live, but resident models are currently unloaded."
-            case "starting":
-                return "The embedded runtime is still starting inside SayBar."
-            default:
-                return "The embedded runtime is currently reporting worker stage \(server.overview.workerStage)."
-        }
+        MenuBarDisplaySupport.statusDetail(
+            autostartEnabled: autostartEnabled,
+            actionMessage: actionMessage,
+            recentErrorMessage: server.recentErrors.first?.message,
+            startupError: server.overview.startupError,
+            playbackState: server.playback.state,
+            activePlaybackRequestID: server.playback.activeRequest?.id,
+            workerStage: server.overview.workerStage,
+            workerReady: server.overview.workerReady,
+            serverMode: server.overview.serverMode
+        )
     }
 
     private var queueSlotCount: Int {
-        min(server.generationQueue.activeCount + server.generationQueue.queuedCount, 8)
+        MenuBarDisplaySupport.queueSlotCount(
+            activeCount: server.generationQueue.activeCount,
+            queuedCount: server.generationQueue.queuedCount
+        )
     }
 
     private var selectedVoiceProfileName: String {
-        server.overview.defaultVoiceProfileName ?? server.voiceProfiles.first?.profileName ?? ""
+        MenuBarDisplaySupport.selectedVoiceProfileName(
+            defaultVoiceProfileName: server.overview.defaultVoiceProfileName,
+            firstProfileName: server.voiceProfiles.first?.profileName
+        )
     }
 
     private var selectedBackend: SpeakSwiftly.SpeechBackend {
@@ -132,18 +81,11 @@ struct MenuBarExtraWindow: View {
     }
 
     private var powerSymbolName: String {
-        server.overview.workerStage == "resident_models_unloaded" ? "power.circle" : "power.circle.fill"
+        MenuBarDisplaySupport.powerSymbolName(workerStage: server.overview.workerStage)
     }
 
     private var playbackSymbolName: String {
-        switch server.playback.state {
-            case "playing":
-                "pause.fill"
-            case "paused":
-                "play.fill"
-            default:
-                "clipboard"
-        }
+        MenuBarDisplaySupport.playbackSymbolName(playbackState: server.playback.state)
     }
 
     // MARK: Main View Body

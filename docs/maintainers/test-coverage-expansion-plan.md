@@ -31,10 +31,12 @@ The checked-in `SayBar` test plan includes:
 Current test coverage is intentionally narrow:
 
 - `SayBarAppEnvironmentTests` covers autostart argument parsing and runtime profile-root resolution
+- `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
+- `SettingsDisplaySupportTests` covers Settings transport summary formatting
 - `SayBarUITests` covers launch and termination with embedded autostart disabled
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
 
-The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run.
+The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime.
 
 ## Expansion Sequence
 
@@ -47,9 +49,9 @@ Planned coverage:
 - keep `SayBar.xctestplan` as the default test plan for the `SayBar` scheme
 - verify the test plan remains discoverable with `xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar`
 - expand `SayBarAppEnvironmentTests` around launch-argument behavior and runtime profile path construction
-- add focused tests for app status mapping once status wording is factored into a small testable unit
-- add focused tests for queue-count clamping once queue display mapping is factored into a small testable unit
-- add focused tests for transport summary formatting once the Settings transport summary is factored into a small testable unit
+- add focused tests for app status mapping once status wording is factored into a small testable unit: done for menu status headline/detail
+- add focused tests for queue-count clamping once queue display mapping is factored into a small testable unit: done for menu queue slots
+- add focused tests for transport summary formatting once the Settings transport summary is factored into a small testable unit: done
 - add focused tests for recent-error precedence once menu status selection is factored into a small testable unit
 
 Implementation notes:
