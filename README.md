@@ -92,6 +92,7 @@ The maintainer docs are split intentionally:
 - [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md) records the accepted direct-`EmbeddedServer` product baseline.
 - [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) records the current app architecture around one app-owned `EmbeddedServer`.
 - [docs/maintainers/embedded-session-api-coverage.md](docs/maintainers/embedded-session-api-coverage.md) records the complete embedded session API coverage matrix.
+- [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md) records the staged test coverage plan.
 - [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
 
 Primary project configuration:
@@ -111,8 +112,9 @@ For app work, prefer a scheme-based Xcode validation pass:
 
 ```sh
 xcodebuild -list -project SayBar.xcodeproj
+xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar
 xcodebuild -project SayBar.xcodeproj -scheme SayBar build
-xcodebuild -project SayBar.xcodeproj -scheme SayBar test
+xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar
 ```
 
 Keep heavy build and test commands serialized on this machine. Do not run concurrent Xcode or SwiftPM validation flows.

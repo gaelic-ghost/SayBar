@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "6626272E-6D78-442E-B623-51EF67490D5C",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:SayBar.xcodeproj",
+      "identifier" : "49220E7E2F7ADE5A00A94BD8",
+      "name" : "SayBar"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:SayBar.xcodeproj",
+        "identifier" : "49220E8D2F7ADE5B00A94BD8",
+        "name" : "SayBarTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:SayBar.xcodeproj",
+        "identifier" : "49220E972F7ADE5B00A94BD8",
+        "name" : "SayBarUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -64,12 +64,12 @@ struct SettingsTransportDiagnosticsSection: View {
     }
 
     private func transportSummary(_ transport: TransportStatusSnapshot) -> String {
-        let address = [transport.host, transport.port.map(String.init)].compactMap { $0 }.joined(separator: ":")
-        let path = transport.path ?? "/"
-        if address.isEmpty {
-            return "\(transport.state) at \(path)"
-        }
-        return "\(transport.state) at \(address)\(path)"
+        SettingsDisplaySupport.transportSummary(
+            state: transport.state,
+            host: transport.host,
+            port: transport.port,
+            path: transport.path
+        )
     }
 }
 
