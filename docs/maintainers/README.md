@@ -4,7 +4,7 @@ This directory holds the architecture and product-shape notes for the standalone
 
 Use these docs in this order:
 
-1. [adr-0001-keep-embedded-session-architecture.md](adr-0001-keep-embedded-session-architecture.md)
+1. [adr-0001-keep-direct-embeddedserver-baseline.md](adr-0001-keep-direct-embeddedserver-baseline.md)
    This is the short architecture decision record for the accepted direct-`EmbeddedServer` app baseline.
 2. [embedded-server-ui-architecture.md](embedded-server-ui-architecture.md)
    This is the current implementation note for SayBar's thin-shell architecture around one app-owned `EmbeddedServer`.

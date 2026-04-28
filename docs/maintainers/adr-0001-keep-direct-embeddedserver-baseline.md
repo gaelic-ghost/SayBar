@@ -37,4 +37,4 @@ This keeps the app boundary flat and easier to reason about:
 - SayBar can focus on menu bar presentation, settings diagnostics, and native macOS affordances
 - docs and tests can describe one app-owned model instead of multiple overlapping ownership layers
 
-The newer standalone-install and retained-log helper APIs in `SpeakSwiftlyServer` remain available for future product work, but they are not part of the current SayBar baseline until the app intentionally grows a standalone-server mode.
+The newer `ServerInstallLayout` and `ServerInstalledLogs` helper APIs in `SpeakSwiftlyServer` remain available for future product work, but they are not part of the current SayBar baseline until the app intentionally grows a standalone-server mode.

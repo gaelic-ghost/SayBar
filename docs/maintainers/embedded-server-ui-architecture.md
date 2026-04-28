@@ -31,7 +31,7 @@ SayBar is intentionally not adopting the standalone-install helper surface yet. 
 
 ## Lifecycle Ownership
 
-Apple's Observation guidance for `@Observable` reference models is to keep app-owned model instances in SwiftUI `@State`, and `SpeakSwiftlyServer` now documents the embedded app contract the same way.
+Apple's SwiftUI app model makes the `App` conformer the app entry point and composes app UI from scenes. `SpeakSwiftlyServer` documents `EmbeddedServer` as the one long-lived app-owned object for the embedded runtime, and SayBar keeps that model in SwiftUI `@State` at the `App` boundary.
 
 SayBar follows that model directly:
 

@@ -89,7 +89,7 @@ The current package dependency surface in this repo is centered on `SpeakSwiftly
 The maintainer docs are split intentionally:
 
 - [docs/maintainers/README.md](docs/maintainers/README.md) is the maintainer-doc index and recommended reading order.
-- [docs/maintainers/adr-0001-keep-embedded-session-architecture.md](docs/maintainers/adr-0001-keep-embedded-session-architecture.md) records the accepted direct-`EmbeddedServer` product baseline.
+- [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md) records the accepted direct-`EmbeddedServer` product baseline.
 - [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) records the current app architecture around one app-owned `EmbeddedServer`.
 - [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
 
@@ -100,7 +100,7 @@ Primary project configuration:
 - App marketing version: `0.1.0`
 - App deployment target: macOS `15.6`
 - Test targets: `SayBarTests`, `SayBarUITests`
-- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer)
+- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `4.3.10`
 
 The project also exposes package-managed schemes for the server package, but app-facing work in this repository should stay centered on the `SayBar` scheme unless a task explicitly targets package internals.
 

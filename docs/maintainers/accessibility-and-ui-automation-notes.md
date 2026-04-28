@@ -33,11 +33,7 @@ Relevant source files:
 
 The old controller-era guidance in this repo is obsolete now.
 
-SayBar no longer keeps:
-
-- an app-owned `SpeakSwiftlyController`
-- an optional `EmbeddedServerSession`
-- an app-owned `ServerState` wrapper
+SayBar no longer keeps older controller, session-wrapper, or mirrored server-state types at the app boundary.
 
 The current stable rule is simpler:
 
