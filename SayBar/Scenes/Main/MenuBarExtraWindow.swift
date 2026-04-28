@@ -166,12 +166,13 @@ private extension MenuBarExtraWindow {
         Task { @MainActor in
             isRunningModelAction = true
             do {
-                if server.overview.workerStage == "resident_models_unloaded" {
-                    _ = try await server.reloadModels()
-                    actionMessage = "Resident models are loaded again."
-                } else {
-                    _ = try await server.unloadModels()
-                    actionMessage = "Resident models are unloaded."
+                switch MenuBarActionSupport.residentModelCommand(workerStage: server.overview.workerStage) {
+                    case .reload:
+                        _ = try await server.reloadModels()
+                        actionMessage = "Resident models are loaded again."
+                    case .unload:
+                        _ = try await server.unloadModels()
+                        actionMessage = "Resident models are unloaded."
                 }
             } catch {
                 handleActionError(
@@ -186,8 +187,8 @@ private extension MenuBarExtraWindow {
     @MainActor
     func handlePlaybackButton() {
         Task { @MainActor in
-            switch server.playback.state {
-                case "playing":
+            switch MenuBarActionSupport.playbackCommand(playbackState: server.playback.state) {
+                case .pause:
                     do {
                         _ = try await server.pausePlayback()
                         actionMessage = "Playback is paused."
@@ -197,7 +198,7 @@ private extension MenuBarExtraWindow {
                             fallbackMessage: "SayBar could not pause playback."
                         )
                     }
-                case "paused":
+                case .resume:
                     do {
                         _ = try await server.resumePlayback()
                         actionMessage = "Playback resumed."
@@ -207,7 +208,7 @@ private extension MenuBarExtraWindow {
                             fallbackMessage: "SayBar could not resume playback."
                         )
                     }
-                default:
+                case .submitClipboardSpeech:
                     await submitClipboardSpeech()
             }
         }
@@ -215,9 +216,9 @@ private extension MenuBarExtraWindow {
 
     @MainActor
     func submitClipboardSpeech() async {
-        let pastedText = NSPasteboard.general
-            .string(forType: .string)?
-            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let pastedText = MenuBarActionSupport.normalizedClipboardText(
+            NSPasteboard.general.string(forType: .string)
+        )
 
         guard !pastedText.isEmpty else {
             actionMessage = "The clipboard does not contain text to speak."
