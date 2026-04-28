@@ -17,6 +17,7 @@
 - [x] M2. Status-driven menu bar experience
 - [ ] M3. Settings, diagnostics, and operator workflow
 - [ ] M4. Release and monorepo integration discipline
+- [ ] M5. Foundation and embedded-session test coverage
 
 ## M1. App shell foundation and service-hosting boundaries
 
@@ -87,6 +88,7 @@
 
 - The accepted architecture decision is recorded in [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md).
 - Launch, terminate, and relaunch behavior is now explicit in app code and covered by launch-only UI tests with embedded autostart disabled. A fuller runtime-on verification pass remains open work.
+- The next coverage sequence is recorded in [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md).
 - Future attached-session or bundled-helper exploration remains a separate product decision, not an implied follow-up to the current roadmap.
 
 ## M4. Release and monorepo integration discipline
@@ -106,3 +108,24 @@
 
 - [ ] Standalone app releases remain the source of truth.
 - [ ] Monorepo integration work follows an isolated worktree and PR-based flow.
+
+## M5. Foundation and embedded-session test coverage
+
+### Scope
+
+- Expand test coverage in the order that keeps SayBar easiest to reason about: foundation tests first, implemented embedded-session behavior next, UI implementation streamlining before deeper Settings and UI automation coverage.
+
+### Tickets
+
+- [x] Add a checked-in `SayBar.xctestplan` and wire it to the shared `SayBar` scheme.
+- [ ] Expand app-foundation tests for environment parsing, profile path construction, status mapping, queue display mapping, transport summaries, and recent-error precedence.
+- [ ] Cover implemented embedded-session actions for lifecycle, voice refresh, default voice selection, backend switching, resident model reload/unload, playback pause/resume, and clipboard speech submission.
+- [ ] Review and streamline menu and Settings view implementations before adding deeper UI assertions.
+- [ ] Add Settings and menu bar UI coverage after the view implementations are simpler and more testable.
+
+### Exit criteria
+
+- [ ] `xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar` reports the checked-in `SayBar` test plan.
+- [ ] `xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar` is the documented baseline test command.
+- [ ] Implemented embedded-session behavior has focused coverage without adding a second app-owned runtime model.
+- [ ] UI coverage starts from a streamlined, stable menu and Settings implementation.

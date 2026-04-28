@@ -34,6 +34,7 @@
 		496E0E122F7F3F110027D8C1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		496E0E142F7F3F250027D8C1 /* ROADMAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ROADMAP.md; sourceTree = "<group>"; };
 		496E0E162F7F3F3C0027D8C1 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
+		49A281BD2FA158AC00ECA1F0 /* SayBar.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SayBar.xctestplan; sourceTree = "<group>"; };
 		49A9433F2F855A5900F4016C /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		49A943412F855A6300F4016C /* FIXME.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXME.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +91,7 @@
 		49220E762F7ADE5A00A94BD8 = {
 			isa = PBXGroup;
 			children = (
+				49A281BD2FA158AC00ECA1F0 /* SayBar.xctestplan */,
 				49A943432F855A6900F4016C /* docs */,
 				49A943412F855A6300F4016C /* FIXME.md */,
 				49A9433F2F855A5900F4016C /* TODO.md */,
