@@ -23,7 +23,7 @@
 ### Scope
 
 - Stabilize the standalone macOS app shell.
-- Replace placeholder UI with real app-owned state and service hooks.
+- Replace scaffold UI with real app-owned state and service hooks.
 - Document the app's development and integration boundaries clearly.
 
 ### Tickets
@@ -36,7 +36,7 @@
 
 ### Exit criteria
 
-- [x] The app surfaces real status instead of placeholder text.
+- [x] The app surfaces real status instead of scaffold text.
 - [x] The first hosted-service integration path is documented and implemented without duplicate service logic in the app repo.
 - [x] The standalone repo docs accurately describe the app's role and current state.
 
@@ -63,7 +63,7 @@
 ### Scope
 
 - Move deeper configuration and diagnostics into the Settings experience.
-- Keep the embedded-session operator surface grounded while hardening the accepted embedded-session product model.
+- Keep the embedded runtime operator surface grounded while hardening the accepted direct-`EmbeddedServer` product model.
 
 ### Tickets
 
@@ -79,13 +79,13 @@
 
 - [x] Settings owns deeper configuration and diagnostics cleanly.
 - [x] Operator-facing failures are specific, readable, and actionable.
-- [x] The current embedded-session operator surface is implemented and documented.
+- [x] The current embedded runtime operator surface is implemented and documented.
 - [x] The app's product-baseline process-ownership model is explicit.
 - [ ] App lifecycle behavior is explicit across launch and shutdown.
 
 ### Notes
 
-- The accepted architecture decision is recorded in [docs/maintainers/adr-0001-keep-embedded-session-architecture.md](docs/maintainers/adr-0001-keep-embedded-session-architecture.md).
+- The accepted architecture decision is recorded in [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md).
 - Launch, terminate, and relaunch behavior is now explicit in app code and covered by launch-only UI tests with embedded autostart disabled. A fuller runtime-on verification pass remains open work.
 - Future attached-session or bundled-helper exploration remains a separate product decision, not an implied follow-up to the current roadmap.
 

@@ -38,7 +38,7 @@ final class SayBarUITests: XCTestCase {
 
 		XCTAssertTrue(
 			launchedInForeground || launchedInBackground,
-			"SayBar should finish launching for UI tests even when embedded-session autostart is disabled.",
+			"SayBar should finish launching for UI tests even when embedded-runtime autostart is disabled.",
 			file: file,
 			line: line,
 		)

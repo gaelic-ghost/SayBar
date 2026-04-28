@@ -16,7 +16,7 @@ Use this file for durable repo-local guidance before changing code, docs, projec
 
 - Start with [README.md](README.md) for the current product shape, app architecture, setup, validation, and release entrypoints.
 - Read [docs/maintainers/README.md](docs/maintainers/README.md) for the maintainer-doc index and recommended reading order.
-- Use [docs/maintainers/adr-0001-keep-embedded-session-architecture.md](docs/maintainers/adr-0001-keep-embedded-session-architecture.md) and [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) as the current architecture records for direct `EmbeddedServer` ownership.
+- Use [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md) and [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) as the current architecture records for direct `EmbeddedServer` ownership.
 - Use `SayBar/SayBarApp.swift`, `SayBar/Scenes/Main/MenuBarExtraWindow.swift`, and `SayBar/Scenes/Settings/SettingsWindow.swift` as the main app-flow anchors.
 - Use `scripts/repo-maintenance/` for local validation, shared sync, and release automation.
 
@@ -40,6 +40,7 @@ Use this file for durable repo-local guidance before changing code, docs, projec
 - Older references to `apple-xcode-workflow` should be treated as mapping forward to `Apple Dev Skills:xcode-app-project-workflow`.
 - Read relevant Apple documentation before making architecture or lifecycle decisions for SwiftUI, `MenuBarExtra`, app scenes, settings windows, app lifecycle, service management, or any SwiftData use in this repository.
 - Prefer Xcode-aware tooling and project-safe workflows over manual project-file edits.
+- Never edit `.pbxproj` files directly.
 - Never edit `SayBar.xcodeproj/project.pbxproj` directly. If a project configuration change is required, make it through Xcode or another project-aware workflow.
 
 ### Communication and Escalation
