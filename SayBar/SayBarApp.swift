@@ -41,17 +41,19 @@ struct SayBarApp: App {
 			autostartEnabled: autostartEnabled,
 		)
 
-		guard autostartEnabled else {
-			return
-		}
-
 		Task { @MainActor in
-			do {
-				try await server.liftoff()
-				_ = try? await server.refreshVoiceProfiles()
-			} catch {
-				Self.logger.error("SayBar could not start the embedded SpeakSwiftlyServer runtime during app launch. Likely cause: \(error.localizedDescription)")
-			}
+			_ = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfNeeded(
+				autostartEnabled: autostartEnabled,
+				liftoff: {
+					try await server.liftoff()
+				},
+				refreshVoiceProfiles: {
+					_ = try await server.refreshVoiceProfiles()
+				},
+				logStartupError: { error in
+					Self.logger.error("SayBar could not start the embedded SpeakSwiftlyServer runtime during app launch. Likely cause: \(error.localizedDescription)")
+				},
+			)
 		}
 	}
 
@@ -110,34 +112,44 @@ private final class SayBarTerminationCoordinator {
 	}
 
 	func beginTermination() -> SayBarTerminationCoordinator? {
-		guard autostartEnabled, let server else {
-			return nil
-		}
+		let request = SayBarAppLifecycleSupport.terminationRequest(
+			autostartEnabled: autostartEnabled,
+			serverIsAvailable: server != nil,
+			isTerminationInFlight: isTerminationInFlight,
+		)
 
-		guard !isTerminationInFlight else {
-			return self
+		switch request {
+			case .terminateNow:
+				return nil
+			case .finishExistingTermination:
+				return self
+			case .startNewTermination:
+				isTerminationInFlight = true
+				return self
 		}
-
-		self.server = server
-		isTerminationInFlight = true
-		return self
 	}
 
 	func finishTermination() async {
 		defer {
 			isTerminationInFlight = false
-			NSApp.reply(toApplicationShouldTerminate: true)
 		}
 
 		guard let server else {
+			NSApp.reply(toApplicationShouldTerminate: true)
 			return
 		}
 
-		do {
-			try await server.land()
-		} catch {
-			Self.logger.error("SayBar could not stop the embedded SpeakSwiftlyServer runtime before app termination. Likely cause: \(error.localizedDescription)")
-		}
+		await SayBarAppLifecycleSupport.finishTermination(
+			land: {
+				try await server.land()
+			},
+			replyToApplicationShouldTerminate: { shouldTerminate in
+				NSApp.reply(toApplicationShouldTerminate: shouldTerminate)
+			},
+			logTerminationError: { error in
+				Self.logger.error("SayBar could not stop the embedded SpeakSwiftlyServer runtime before app termination. Likely cause: \(error.localizedDescription)")
+			},
+		)
 	}
 }
 

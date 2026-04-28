@@ -31,6 +31,7 @@ The checked-in `SayBar` test plan includes:
 Current test coverage is intentionally narrow:
 
 - `SayBarAppEnvironmentTests` covers autostart argument parsing and runtime profile-root resolution
+- `SayBarAppLifecycleSupportTests` covers embedded runtime startup, disabled autostart, initial voice refresh, startup failure logging, termination request selection, and land-before-quit reply behavior
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
@@ -68,20 +69,21 @@ Goal: cover every `EmbeddedServer` surface SayBar already uses, without widening
 
 Planned coverage:
 
-- embedded lifecycle startup path: `SayBarApp` calls `liftoff()` when autostart is enabled
-- embedded lifecycle disabled path: `SayBarApp` does not call `liftoff()` when `--saybar-disable-autostart` is present
-- quit path: termination requests `land()` when autostart was enabled
-- voice profile refresh path: empty profile cache triggers `refreshVoiceProfiles()`
-- voice selection path: picker selection calls `setDefaultVoiceProfileName(_:)`
-- backend selection path: picker selection calls `switchSpeechBackend(to:)`
+- embedded lifecycle startup path: `SayBarApp` calls `liftoff()` when autostart is enabled: covered through the local app lifecycle seam
+- embedded lifecycle disabled path: `SayBarApp` does not call `liftoff()` when `--saybar-disable-autostart` is present: covered through environment parsing plus the local app lifecycle seam
+- quit path: termination requests `land()` when autostart was enabled: covered through the local app lifecycle seam
+- voice profile refresh path: empty profile cache triggers `refreshVoiceProfiles()`: covered through the local menu action seam
+- voice selection path: picker selection calls `setDefaultVoiceProfileName(_:)`: covered through the local menu action seam
+- backend selection path: picker selection calls `switchSpeechBackend(to:)`: covered through the local menu action seam
 - resident model power path: unloaded models call `reloadModels()`, loaded models call `unloadModels()`: command routing covered
 - playback button path: playing calls `pausePlayback()`, paused calls `resumePlayback()`, idle submits clipboard speech: command routing covered
 - clipboard speech path: empty clipboard reports a local message; non-empty clipboard calls `queueLiveSpeech(text:)`: covered through the local menu action seam
-- observable state consumption: menu and Settings read `overview`, `generationQueue`, `playbackQueue`, `playback`, `runtimeConfiguration`, `voiceProfiles`, `transports`, and `recentErrors` directly
+- observable state consumption: menu and Settings read `overview`, `generationQueue`, `playbackQueue`, `playback`, `runtimeConfiguration`, `voiceProfiles`, `transports`, and `recentErrors` directly; display mapping is covered for menu status, queue slots, selected voice fallback, controls, and Settings transport summaries, while deeper presentation checks belong to Phase 4 after the UI streamlining pass
 
 Implementation notes:
 
 - add test seams only where the current direct `EmbeddedServer` baseline cannot otherwise be observed: currently `MenuBarActionSupport` accepts async closures for the real server calls while `MenuBarExtraWindow` keeps direct `EmbeddedServer` ownership
+- `SayBarAppLifecycleSupport` applies the same seam shape to startup and termination: `SayBarApp` and `SayBarTerminationCoordinator` still perform the real `EmbeddedServer` calls, while tests observe the decisions through async closures
 - if a seam is needed, keep it as a local implementation detail for app action testing, not as a new app-owned runtime model
 - do not adopt `ServerInstallLayout`, `ServerInstalledLogs`, LaunchAgent install helpers, or standalone-server paths in this phase
 - runtime-on integration tests should be explicit and isolated from the existing autostart-disabled shell UI tests
