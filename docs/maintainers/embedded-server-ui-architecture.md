@@ -29,6 +29,8 @@ Because the package already owns those responsibilities, SayBar should stay focu
 
 SayBar is intentionally not adopting the standalone-install helper surface yet. That part of the package is useful future app-facing API, but the current product baseline is still the embedded runtime that lives inside the app process.
 
+See [embedded-session-api-coverage.md](embedded-session-api-coverage.md) for the complete matrix of available embedded session API surfaces, current SayBar implementation coverage, and future-scope gaps.
+
 ## Lifecycle Ownership
 
 Apple's SwiftUI app model makes the `App` conformer the app entry point and composes app UI from scenes. `SpeakSwiftlyServer` documents `EmbeddedServer` as the one long-lived app-owned object for the embedded runtime, and SayBar keeps that model in SwiftUI `@State` at the `App` boundary.
