@@ -138,6 +138,7 @@ There are no deeper repo-local `AGENTS.md` files in this repository right now. I
 - Keep data flow straight and dependency direction unidirectional.
 - Treat the `.xcworkspace` or `.xcodeproj` as the source of truth for app integration, schemes, and build settings.
 - Prefer Xcode-aware tooling or `xcodebuild` over ad hoc filesystem assumptions when project structure or target membership is involved.
+- Never edit `.pbxproj` files directly. When Xcode or another project-aware workflow legitimately changes the tracked `.pbxproj`, treat that diff as critical project state: review it, stage it, and commit it with the branch before any push, merge, release, or cleanup.
 - Prefer Swift Testing for modern unit-style tests, keep XCTest where Apple tooling or dependencies still require it, and use XCUITest with explicit element wait APIs instead of fixed sleeps.
 - Keep `.xctestplan` files versioned when the project depends on repeatable test-plan configurations, and inspect or run them explicitly with `xcodebuild -showTestPlans` and `xcodebuild -testPlan ...`.
 - Treat accessibility semantics and Apple UI accessibility review as a separate concern from UI automation; use `apple-ui-accessibility-workflow` for the semantic side and `xcode-testing-workflow` for runtime verification and XCUITest follow-through.
