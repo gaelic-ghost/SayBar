@@ -7,6 +7,7 @@
 
 import Foundation
 import SpeakSwiftly
+import TextForSpeech
 
 enum MenuBarActionSupport {
     enum ResidentModelCommand: Equatable {
@@ -42,6 +43,16 @@ enum MenuBarActionSupport {
 
     nonisolated static func normalizedClipboardText(_ text: String?) -> String {
         text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    }
+
+    nonisolated static func clipboardSpeechRequestContext() -> SpeakSwiftly.RequestContext {
+        SpeakSwiftly.RequestContext(
+            source: "menu_bar_clipboard",
+            app: "SayBar",
+            attributes: [
+                "saybar.action": "clipboard_speech",
+            ]
+        )
     }
 
     @MainActor
@@ -81,7 +92,7 @@ enum MenuBarActionSupport {
     @MainActor
     static func queueClipboardSpeech(
         clipboardText: String?,
-        queueLiveSpeech: (String) async throws -> Void
+        queueLiveSpeech: (String, SpeakSwiftly.RequestContext) async throws -> Void
     ) async throws -> ClipboardSpeechResult {
         let pastedText = normalizedClipboardText(clipboardText)
 
@@ -89,7 +100,7 @@ enum MenuBarActionSupport {
             return .emptyClipboard
         }
 
-        try await queueLiveSpeech(pastedText)
+        try await queueLiveSpeech(pastedText, clipboardSpeechRequestContext())
         return .queued
     }
 }

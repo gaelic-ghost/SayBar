@@ -77,7 +77,7 @@ Planned coverage:
 - backend selection path: picker selection calls `switchSpeechBackend(to:)`: covered through the local menu action seam
 - resident model power path: unloaded models call `reloadModels()`, loaded models call `unloadModels()`: command routing covered
 - playback button path: playing calls `pausePlayback()`, paused calls `resumePlayback()`, idle submits clipboard speech: command routing covered
-- clipboard speech path: empty clipboard reports a local message; non-empty clipboard calls `queueLiveSpeech(text:)`: covered through the local menu action seam
+- clipboard speech path: empty clipboard reports a local message; non-empty clipboard calls `queueLiveSpeech(text:requestContext:)` with SayBar clipboard request metadata: covered through the local menu action seam
 - observable state consumption: menu and Settings read `overview`, `generationQueue`, `playbackQueue`, `playback`, `runtimeConfiguration`, `voiceProfiles`, `transports`, and `recentErrors` directly; display mapping is covered for menu status, queue slots, selected voice fallback, controls, and Settings transport summaries, while deeper presentation checks belong to Phase 4 after the UI streamlining pass
 
 Implementation notes:
