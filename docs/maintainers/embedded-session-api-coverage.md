@@ -2,7 +2,7 @@
 
 ## Source Of Truth
 
-This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `4.3.10`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
+This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `5.0.0`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
 
 The current SayBar product baseline is still embedded-runtime-first. That means `EmbeddedServer` is in scope for active app behavior, while standalone LaunchAgent install helpers remain future-scope until SayBar intentionally grows an app-managed standalone-server mode.
 
@@ -119,7 +119,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `recentErrors[].message` | `RecentErrorSnapshot` | Implemented | Displayed in menu status detail and Settings error row detail. |
 | `listVoiceProfiles()` | `EmbeddedServer` | Not used | Redundant for current UI because SwiftUI reads the observable `voiceProfiles` property directly. |
 | `refreshVoiceProfiles()` | `EmbeddedServer` | Implemented | Called after startup and when the menu opens with an empty profile cache. |
-| `queueLiveSpeech(text:profileName:textProfileID:normalizationContext:sourceFormat:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text while leaving profile, text profile, normalization, source format, request context, and chunking options at their defaults. |
+| `queueLiveSpeech(text:profileName:textProfileID:sourceFormat:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text while leaving profile, text profile, source format, request context, and chunking options at their defaults. |
 | `setDefaultVoiceProfileName(_:)` | `EmbeddedServer` | Implemented | Voice-profile picker updates the embedded host's default voice profile. |
 | `clearDefaultVoiceProfileName()` | `EmbeddedServer` | Not used | Available for a future reset/default-profile UI action. |
 | `switchSpeechBackend(to:)` | `EmbeddedServer` | Implemented | Speech-backend picker switches the running runtime backend. |
