@@ -1,5 +1,6 @@
 @testable import SayBar
 import SpeakSwiftly
+import TextForSpeech
 import XCTest
 
 @MainActor
@@ -30,6 +31,14 @@ final class MenuBarActionSupportTests: XCTestCase {
         XCTAssertEqual(MenuBarActionSupport.normalizedClipboardText("  Speak this.\n"), "Speak this.")
         XCTAssertEqual(MenuBarActionSupport.normalizedClipboardText("\n\t "), "")
         XCTAssertEqual(MenuBarActionSupport.normalizedClipboardText(nil), "")
+    }
+
+    func testClipboardSpeechRequestContextIdentifiesSayBarClipboardAction() {
+        let context = MenuBarActionSupport.clipboardSpeechRequestContext()
+
+        XCTAssertEqual(context.source, "menu_bar_clipboard")
+        XCTAssertEqual(context.app, "SayBar")
+        XCTAssertEqual(context.attributes["saybar.action"], "clipboard_speech")
     }
 
     func testRefreshVoiceProfilesRunsOnlyWhenCacheIsEmpty() async throws {
@@ -95,24 +104,29 @@ final class MenuBarActionSupportTests: XCTestCase {
 
     func testQueueClipboardSpeechSkipsEmptyClipboardAndQueuesTrimmedText() async throws {
         var queuedTexts: [String] = []
+        var queuedContexts: [SpeakSwiftly.RequestContext] = []
         let emptyResult = try await MenuBarActionSupport.queueClipboardSpeech(
             clipboardText: " \n\t ",
-            queueLiveSpeech: { text in
+            queueLiveSpeech: { text, context in
                 queuedTexts.append(text)
+                queuedContexts.append(context)
             }
         )
 
         XCTAssertEqual(emptyResult, .emptyClipboard)
         XCTAssertTrue(queuedTexts.isEmpty)
+        XCTAssertTrue(queuedContexts.isEmpty)
 
         let queuedResult = try await MenuBarActionSupport.queueClipboardSpeech(
             clipboardText: "\nSpeak this, please. ",
-            queueLiveSpeech: { text in
+            queueLiveSpeech: { text, context in
                 queuedTexts.append(text)
+                queuedContexts.append(context)
             }
         )
 
         XCTAssertEqual(queuedResult, .queued)
         XCTAssertEqual(queuedTexts, ["Speak this, please."])
+        XCTAssertEqual(queuedContexts, [MenuBarActionSupport.clipboardSpeechRequestContext()])
     }
 }

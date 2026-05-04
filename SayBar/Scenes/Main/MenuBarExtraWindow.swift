@@ -233,8 +233,11 @@ private extension MenuBarExtraWindow {
         do {
             let result = try await MenuBarActionSupport.queueClipboardSpeech(
                 clipboardText: clipboardText,
-                queueLiveSpeech: { pastedText in
-                    _ = try await server.queueLiveSpeech(text: pastedText)
+                queueLiveSpeech: { pastedText, requestContext in
+                    _ = try await server.queueLiveSpeech(
+                        text: pastedText,
+                        requestContext: requestContext
+                    )
                 }
             )
             switch result {

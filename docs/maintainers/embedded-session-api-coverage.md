@@ -119,7 +119,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `recentErrors[].message` | `RecentErrorSnapshot` | Implemented | Displayed in menu status detail and Settings error row detail. |
 | `listVoiceProfiles()` | `EmbeddedServer` | Not used | Redundant for current UI because SwiftUI reads the observable `voiceProfiles` property directly. |
 | `refreshVoiceProfiles()` | `EmbeddedServer` | Implemented | Called after startup and when the menu opens with an empty profile cache. |
-| `queueLiveSpeech(text:profileName:textProfileID:sourceFormat:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text while leaving profile, text profile, source format, request context, and chunking options at their defaults. |
+| `queueLiveSpeech(text:profileName:textProfileID:sourceFormat:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text with SayBar clipboard request context while leaving profile, text profile, source format, and chunking options at their defaults. |
 | `setDefaultVoiceProfileName(_:)` | `EmbeddedServer` | Implemented | Voice-profile picker updates the embedded host's default voice profile. |
 | `clearDefaultVoiceProfileName()` | `EmbeddedServer` | Not used | Available for a future reset/default-profile UI action. |
 | `switchSpeechBackend(to:)` | `EmbeddedServer` | Implemented | Speech-backend picker switches the running runtime backend. |
