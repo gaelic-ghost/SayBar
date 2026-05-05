@@ -24,6 +24,7 @@ struct MenuHeaderComponent: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("saybar-status-detail")
         }
+        .accessibilityElement(children: .contain)
     }
 }
 
@@ -36,12 +37,16 @@ struct QueueCountComponent: View {
             Text("\(label): \(summary.activeCount) active, \(summary.queuedCount) queued / \(summary.capacity)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .accessibilityIdentifier("saybar-generation-queue-summary")
             HStack(alignment: .center, spacing: 3) {
                 ForEach(0..<summary.capacity, id: \.self) { index in
                     QueueSlotShape(state: slotState(at: index))
                 }
             }
+            .accessibilityIdentifier("saybar-generation-queue-slots")
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-generation-queue")
     }
 
     private func slotState(at index: Int) -> QueueSlotShape.State {
@@ -115,20 +120,26 @@ struct MenuControlGroupComponent: View {
                 }
                 .disabled(isPowerButtonDisabled)
                 .buttonStyle(.bordered)
+                .accessibilityLabel("Resident Model Power")
+                .accessibilityIdentifier("saybar-resident-model-power")
 
                 Button(action: playbackAction) {
                     Image(systemName: playbackSymbolName)
                 }
                 .disabled(isPlaybackButtonDisabled)
                 .buttonStyle(.bordered)
+                .accessibilityLabel("Playback Or Clipboard Speech")
+                .accessibilityIdentifier("saybar-playback-or-clipboard-speech")
 
                 Button(action: openSettingsAction) {
                     Image(systemName: "gear")
                 }
                 .buttonStyle(.bordered)
+                .accessibilityLabel("Open Settings")
                 .accessibilityIdentifier("saybar-open-settings")
             }
         }
+        .accessibilityElement(children: .contain)
     }
 }
 
@@ -152,6 +163,7 @@ struct MenuPickerComponent: View {
             .pickerStyle(.menu)
             .frame(maxWidth: .infinity)
             .disabled(isVoicePickerDisabled)
+            .accessibilityIdentifier("saybar-voice-profile-picker")
 
             Picker("Speech Backend", selection: $selectedBackend) {
                 ForEach(availableBackends, id: \.self) { backend in
@@ -162,6 +174,9 @@ struct MenuPickerComponent: View {
             .pickerStyle(.menu)
             .frame(maxWidth: .infinity)
             .disabled(isBackendPickerDisabled)
+            .accessibilityIdentifier("saybar-speech-backend-picker")
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-menu-picker-row")
     }
 }

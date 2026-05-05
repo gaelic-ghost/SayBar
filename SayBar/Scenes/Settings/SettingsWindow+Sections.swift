@@ -18,9 +18,13 @@ struct SettingsAppInfoSection: View {
     var body: some View {
         Section("App") {
             LabeledContent("Version", value: buildVersion)
+                .accessibilityIdentifier("saybar-settings-version")
             LabeledContent("Embedded Autostart", value: SettingsDisplaySupport.enabledStatus(autostartEnabled))
+                .accessibilityIdentifier("saybar-settings-embedded-autostart")
             Toggle("Show Menu Bar Extra", isOn: $isMenuBarExtraInserted)
+                .accessibilityIdentifier("saybar-settings-menu-bar-extra-toggle")
         }
+        .accessibilityIdentifier("saybar-settings-app-section")
     }
 }
 
@@ -30,13 +34,18 @@ struct SettingsRuntimeOverviewSection: View {
     var body: some View {
         Section("Runtime") {
             LabeledContent("Status", value: server.overview.serverMode)
+                .accessibilityIdentifier("saybar-settings-runtime-status")
             LabeledContent("Worker Stage", value: server.overview.workerStage)
+                .accessibilityIdentifier("saybar-settings-worker-stage")
             LabeledContent("Playback", value: server.playback.state)
+                .accessibilityIdentifier("saybar-settings-playback-state")
             LabeledContent("Speech Backend", value: server.runtimeConfiguration.activeRuntimeSpeechBackend)
+                .accessibilityIdentifier("saybar-settings-speech-backend")
             LabeledContent(
                 "Default Voice Profile",
                 value: SettingsDisplaySupport.defaultVoiceProfileName(server.overview.defaultVoiceProfileName)
             )
+            .accessibilityIdentifier("saybar-settings-default-voice-profile")
             LabeledContent(
                 "Generation Queue",
                 value: SettingsDisplaySupport.queueCount(
@@ -44,6 +53,7 @@ struct SettingsRuntimeOverviewSection: View {
                     queuedCount: server.generationQueue.queuedCount
                 )
             )
+            .accessibilityIdentifier("saybar-settings-generation-queue")
             LabeledContent(
                 "Playback Queue",
                 value: SettingsDisplaySupport.queueCount(
@@ -51,7 +61,9 @@ struct SettingsRuntimeOverviewSection: View {
                     queuedCount: server.playbackQueue.queuedCount
                 )
             )
+            .accessibilityIdentifier("saybar-settings-playback-queue")
         }
+        .accessibilityIdentifier("saybar-settings-runtime-section")
     }
 }
 
@@ -63,6 +75,7 @@ struct SettingsTransportDiagnosticsSection: View {
             if transports.isEmpty {
                 Text("No operator transports are published yet.")
                     .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("saybar-settings-empty-transports")
             } else {
                 ForEach(Array(transports.enumerated()), id: \.offset) { _, transport in
                     VStack(alignment: .leading, spacing: 4) {
@@ -73,9 +86,11 @@ struct SettingsTransportDiagnosticsSection: View {
                             .foregroundStyle(.secondary)
                     }
                     .padding(.vertical, 2)
+                    .accessibilityIdentifier("saybar-settings-transport-row-\(transport.name)")
                 }
             }
         }
+        .accessibilityIdentifier("saybar-settings-transports-section")
     }
 
     private func transportSummary(_ transport: TransportStatusSnapshot) -> String {
@@ -96,6 +111,7 @@ struct SettingsRecentErrorsSection: View {
             if recentErrors.isEmpty {
                 Text("No recent runtime or transport errors are retained.")
                     .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("saybar-settings-empty-recent-errors")
             } else {
                 ForEach(Array(recentErrors.enumerated()), id: \.offset) { _, error in
                     VStack(alignment: .leading, spacing: 4) {
@@ -106,8 +122,10 @@ struct SettingsRecentErrorsSection: View {
                             .foregroundStyle(.secondary)
                     }
                     .padding(.vertical, 2)
+                    .accessibilityIdentifier("saybar-settings-recent-error-row-\(error.source)")
                 }
             }
         }
+        .accessibilityIdentifier("saybar-settings-recent-errors-section")
     }
 }

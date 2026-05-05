@@ -35,7 +35,7 @@ Current test coverage is intentionally narrow:
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
-- `SayBarUITests` covers launch and termination with embedded autostart disabled
+- `SayBarUITests` covers launch, termination, and the stable menu-shell accessibility surface with embedded autostart disabled
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
 
 The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime.
@@ -105,7 +105,7 @@ Planned cleanup:
 - keep SwiftUI views focused on layout and binding
 - keep menu bar quick actions distinct from Settings diagnostics
 - remove repeated formatting logic from views when a tiny pure helper can carry it
-- keep accessibility identifiers stable for existing and future UI tests
+- keep accessibility identifiers stable for existing and future UI tests: done for the menu shell and Settings sections/rows
 - avoid adding coordinators, command buses, or wrapper models around `EmbeddedServer`
 
 Exit criteria:
@@ -125,7 +125,7 @@ Planned coverage:
 - Runtime section displays status, worker stage, playback, speech backend, default voice profile, generation queue count, and playback queue count
 - Transport section renders empty and populated transport states
 - Recent errors section renders empty and populated error states
-- menu surface exposes stable accessibility identifiers for status, queue, controls, and picker rows
+- menu surface exposes stable accessibility identifiers for status, queue, controls, and picker rows: done for the current menu shell
 - menu quick actions remain available without layout regressions
 
 Implementation notes:

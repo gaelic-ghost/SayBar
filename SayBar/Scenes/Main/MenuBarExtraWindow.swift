@@ -133,6 +133,7 @@ struct MenuBarExtraWindow: View {
         }
         .padding(14)
         .frame(width: 320)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-menu-window")
         .task {
             await refreshVoiceProfilesIfNeeded()
