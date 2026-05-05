@@ -81,6 +81,21 @@ final class SayBarUITests: XCTestCase {
 	}
 
 	@MainActor
+	private func assertTextExists(
+		_ text: String,
+		in app: XCUIApplication,
+		file: StaticString = #filePath,
+		line: UInt = #line
+	) {
+		XCTAssertTrue(
+			app.descendants(matching: .any)[text].exists,
+			"SayBar should render \(text) in the current UI surface.",
+			file: file,
+			line: line,
+		)
+	}
+
+	@MainActor
 	func testAppLaunchesWithoutEmbeddedAutostart() throws {
 		let app = makeApp()
 		launchAndWait(app)
@@ -160,17 +175,40 @@ final class SayBarUITests: XCTestCase {
 			app.descendants(matching: .any)["saybar-open-settings"].click()
 		}
 
-		XCTContext.runActivity(named: "Verify populated diagnostics") { _ in
+		XCTContext.runActivity(named: "Verify fixture-backed app and runtime values") { _ in
 			XCTAssertTrue(
 				app.descendants(matching: .any)["saybar-settings-window"].waitForExistence(timeout: menuTimeout),
 				"SayBar should open fixture-backed Settings through the same menu workflow.",
 			)
+			assertElementExists("saybar-settings-version", in: app)
+			assertElementExists("saybar-settings-embedded-autostart", in: app)
+			assertElementExists("saybar-settings-menu-bar-extra-toggle", in: app)
+			assertElementExists("saybar-settings-runtime-status", in: app)
+			assertElementExists("saybar-settings-worker-stage", in: app)
+			assertElementExists("saybar-settings-playback-state", in: app)
+			assertElementExists("saybar-settings-speech-backend", in: app)
+			assertElementExists("saybar-settings-default-voice-profile", in: app)
+			assertElementExists("saybar-settings-generation-queue", in: app)
+			assertElementExists("saybar-settings-playback-queue", in: app)
+
+			assertTextExists("UI Test Fixture", in: app)
+			assertTextExists("Disabled", in: app)
+			assertTextExists("degraded", in: app)
+			assertTextExists("resident_model_ready", in: app)
+			assertTextExists("paused", in: app)
+			assertTextExists("marvis", in: app)
+			assertTextExists("fixture-femme", in: app)
+			assertTextExists("9", in: app)
+			assertTextExists("4", in: app)
+		}
+
+		XCTContext.runActivity(named: "Verify populated diagnostics") { _ in
 			assertElementExists("saybar-settings-transport-row-HTTP", in: app)
 			assertElementExists("saybar-settings-recent-error-row-Fixture Runtime", in: app)
-			assertElementExists("HTTP", in: app)
-			assertElementExists("ready at 127.0.0.1:7339/mcp", in: app)
-			assertElementExists("Fixture Runtime", in: app)
-			assertElementExists("Fixture warning for Settings diagnostics.", in: app)
+			assertTextExists("HTTP", in: app)
+			assertTextExists("ready at 127.0.0.1:7339/mcp", in: app)
+			assertTextExists("Fixture Runtime", in: app)
+			assertTextExists("Fixture warning for Settings diagnostics.", in: app)
 		}
 	}
 }
