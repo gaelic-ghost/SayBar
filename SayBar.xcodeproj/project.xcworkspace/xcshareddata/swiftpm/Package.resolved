@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/SpeakSwiftlyServer",
       "state" : {
-        "revision" : "bdc82a23d6dd590a924875e9e4833a9b931bd882",
-        "version" : "5.0.2"
+        "revision" : "ca926419a06dd35f3bc749aa1d59d53bdfc4f0b5",
+        "version" : "5.0.3"
       }
     },
     {
