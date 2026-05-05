@@ -13,9 +13,10 @@ final class SayBarUITests: XCTestCase {
 	private let menuTimeout: TimeInterval = 5
 
 	@MainActor
-	private func makeApp() -> XCUIApplication {
+	private func makeApp(additionalLaunchArguments: [String] = []) -> XCUIApplication {
 		let app = XCUIApplication()
 		app.launchArguments.append("--saybar-disable-autostart")
+		app.launchArguments.append(contentsOf: additionalLaunchArguments)
 		return app
 	}
 
@@ -146,6 +147,30 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-settings-playback-queue", in: app)
 			assertElementExists("saybar-settings-transports-section", in: app)
 			assertElementExists("saybar-settings-recent-errors-section", in: app)
+		}
+	}
+
+	@MainActor
+	func testSettingsCanRenderPopulatedFixtureDiagnostics() throws {
+		let app = makeApp(additionalLaunchArguments: ["--saybar-ui-fixture-populated-settings"])
+		launchAndWait(app)
+
+		XCTContext.runActivity(named: "Open fixture-backed Settings") { _ in
+			openMenuExtra(app)
+			app.descendants(matching: .any)["saybar-open-settings"].click()
+		}
+
+		XCTContext.runActivity(named: "Verify populated diagnostics") { _ in
+			XCTAssertTrue(
+				app.descendants(matching: .any)["saybar-settings-window"].waitForExistence(timeout: menuTimeout),
+				"SayBar should open fixture-backed Settings through the same menu workflow.",
+			)
+			assertElementExists("saybar-settings-transport-row-HTTP", in: app)
+			assertElementExists("saybar-settings-recent-error-row-Fixture Runtime", in: app)
+			assertElementExists("HTTP", in: app)
+			assertElementExists("ready at 127.0.0.1:7339/mcp", in: app)
+			assertElementExists("Fixture Runtime", in: app)
+			assertElementExists("Fixture warning for Settings diagnostics.", in: app)
 		}
 	}
 }

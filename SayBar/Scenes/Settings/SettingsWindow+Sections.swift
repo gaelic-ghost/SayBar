@@ -5,21 +5,19 @@
 //  Created by Gale Williams on 3/30/26.
 //
 
-import SpeakSwiftlyServer
 import SwiftUI
 
 struct SettingsAppInfoSection: View {
-    let buildVersion: String
-    let autostartEnabled: Bool
+    let appInfo: SettingsDisplayState.AppInfo
 
     @Binding
     var isMenuBarExtraInserted: Bool
 
     var body: some View {
         Section("App") {
-            LabeledContent("Version", value: buildVersion)
+            LabeledContent("Version", value: appInfo.buildVersion)
                 .accessibilityIdentifier("saybar-settings-version")
-            LabeledContent("Embedded Autostart", value: SettingsDisplaySupport.enabledStatus(autostartEnabled))
+            LabeledContent("Embedded Autostart", value: appInfo.embeddedAutostartStatus)
                 .accessibilityIdentifier("saybar-settings-embedded-autostart")
             Toggle("Show Menu Bar Extra", isOn: $isMenuBarExtraInserted)
                 .accessibilityIdentifier("saybar-settings-menu-bar-extra-toggle")
@@ -30,37 +28,31 @@ struct SettingsAppInfoSection: View {
 }
 
 struct SettingsRuntimeOverviewSection: View {
-    let server: EmbeddedServer
+    let runtimeOverview: SettingsDisplayState.RuntimeOverview
 
     var body: some View {
         Section("Runtime") {
-            LabeledContent("Status", value: server.overview.serverMode)
+            LabeledContent("Status", value: runtimeOverview.status)
                 .accessibilityIdentifier("saybar-settings-runtime-status")
-            LabeledContent("Worker Stage", value: server.overview.workerStage)
+            LabeledContent("Worker Stage", value: runtimeOverview.workerStage)
                 .accessibilityIdentifier("saybar-settings-worker-stage")
-            LabeledContent("Playback", value: server.playback.state)
+            LabeledContent("Playback", value: runtimeOverview.playbackState)
                 .accessibilityIdentifier("saybar-settings-playback-state")
-            LabeledContent("Speech Backend", value: server.runtimeConfiguration.activeRuntimeSpeechBackend)
+            LabeledContent("Speech Backend", value: runtimeOverview.speechBackend)
                 .accessibilityIdentifier("saybar-settings-speech-backend")
             LabeledContent(
                 "Default Voice Profile",
-                value: SettingsDisplaySupport.defaultVoiceProfileName(server.overview.defaultVoiceProfileName)
+                value: runtimeOverview.defaultVoiceProfileName
             )
             .accessibilityIdentifier("saybar-settings-default-voice-profile")
             LabeledContent(
                 "Generation Queue",
-                value: SettingsDisplaySupport.queueCount(
-                    activeCount: server.generationQueue.activeCount,
-                    queuedCount: server.generationQueue.queuedCount
-                )
+                value: runtimeOverview.generationQueueCount
             )
             .accessibilityIdentifier("saybar-settings-generation-queue")
             LabeledContent(
                 "Playback Queue",
-                value: SettingsDisplaySupport.queueCount(
-                    activeCount: server.playbackQueue.activeCount,
-                    queuedCount: server.playbackQueue.queuedCount
-                )
+                value: runtimeOverview.playbackQueueCount
             )
             .accessibilityIdentifier("saybar-settings-playback-queue")
         }
@@ -70,7 +62,7 @@ struct SettingsRuntimeOverviewSection: View {
 }
 
 struct SettingsTransportDiagnosticsSection: View {
-    let transports: [TransportStatusSnapshot]
+    let transports: [SettingsDisplayState.TransportRow]
 
     var body: some View {
         Section("Transports") {
@@ -79,11 +71,11 @@ struct SettingsTransportDiagnosticsSection: View {
                     .foregroundStyle(.secondary)
                     .accessibilityIdentifier("saybar-settings-empty-transports")
             } else {
-                ForEach(Array(transports.enumerated()), id: \.offset) { _, transport in
+                ForEach(transports) { transport in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(transport.name)
                             .font(.headline)
-                        Text(transportSummary(transport))
+                        Text(transport.summary)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -95,19 +87,10 @@ struct SettingsTransportDiagnosticsSection: View {
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-transports-section")
     }
-
-    private func transportSummary(_ transport: TransportStatusSnapshot) -> String {
-        SettingsDisplaySupport.transportSummary(
-            state: transport.state,
-            host: transport.host,
-            port: transport.port,
-            path: transport.path
-        )
-    }
 }
 
 struct SettingsRecentErrorsSection: View {
-    let recentErrors: [RecentErrorSnapshot]
+    let recentErrors: [SettingsDisplayState.RecentErrorRow]
 
     var body: some View {
         Section("Recent Errors") {
@@ -116,7 +99,7 @@ struct SettingsRecentErrorsSection: View {
                     .foregroundStyle(.secondary)
                     .accessibilityIdentifier("saybar-settings-empty-recent-errors")
             } else {
-                ForEach(Array(recentErrors.enumerated()), id: \.offset) { _, error in
+                ForEach(recentErrors) { error in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(error.source)
                             .font(.headline)

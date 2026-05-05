@@ -17,6 +17,27 @@ final class SayBarAppEnvironmentTests: XCTestCase {
 		)
 	}
 
+	func testSettingsDisplayStateOverrideDefaultsToNil() {
+		XCTAssertNil(
+			SayBarAppEnvironment.settingsDisplayStateOverride(for: []),
+			"SayBar should use live embedded runtime state for Settings unless a UI-test fixture is explicitly requested.",
+		)
+	}
+
+	func testSettingsDisplayStateOverrideUsesPopulatedFixtureFlag() throws {
+		let fixture = try XCTUnwrap(
+			SayBarAppEnvironment.settingsDisplayStateOverride(for: ["--saybar-ui-fixture-populated-settings"]),
+			"SayBar should expose a deterministic populated Settings fixture for UI tests.",
+		)
+
+		XCTAssertEqual(fixture.appInfo.buildVersion, "UI Test Fixture")
+		XCTAssertEqual(fixture.runtimeOverview.status, "degraded")
+		XCTAssertEqual(fixture.runtimeOverview.generationQueueCount, "9")
+		XCTAssertEqual(fixture.runtimeOverview.playbackQueueCount, "4")
+		XCTAssertEqual(fixture.transports.first?.name, "HTTP")
+		XCTAssertEqual(fixture.recentErrors.first?.source, "Fixture Runtime")
+	}
+
 	func testRuntimeProfileRootURLUsesApplicationSupportDirectory() throws {
 		let fileManager = FileManager.default
 		let applicationSupportURL = try XCTUnwrap(

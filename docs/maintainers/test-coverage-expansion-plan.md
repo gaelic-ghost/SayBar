@@ -35,7 +35,7 @@ Current test coverage is intentionally narrow:
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
-- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, and opening Settings from the menu extra with embedded autostart disabled
+- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, opening Settings from the menu extra with embedded autostart disabled, and fixture-backed populated Settings diagnostics
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
 
 The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime.
@@ -84,6 +84,7 @@ Implementation notes:
 
 - add test seams only where the current direct `EmbeddedServer` baseline cannot otherwise be observed: currently `MenuBarActionSupport` accepts async closures for the real server calls while `MenuBarExtraWindow` keeps direct `EmbeddedServer` ownership
 - `SayBarAppLifecycleSupport` applies the same seam shape to startup and termination: `SayBarApp` and `SayBarTerminationCoordinator` still perform the real `EmbeddedServer` calls, while tests observe the decisions through async closures
+- `SettingsDisplayState` provides a local display seam for Settings UI tests: production still maps directly from `EmbeddedServer`, while `--saybar-ui-fixture-populated-settings` supplies deterministic populated diagnostics for app-level UI coverage
 - if a seam is needed, keep it as a local implementation detail for app action testing, not as a new app-owned runtime model
 - do not adopt `ServerInstallLayout`, `ServerInstalledLogs`, LaunchAgent install helpers, or standalone-server paths in this phase
 - runtime-on integration tests should be explicit and isolated from the existing autostart-disabled shell UI tests
@@ -123,8 +124,8 @@ Planned coverage:
 - Settings opens reliably from the app shell: done for the menu-extra Settings button
 - Settings app section displays version, embedded autostart state, and menu bar insertion state
 - Runtime section displays status, worker stage, playback, speech backend, default voice profile, generation queue count, and playback queue count
-- Transport section renders empty and populated transport states
-- Recent errors section renders empty and populated error states
+- Transport section renders empty and populated transport states: done for fixture-backed populated diagnostics
+- Recent errors section renders empty and populated error states: done for fixture-backed populated diagnostics
 - menu surface exposes stable accessibility identifiers for status, queue, controls, and picker rows: done for the current menu shell
 - menu quick actions remain available without layout regressions
 

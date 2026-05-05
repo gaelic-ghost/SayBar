@@ -22,11 +22,13 @@ struct SayBarApp: App {
 	private var isInserted: Bool = true
 
 	private let autostartEnabled: Bool
+	private let settingsDisplayStateOverride: SettingsDisplayState?
 	private static let logger = Logger(subsystem: "com.galewilliams.SayBar", category: "app")
 
 	init() {
 		let launchArguments = ProcessInfo.processInfo.arguments
 		let autostartEnabled = SayBarAppEnvironment.autostartEnabled(for: launchArguments)
+		let settingsDisplayStateOverride = SayBarAppEnvironment.settingsDisplayStateOverride(for: launchArguments)
 		let server = EmbeddedServer(
 			options: .init(
 				port: 7339,
@@ -35,6 +37,7 @@ struct SayBarApp: App {
 		)
 
 		self.autostartEnabled = autostartEnabled
+		self.settingsDisplayStateOverride = settingsDisplayStateOverride
 		_server = State(initialValue: server)
 		SayBarTerminationCoordinator.shared.configure(
 			server: server,
@@ -72,11 +75,18 @@ struct SayBarApp: App {
 		.menuBarExtraStyle(.window)
 
 		Settings {
-			SettingsWindow(
-				server: server,
-				autostartEnabled: autostartEnabled,
-				isMenuBarExtraInserted: $isInserted,
-			)
+			if let settingsDisplayStateOverride {
+				SettingsWindow(
+					displayState: settingsDisplayStateOverride,
+					isMenuBarExtraInserted: $isInserted,
+				)
+			} else {
+				SettingsWindow(
+					server: server,
+					autostartEnabled: autostartEnabled,
+					isMenuBarExtraInserted: $isInserted,
+				)
+			}
 		}
 	}
 }
@@ -156,6 +166,14 @@ private final class SayBarTerminationCoordinator {
 enum SayBarAppEnvironment {
 	static func autostartEnabled(for launchArguments: [String]) -> Bool {
 		!launchArguments.contains("--saybar-disable-autostart")
+	}
+
+	static func settingsDisplayStateOverride(for launchArguments: [String]) -> SettingsDisplayState? {
+		guard launchArguments.contains("--saybar-ui-fixture-populated-settings") else {
+			return nil
+		}
+
+		return SettingsDisplayState.uiTestPopulatedFixture(buildVersion: "UI Test Fixture")
 	}
 
 	static func runtimeProfileRootURL(fileManager: FileManager = .default) -> URL? {
