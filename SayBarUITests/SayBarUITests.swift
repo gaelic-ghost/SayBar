@@ -120,4 +120,32 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-menu-picker-row", in: app)
 		}
 	}
+
+	@MainActor
+	func testSettingsOpensFromMenuExtraAndExposesStableIdentifiers() throws {
+		let app = makeApp()
+		launchAndWait(app)
+
+		XCTContext.runActivity(named: "Open Settings from menu extra") { _ in
+			openMenuExtra(app)
+			app.descendants(matching: .any)["saybar-open-settings"].click()
+		}
+
+		XCTContext.runActivity(named: "Verify Settings shell") { _ in
+			XCTAssertTrue(
+				app.descendants(matching: .any)["saybar-settings-window"].waitForExistence(timeout: menuTimeout),
+				"SayBar should open Settings from the menu bar extra and expose the Settings form through a stable accessibility identifier.",
+			)
+			assertElementExists("saybar-settings-app-section", in: app)
+			assertElementExists("saybar-settings-version", in: app)
+			assertElementExists("saybar-settings-embedded-autostart", in: app)
+			assertElementExists("saybar-settings-menu-bar-extra-toggle", in: app)
+			assertElementExists("saybar-settings-runtime-section", in: app)
+			assertElementExists("saybar-settings-runtime-status", in: app)
+			assertElementExists("saybar-settings-generation-queue", in: app)
+			assertElementExists("saybar-settings-playback-queue", in: app)
+			assertElementExists("saybar-settings-transports-section", in: app)
+			assertElementExists("saybar-settings-recent-errors-section", in: app)
+		}
+	}
 }

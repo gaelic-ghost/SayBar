@@ -24,6 +24,7 @@ struct SettingsAppInfoSection: View {
             Toggle("Show Menu Bar Extra", isOn: $isMenuBarExtraInserted)
                 .accessibilityIdentifier("saybar-settings-menu-bar-extra-toggle")
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-app-section")
     }
 }
@@ -63,6 +64,7 @@ struct SettingsRuntimeOverviewSection: View {
             )
             .accessibilityIdentifier("saybar-settings-playback-queue")
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-runtime-section")
     }
 }
@@ -90,6 +92,7 @@ struct SettingsTransportDiagnosticsSection: View {
                 }
             }
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-transports-section")
     }
 
@@ -126,6 +129,7 @@ struct SettingsRecentErrorsSection: View {
                 }
             }
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-recent-errors-section")
     }
 }

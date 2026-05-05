@@ -35,6 +35,7 @@ struct SettingsWindow: View {
 
             SettingsRecentErrorsSection(recentErrors: server.recentErrors)
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-window")
         .formStyle(.grouped)
         .padding()

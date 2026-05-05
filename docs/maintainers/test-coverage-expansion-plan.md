@@ -35,7 +35,7 @@ Current test coverage is intentionally narrow:
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
-- `SayBarUITests` covers launch, termination, and the stable menu-shell accessibility surface with embedded autostart disabled
+- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, and opening Settings from the menu extra with embedded autostart disabled
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
 
 The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime.
@@ -120,7 +120,7 @@ Goal: add UI and Settings tests after the UI implementation is simpler.
 
 Planned coverage:
 
-- Settings opens reliably from the app shell
+- Settings opens reliably from the app shell: done for the menu-extra Settings button
 - Settings app section displays version, embedded autostart state, and menu bar insertion state
 - Runtime section displays status, worker stage, playback, speech backend, default voice profile, generation queue count, and playback queue count
 - Transport section renders empty and populated transport states
