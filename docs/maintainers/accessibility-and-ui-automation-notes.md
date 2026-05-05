@@ -50,16 +50,19 @@ The current checked-in tests validate these shell-level behaviors with `--saybar
 - initial launch completes
 - explicit app termination completes
 - the app can relaunch after termination
+- the menu bar extra can be opened
+- the menu shell exposes stable status, queue, control, and picker identifiers
+- the menu quick-action controls remain reachable without starting the embedded runtime
+- Settings opens from the menu extra
+- Settings can render fixture-backed populated app, runtime, transport, and recent-error values
 
 That test shape keeps the UI suite aligned with the supported XCUITest surface while avoiding a full embedded-runtime bootstrap in every UI test run.
 
-The repo currently does not keep a checked-in UI test that clicks and traverses the real menu bar extra content.
+### Known boundary
 
-### What still fails
+Earlier interactive inspection showed that the `.menuBarExtraStyle(.window)` content did not appear in the expected XCUITest accessibility tree after selecting the real status item. The checked-in UI tests now handle the current presentation well enough to open the menu extra and inspect the menu window content.
 
-Earlier interactive inspection showed that the `.menuBarExtraStyle(.window)` content still does not appear in the expected XCUITest accessibility tree after selecting the real status item.
-
-That means the current failure boundary is the system-managed handoff between the menu bar item and the opened window-style presentation, not missing accessibility identifiers on the SwiftUI content itself.
+The remaining boundary is scope, not basic reachability: the default UI suite still avoids starting the embedded runtime, does not click runtime-mutating menu controls, and does not perform audible end-to-end speech. Those checks belong in an explicit runtime-on lane.
 
 ## Current Recommendation
 
@@ -67,9 +70,9 @@ Treat the current SayBar automation problem as a system-presentation boundary fi
 
 For the current repo state, the honest validation split is:
 
-- unit tests are minimal because the app no longer keeps a separate presentation layer over the server model
-- UI tests cover launch, termination, and relaunch behavior without embedded autostart
-- real menu bar content automation remains an open investigation rather than a stable checked-in guarantee
+- unit tests cover app-local display and action decisions without launching the runtime
+- UI tests cover launch, termination, relaunch, menu reachability, Settings reachability, and fixture-backed Settings values without embedded autostart
+- runtime-on audible validation should stay opt-in and isolated from the default UI suite
 
 ## Runtime And Sandbox Findings
 

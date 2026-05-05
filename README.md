@@ -93,6 +93,7 @@ The maintainer docs are split intentionally:
 - [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) records the current app architecture around one app-owned `EmbeddedServer`.
 - [docs/maintainers/embedded-session-api-coverage.md](docs/maintainers/embedded-session-api-coverage.md) records the complete embedded session API coverage matrix.
 - [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md) records the staged test coverage plan.
+- [docs/maintainers/runtime-on-e2e-test-plan.md](docs/maintainers/runtime-on-e2e-test-plan.md) records the proposed opt-in runtime-on audible E2E lane.
 - [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
 
 Primary project configuration:
@@ -102,9 +103,9 @@ Primary project configuration:
 - App marketing version: `0.1.0`
 - App deployment target: macOS `15.6`
 - Test targets: `SayBarTests`, `SayBarUITests`
-- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `5.0.0`
-- Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `5.0.0`
-- Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.20.0`
+- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `5.0.11`
+- Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `5.0.1`
+- Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.21.0`
 
 The project also exposes package-managed schemes for the server package, but app-facing work in this repository should stay centered on the `SayBar` scheme unless a task explicitly targets package internals.
 

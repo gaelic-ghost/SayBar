@@ -38,7 +38,7 @@ Current test coverage is intentionally narrow:
 - `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, menu quick-action reachability, opening Settings from the menu extra with embedded autostart disabled, and fixture-backed Settings app, runtime, transport, and recent-error values
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
 
-The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime.
+The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime. Runtime-on audible validation is intentionally separate from this default coverage pass; see [runtime-on-e2e-test-plan.md](runtime-on-e2e-test-plan.md).
 
 ## Expansion Sequence
 
@@ -142,6 +142,7 @@ Implementation notes:
 - LaunchAgent install, enable, disable, or uninstall workflows
 - monorepo submodule adoption coverage
 - broad visual snapshot testing
+- default-suite audible runtime-on E2E testing
 
 ## Validation Commands
 
