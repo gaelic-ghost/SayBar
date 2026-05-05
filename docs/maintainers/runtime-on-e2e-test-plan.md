@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This note sketches an optional runtime-on E2E lane for SayBar. The goal is to validate the full Debug app path with real audio: launch SayBar with embedded autostart enabled, submit one or two short speech requests through the menu UI, and confirm the app can drive the embedded `SpeakSwiftlyServer` runtime end to end.
+This note sketches an optional runtime-on E2E lane for SayBar. The goal is to validate the full Debug app path with real audio: launch SayBar with embedded autostart enabled, submit short speech requests through the real app and runtime surfaces, and confirm the app can drive the embedded `SpeakSwiftlyServer` runtime end to end.
 
 This lane is intentionally separate from the default `SayBar` test plan. It is allowed to play audio, use real models, take longer, and coordinate with the developer's existing LaunchAgent-backed localhost TTS service.
 
@@ -20,6 +20,8 @@ The test runner must treat the LaunchAgent-backed localhost TTS service as a liv
 
 If preflight cannot reach the live service, cannot unload models, or cannot guarantee the reload cleanup hook will run, the runtime-on suite should fail before launching SayBar.
 
+The runtime-on suite is expected to run sequentially because XCUITest drives one app-under-test through one active desktop session. Do not add an extra local lock file for the first implementation, but do not run this lane at the same time as another SayBar, SpeakSwiftlyServer, or audible audio validation pass.
+
 ## Proposed Shape
 
 Keep the first implementation outside the default UI target until the behavior is proven:
@@ -28,18 +30,29 @@ Keep the first implementation outside the default UI target until the behavior i
 - include only the runtime-on E2E test case in that plan
 - run the app without `--saybar-disable-autostart`
 - use a short timeout-tolerant helper for the live service MCP calls
-- use short audible strings that identify the lane, such as `SayBar debug E2E one` and `SayBar debug E2E two`
-- submit through the same menu path users exercise, likely by setting the pasteboard text and clicking the playback or clipboard speech control
-- observe app-level completion through accessible status text, retained request state, or a request resource, rather than relying only on human hearing
+- use short two-sentence audible strings that identify the lane and surface
+- submit one request through the clipboard route by setting the pasteboard text and clicking the menu's clipboard speech control
+- submit one request through the embedded HTTP speech surface while SayBar is running
+- submit one request through the embedded MCP speech surface while SayBar is running
+- check both the visible app surface and the embedded runtime state for completion instead of relying only on human hearing
+- check both the MCP surface and HTTP health or status surface when coordinating with the live localhost service
 
 The lane should avoid changing persistent user settings unless a test explicitly restores them. It should also avoid clearing existing queues unless Gale explicitly chooses that behavior for the runtime-on lane.
 
+## Settled Initial Decisions
+
+- Use a separate opt-in XCUITest plan and keep it outside CI and default validation.
+- Use the clipboard route as one request surface because it mirrors a real daily-driver workflow.
+- Exercise both embedded runtime transport surfaces, HTTP and MCP, with separate short audible requests so one obvious break in either path is caught quickly.
+- Assert completion from both the UI and runtime state.
+- Check both MCP and HTTP service surfaces during live-service coordination.
+- Keep execution sequential through XCUITest rather than adding a first-pass lock file.
+
 ## Open Design Questions
 
-- Should the suite coordinate with the live localhost service over MCP only, or should it use HTTP for health checks and MCP only for `unload_models` and `reload_models`?
 - Should SayBar expose a runtime-on test launch argument for shorter deterministic text and profile choices, or should the suite interact only through ordinary menu UI and pasteboard state?
-- Should the suite assert request completion through SayBar's embedded runtime state, the app UI, or both?
-- Should the suite serialize itself with a local lock file so it cannot overlap with another local TTS or SayBar validation run?
+- Which exact embedded runtime observation should count as request completion: a queue count drop, last request state, playback-idle transition, request resource, or a combination?
+- Should the first implementation run three audible requests, covering clipboard UI plus HTTP plus MCP, or keep the transport checks to one request each and treat the clipboard route as the first user-facing request surface?
 - Which voice profile should be used for the audible checks, and should the suite fail if that profile is unavailable?
 
 ## Initial Recommendation
@@ -47,12 +60,17 @@ The lane should avoid changing persistent user settings unless a test explicitly
 Start with one manually run XCUITest method in a separate test plan:
 
 1. Preflight the live LaunchAgent service at `SAYBAR_RUNTIME_E2E_MCP_URL`.
-2. Call MCP `unload_models` on the live service.
-3. Launch SayBar in Debug with embedded autostart enabled.
-4. Wait for the menu status to indicate the embedded runtime is ready or loaded.
-5. Queue one short clipboard speech request through the menu control.
-6. Wait for request completion or a clear app-level ready state.
-7. Terminate SayBar.
-8. Always call MCP `reload_models` on the live LaunchAgent service.
-
-Only add a second audible request after the first request proves stable. The second request should exercise the queue path, not a different architecture path.
+2. Check the live service's MCP and HTTP surfaces.
+3. Call MCP `unload_models` on the live service.
+4. Confirm the live service reports resident models unloaded.
+5. Launch SayBar in Debug with embedded autostart enabled.
+6. Wait for the menu status and embedded runtime state to indicate the app runtime is ready or loaded.
+7. Queue one short two-sentence clipboard speech request through the menu control.
+8. Wait for request completion from both visible app state and embedded runtime state.
+9. Queue one short two-sentence speech request through the embedded HTTP surface.
+10. Wait for request completion from both visible app state and embedded runtime state.
+11. Queue one short two-sentence speech request through the embedded MCP surface.
+12. Wait for request completion from both visible app state and embedded runtime state.
+13. Terminate SayBar.
+14. Always call MCP `reload_models` on the live LaunchAgent service.
+15. Confirm the live service's MCP and HTTP surfaces return to a healthy model-loaded or ready state.

@@ -103,7 +103,7 @@ Primary project configuration:
 - App marketing version: `0.1.0`
 - App deployment target: macOS `15.6`
 - Test targets: `SayBarTests`, `SayBarUITests`
-- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `5.0.11`
+- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `5.0.12`
 - Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `5.0.1`
 - Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.21.0`
 
