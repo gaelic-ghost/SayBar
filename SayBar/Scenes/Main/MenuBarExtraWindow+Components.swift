@@ -28,36 +28,73 @@ struct MenuHeaderComponent: View {
 }
 
 struct QueueCountComponent: View {
-    let filledSlotCount: Int
-    let totalSlotCount: Int
+    let summary: MenuBarDisplaySupport.QueueSummary
     let label: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("\(label): \(filledSlotCount) of \(totalSlotCount)")
+            Text("\(label): \(summary.activeCount) active, \(summary.queuedCount) queued / \(summary.capacity)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            HStack(alignment: .center, spacing: 6) {
-                ForEach(0..<totalSlotCount, id: \.self) { index in
-                    QueueSlotShape(isFilled: index < filledSlotCount)
+            HStack(alignment: .center, spacing: 3) {
+                ForEach(0..<summary.capacity, id: \.self) { index in
+                    QueueSlotShape(state: slotState(at: index))
                 }
             }
         }
     }
+
+    private func slotState(at index: Int) -> QueueSlotShape.State {
+        if index < summary.visibleActiveSlotCount {
+            return .active
+        }
+        if index < summary.visibleActiveSlotCount + summary.visibleQueuedSlotCount {
+            return .queued
+        }
+        return .empty
+    }
 }
 
 private struct QueueSlotShape: View {
-    let isFilled: Bool
+    enum State {
+        case active
+        case queued
+        case empty
+    }
+
+    let state: State
 
     var body: some View {
         Rectangle()
-            .fill(isFilled ? Color.accentColor : .clear)
+            .fill(fillColor)
             .overlay {
                 Rectangle()
-                    .stroke(Color.accentColor, lineWidth: 1)
+                    .stroke(strokeColor, lineWidth: 1)
             }
-            .frame(width: 32, height: 40)
+            .frame(width: 8, height: 18)
             .accessibilityHidden(true)
+    }
+
+    private var fillColor: Color {
+        switch state {
+            case .active:
+                return .accentColor
+            case .queued:
+                return .secondary.opacity(0.65)
+            case .empty:
+                return .clear
+        }
+    }
+
+    private var strokeColor: Color {
+        switch state {
+            case .active:
+                return .accentColor
+            case .queued:
+                return .secondary.opacity(0.75)
+            case .empty:
+                return .secondary.opacity(0.25)
+        }
     }
 }
 

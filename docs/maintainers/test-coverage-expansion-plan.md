@@ -52,7 +52,7 @@ Planned coverage:
 - verify the test plan remains discoverable with `xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar`
 - expand `SayBarAppEnvironmentTests` around launch-argument behavior and runtime profile path construction
 - add focused tests for app status mapping once status wording is factored into a small testable unit: done for menu status headline/detail
-- add focused tests for queue-count clamping once queue display mapping is factored into a small testable unit: done for menu queue slots
+- add focused tests for queue-count clamping once queue display mapping is factored into a small testable unit: done for the 24-slot menu queue summary
 - add focused tests for transport summary formatting once the Settings transport summary is factored into a small testable unit: done
 - add focused tests for recent-error precedence once menu status selection is factored into a small testable unit: done for headline and detail precedence
 

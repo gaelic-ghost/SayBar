@@ -51,7 +51,7 @@ Launch the `SayBar` scheme to start the app. The menu bar surface is intentional
 
 - a status headline
 - a detail line for the current warning, error, or runtime detail
-- an eight-slot queue indicator for generation work
+- a 24-slot generation queue indicator with separate active and queued counts
 - one compact control row for resident-model power, playback or clipboard speech, and settings
 - one picker row for voice profile selection and speech backend selection
 

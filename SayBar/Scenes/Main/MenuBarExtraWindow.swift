@@ -60,8 +60,8 @@ struct MenuBarExtraWindow: View {
         )
     }
 
-    private var queueSlotCount: Int {
-        MenuBarDisplaySupport.queueSlotCount(
+    private var queueSummary: MenuBarDisplaySupport.QueueSummary {
+        MenuBarDisplaySupport.queueSummary(
             activeCount: server.generationQueue.activeCount,
             queuedCount: server.generationQueue.queuedCount
         )
@@ -98,9 +98,8 @@ struct MenuBarExtraWindow: View {
             )
 
             QueueCountComponent(
-                filledSlotCount: queueSlotCount,
-                totalSlotCount: 8,
-                label: "Queue"
+                summary: queueSummary,
+                label: "Generation"
             )
 
             MenuControlGroupComponent(

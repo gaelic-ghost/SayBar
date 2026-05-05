@@ -146,10 +146,34 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         )
     }
 
-    func testQueueSlotCountClampsToDisplayRange() {
-        XCTAssertEqual(MenuBarDisplaySupport.queueSlotCount(activeCount: 2, queuedCount: 3), 5)
-        XCTAssertEqual(MenuBarDisplaySupport.queueSlotCount(activeCount: 7, queuedCount: 4), 8)
-        XCTAssertEqual(MenuBarDisplaySupport.queueSlotCount(activeCount: -3, queuedCount: 1), 0)
+    func testQueueSummaryNormalizesCountsAndDefaultsToTwentyFourSlots() {
+        let summary = MenuBarDisplaySupport.queueSummary(activeCount: 2, queuedCount: 3)
+
+        XCTAssertEqual(summary.activeCount, 2)
+        XCTAssertEqual(summary.queuedCount, 3)
+        XCTAssertEqual(summary.totalCount, 5)
+        XCTAssertEqual(summary.capacity, 24)
+        XCTAssertEqual(summary.visibleActiveSlotCount, 2)
+        XCTAssertEqual(summary.visibleQueuedSlotCount, 3)
+    }
+
+    func testQueueSummaryClampsVisibleSlotsToCapacity() {
+        let summary = MenuBarDisplaySupport.queueSummary(activeCount: 20, queuedCount: 8)
+
+        XCTAssertEqual(summary.totalCount, 24)
+        XCTAssertEqual(summary.visibleActiveSlotCount, 20)
+        XCTAssertEqual(summary.visibleQueuedSlotCount, 4)
+    }
+
+    func testQueueSummaryDropsNegativeCountsAndCapacity() {
+        let summary = MenuBarDisplaySupport.queueSummary(activeCount: -3, queuedCount: 1, capacity: -1)
+
+        XCTAssertEqual(summary.activeCount, 0)
+        XCTAssertEqual(summary.queuedCount, 1)
+        XCTAssertEqual(summary.totalCount, 0)
+        XCTAssertEqual(summary.capacity, 0)
+        XCTAssertEqual(summary.visibleActiveSlotCount, 0)
+        XCTAssertEqual(summary.visibleQueuedSlotCount, 0)
     }
 
     func testSelectedVoiceProfilePrefersDefaultThenFirstProfileThenEmptyString() {

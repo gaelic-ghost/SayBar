@@ -29,7 +29,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `overview.profileCacheWarning` | `HostOverviewSnapshot` | Not surfaced | Available for voice-profile diagnostics, but SayBar does not display cache warning text yet. |
 | `overview.profileCount` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar derives picker state from `voiceProfiles` directly. |
 | `overview.lastProfileRefreshAt` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not show refresh timestamps yet. |
-| `generationQueue` | `EmbeddedServer` | Implemented, partial | Menu shows active plus queued generation count as an eight-slot indicator; Settings shows the numeric count. |
+| `generationQueue` | `EmbeddedServer` | Implemented, partial | Menu shows separate active and queued generation counts as a 24-slot indicator; Settings shows the numeric count. |
 | `generationQueue.queueType` | `QueueStatusSnapshot` | Not surfaced | Available for diagnostics, but the menu already labels this queue as generation work. |
 | `generationQueue.activeCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queue indicator and Settings generation queue count. |
 | `generationQueue.queuedCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queue indicator and Settings generation queue count. |

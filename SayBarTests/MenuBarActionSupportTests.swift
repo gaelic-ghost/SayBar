@@ -36,8 +36,8 @@ final class MenuBarActionSupportTests: XCTestCase {
     func testClipboardSpeechRequestContextIdentifiesSayBarClipboardAction() {
         let context = MenuBarActionSupport.clipboardSpeechRequestContext()
 
-        XCTAssertEqual(context.source, "menu_bar_clipboard")
-        XCTAssertEqual(context.app, "SayBar")
+        XCTAssertEqual(context.source, "Clipboard via SayBar")
+        XCTAssertNil(context.topic)
         XCTAssertEqual(context.attributes["saybar.action"], "clipboard_speech")
     }
 

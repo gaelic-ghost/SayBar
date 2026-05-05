@@ -6,6 +6,21 @@
 //
 
 enum MenuBarDisplaySupport {
+    struct QueueSummary: Equatable {
+        nonisolated let activeCount: Int
+        nonisolated let queuedCount: Int
+        nonisolated let totalCount: Int
+        nonisolated let capacity: Int
+
+        nonisolated var visibleActiveSlotCount: Int {
+            min(activeCount, capacity)
+        }
+
+        nonisolated var visibleQueuedSlotCount: Int {
+            min(queuedCount, max(capacity - visibleActiveSlotCount, 0))
+        }
+    }
+
     nonisolated static func statusHeadline(
         autostartEnabled: Bool,
         recentErrorMessage: String?,
@@ -105,12 +120,20 @@ enum MenuBarDisplaySupport {
         }
     }
 
-    nonisolated static func queueSlotCount(
+    nonisolated static func queueSummary(
         activeCount: Int,
         queuedCount: Int,
-        totalSlotCount: Int = 8
-    ) -> Int {
-        min(max(activeCount + queuedCount, 0), totalSlotCount)
+        capacity: Int = 24
+    ) -> QueueSummary {
+        let normalizedActiveCount = max(activeCount, 0)
+        let normalizedQueuedCount = max(queuedCount, 0)
+        let normalizedCapacity = max(capacity, 0)
+        return QueueSummary(
+            activeCount: normalizedActiveCount,
+            queuedCount: normalizedQueuedCount,
+            totalCount: min(normalizedActiveCount + normalizedQueuedCount, normalizedCapacity),
+            capacity: normalizedCapacity
+        )
     }
 
     nonisolated static func selectedVoiceProfileName(
