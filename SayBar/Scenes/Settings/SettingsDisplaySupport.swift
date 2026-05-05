@@ -6,6 +6,18 @@
 //
 
 enum SettingsDisplaySupport {
+    nonisolated static func enabledStatus(_ isEnabled: Bool) -> String {
+        isEnabled ? "Enabled" : "Disabled"
+    }
+
+    nonisolated static func defaultVoiceProfileName(_ profileName: String?) -> String {
+        profileName ?? "None"
+    }
+
+    nonisolated static func queueCount(activeCount: Int, queuedCount: Int) -> String {
+        String(max(activeCount, 0) + max(queuedCount, 0))
+    }
+
     nonisolated static func transportSummary(
         state: String,
         host: String?,

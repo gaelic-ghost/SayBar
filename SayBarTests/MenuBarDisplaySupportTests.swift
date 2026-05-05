@@ -82,6 +82,44 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         )
     }
 
+    func testStatusHeadlineMapsServerModesAfterHigherPriorityStates() {
+        XCTAssertEqual(
+            MenuBarDisplaySupport.statusHeadline(
+                autostartEnabled: true,
+                recentErrorMessage: nil,
+                startupError: nil,
+                playbackState: "idle",
+                workerStage: "resident_model_ready",
+                serverMode: "degraded"
+            ),
+            "SpeakSwiftlyServer is degraded."
+        )
+
+        XCTAssertEqual(
+            MenuBarDisplaySupport.statusHeadline(
+                autostartEnabled: true,
+                recentErrorMessage: nil,
+                startupError: nil,
+                playbackState: "idle",
+                workerStage: "resident_model_ready",
+                serverMode: "ready"
+            ),
+            "SpeakSwiftlyServer is ready."
+        )
+
+        XCTAssertEqual(
+            MenuBarDisplaySupport.statusHeadline(
+                autostartEnabled: true,
+                recentErrorMessage: nil,
+                startupError: nil,
+                playbackState: "idle",
+                workerStage: "starting",
+                serverMode: "starting"
+            ),
+            "SpeakSwiftlyServer is starting."
+        )
+    }
+
     func testStatusDetailPrioritizesActionThenErrorsThenPlayback() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
@@ -146,6 +184,38 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         )
     }
 
+    func testStatusDetailMapsActivePlaybackAndFallbackWorkerStage() {
+        XCTAssertEqual(
+            MenuBarDisplaySupport.statusDetail(
+                autostartEnabled: true,
+                actionMessage: nil,
+                recentErrorMessage: nil,
+                startupError: nil,
+                playbackState: "playing",
+                activePlaybackRequestID: "request-1",
+                workerStage: "resident_model_ready",
+                workerReady: true,
+                serverMode: "ready"
+            ),
+            "Playback is active for request request-1."
+        )
+
+        XCTAssertEqual(
+            MenuBarDisplaySupport.statusDetail(
+                autostartEnabled: true,
+                actionMessage: nil,
+                recentErrorMessage: nil,
+                startupError: nil,
+                playbackState: "idle",
+                activePlaybackRequestID: nil,
+                workerStage: "warming_cache",
+                workerReady: false,
+                serverMode: "starting"
+            ),
+            "The embedded runtime is currently reporting worker stage warming_cache."
+        )
+    }
+
     func testQueueSummaryNormalizesCountsAndDefaultsToTwentyFourSlots() {
         let summary = MenuBarDisplaySupport.queueSummary(activeCount: 2, queuedCount: 3)
 
@@ -163,6 +233,14 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         XCTAssertEqual(summary.totalCount, 24)
         XCTAssertEqual(summary.visibleActiveSlotCount, 20)
         XCTAssertEqual(summary.visibleQueuedSlotCount, 4)
+    }
+
+    func testQueueSummaryClampsActiveSlotsBeforeQueuedSlots() {
+        let summary = MenuBarDisplaySupport.queueSummary(activeCount: 30, queuedCount: 8)
+
+        XCTAssertEqual(summary.totalCount, 24)
+        XCTAssertEqual(summary.visibleActiveSlotCount, 24)
+        XCTAssertEqual(summary.visibleQueuedSlotCount, 0)
     }
 
     func testQueueSummaryDropsNegativeCountsAndCapacity() {

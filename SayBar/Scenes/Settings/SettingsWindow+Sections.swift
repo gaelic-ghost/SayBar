@@ -18,7 +18,7 @@ struct SettingsAppInfoSection: View {
     var body: some View {
         Section("App") {
             LabeledContent("Version", value: buildVersion)
-            LabeledContent("Embedded Autostart", value: autostartEnabled ? "Enabled" : "Disabled")
+            LabeledContent("Embedded Autostart", value: SettingsDisplaySupport.enabledStatus(autostartEnabled))
             Toggle("Show Menu Bar Extra", isOn: $isMenuBarExtraInserted)
         }
     }
@@ -33,9 +33,24 @@ struct SettingsRuntimeOverviewSection: View {
             LabeledContent("Worker Stage", value: server.overview.workerStage)
             LabeledContent("Playback", value: server.playback.state)
             LabeledContent("Speech Backend", value: server.runtimeConfiguration.activeRuntimeSpeechBackend)
-            LabeledContent("Default Voice Profile", value: server.overview.defaultVoiceProfileName ?? "None")
-            LabeledContent("Generation Queue", value: "\(server.generationQueue.activeCount + server.generationQueue.queuedCount)")
-            LabeledContent("Playback Queue", value: "\(server.playbackQueue.activeCount + server.playbackQueue.queuedCount)")
+            LabeledContent(
+                "Default Voice Profile",
+                value: SettingsDisplaySupport.defaultVoiceProfileName(server.overview.defaultVoiceProfileName)
+            )
+            LabeledContent(
+                "Generation Queue",
+                value: SettingsDisplaySupport.queueCount(
+                    activeCount: server.generationQueue.activeCount,
+                    queuedCount: server.generationQueue.queuedCount
+                )
+            )
+            LabeledContent(
+                "Playback Queue",
+                value: SettingsDisplaySupport.queueCount(
+                    activeCount: server.playbackQueue.activeCount,
+                    queuedCount: server.playbackQueue.queuedCount
+                )
+            )
         }
     }
 }

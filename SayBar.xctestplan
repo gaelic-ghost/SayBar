@@ -26,7 +26,7 @@
       }
     },
     {
-      "parallelizable" : true,
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:SayBar.xcodeproj",
         "identifier" : "49220E972F7ADE5B00A94BD8",
