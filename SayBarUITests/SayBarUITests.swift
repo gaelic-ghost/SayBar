@@ -96,6 +96,22 @@ final class SayBarUITests: XCTestCase {
 	}
 
 	@MainActor
+	private func assertElementIsHittable(
+		_ identifier: String,
+		in app: XCUIApplication,
+		file: StaticString = #filePath,
+		line: UInt = #line
+	) {
+		let element = app.descendants(matching: .any)[identifier]
+		XCTAssertTrue(
+			element.exists && element.isHittable,
+			"SayBar should expose \(identifier) as a reachable menu control.",
+			file: file,
+			line: line,
+		)
+	}
+
+	@MainActor
 	func testAppLaunchesWithoutEmbeddedAutostart() throws {
 		let app = makeApp()
 		launchAndWait(app)
@@ -134,6 +150,30 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-playback-or-clipboard-speech", in: app)
 			assertElementExists("saybar-open-settings", in: app)
 			assertElementExists("saybar-menu-picker-row", in: app)
+		}
+	}
+
+	@MainActor
+	func testMenuQuickActionsRemainTraversableWithoutEmbeddedAutostart() throws {
+		let app = makeApp()
+		launchAndWait(app)
+
+		XCTContext.runActivity(named: "Open menu extra") { _ in
+			openMenuExtra(app)
+		}
+
+		XCTContext.runActivity(named: "Verify quick-action controls are reachable") { _ in
+			XCTAssertTrue(
+				app.descendants(matching: .any)["saybar-menu-window"].waitForExistence(timeout: menuTimeout),
+				"SayBar should expose the menu window before checking quick-action reachability.",
+			)
+			assertElementIsHittable("saybar-resident-model-power", in: app)
+			assertElementIsHittable("saybar-playback-or-clipboard-speech", in: app)
+			assertElementIsHittable("saybar-open-settings", in: app)
+			assertElementExists("saybar-generation-queue", in: app)
+			assertElementExists("saybar-generation-queue-summary", in: app)
+			assertElementExists("saybar-voice-profile-picker", in: app)
+			assertElementExists("saybar-speech-backend-picker", in: app)
 		}
 	}
 

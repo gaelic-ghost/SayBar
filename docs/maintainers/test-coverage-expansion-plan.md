@@ -35,7 +35,7 @@ Current test coverage is intentionally narrow:
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
-- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, opening Settings from the menu extra with embedded autostart disabled, and fixture-backed Settings app, runtime, transport, and recent-error values
+- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, menu quick-action reachability, opening Settings from the menu extra with embedded autostart disabled, and fixture-backed Settings app, runtime, transport, and recent-error values
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
 
 The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime.
@@ -49,7 +49,7 @@ Goal: cover app-owned logic that should never require a running speech runtime.
 Planned coverage:
 
 - keep `SayBar.xctestplan` as the default test plan for the `SayBar` scheme
-- verify the test plan remains discoverable with `xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar`
+- verify the test plan remains discoverable with `xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar`: done through repo-maintenance validation
 - expand `SayBarAppEnvironmentTests` around launch-argument behavior and runtime profile path construction
 - add focused tests for app status mapping once status wording is factored into a small testable unit: done for menu status headline/detail
 - add focused tests for queue-count clamping once queue display mapping is factored into a small testable unit: done for the 24-slot menu queue summary
@@ -127,7 +127,7 @@ Planned coverage:
 - Transport section renders empty and populated transport states: done for fixture-backed populated diagnostics
 - Recent errors section renders empty and populated error states: done for fixture-backed populated diagnostics
 - menu surface exposes stable accessibility identifiers for status, queue, controls, and picker rows: done for the current menu shell
-- menu quick actions remain available without layout regressions
+- menu quick actions remain available without layout regressions: done for disabled-autostart UI reachability
 
 Implementation notes:
 
