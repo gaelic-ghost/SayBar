@@ -23,7 +23,7 @@ SayBar keeps one app-owned `EmbeddedServer` as the product baseline.
 The app:
 
 - stores that observable model in SwiftUI state
-- starts it on launch unless autostart is explicitly disabled for tests or debugging
+- starts it on launch unless a test/debug launch explicitly skips embedded runtime startup
 - requests `land()` before app termination completes
 - binds menu bar and settings UI directly to the package-owned observable properties
 

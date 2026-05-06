@@ -11,17 +11,12 @@ struct SettingsAppInfoSection: View {
     let appInfo: SettingsDisplayState.AppInfo
 
     @Binding
-    var embeddedRuntimeAutostartEnabled: Bool
-
-    @Binding
     var isMenuBarExtraInserted: Bool
 
     var body: some View {
         Section("App") {
             LabeledContent("Version", value: appInfo.buildVersion)
                 .accessibilityIdentifier("saybar-settings-version")
-            Toggle("Start Embedded Runtime on Launch", isOn: $embeddedRuntimeAutostartEnabled)
-                .accessibilityIdentifier("saybar-settings-embedded-autostart")
             Toggle("Show Menu Bar Extra", isOn: $isMenuBarExtraInserted)
                 .accessibilityIdentifier("saybar-settings-menu-bar-extra-toggle")
         }

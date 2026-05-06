@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This note sketches an optional runtime-on E2E lane for SayBar. The goal is to validate the full Debug app path with real audio: launch SayBar with embedded autostart enabled, submit short speech requests through the real app and runtime surfaces, and confirm the app can drive the embedded `SpeakSwiftlyServer` runtime end to end.
+This note sketches an optional runtime-on E2E lane for SayBar. The goal is to validate the full Debug app path with real audio: launch SayBar with normal embedded runtime startup, submit short speech requests through the real app and runtime surfaces, and confirm the app can drive the embedded `SpeakSwiftlyServer` runtime end to end.
 
 This lane is intentionally separate from the default `SayBar` test plan. It is allowed to play audio, use real models, take longer, and coordinate with the developer's existing LaunchAgent-backed localhost TTS service.
 
@@ -28,7 +28,7 @@ The first implementation lives outside the default test plan and is only active 
 
 - use `SayBarRuntimeE2E.xctestplan`
 - include only `SayBarRuntimeE2ETests` in that plan
-- run the app without `--saybar-disable-autostart`
+- run the app without `--saybar-skip-embedded-runtime-startup`
 - use a short timeout-tolerant helper for the live service MCP calls
 - use short two-sentence audible strings that identify the lane and surface
 - submit one request through the clipboard route by setting the pasteboard text and clicking the menu's clipboard speech control
@@ -69,7 +69,7 @@ The checked-in runtime-on XCUITest method follows this sequence:
 2. Check the live service's MCP and HTTP surfaces.
 3. Call MCP `unload_models` on the live service.
 4. Confirm the live service reports resident models unloaded.
-5. Launch SayBar in Debug with embedded autostart enabled.
+5. Launch SayBar in Debug with normal embedded runtime startup.
 6. Wait for the menu status and embedded runtime state to indicate the app runtime is ready or loaded.
 7. Queue one short two-sentence clipboard speech request through the menu control.
 8. Wait for request completion from both visible app state and embedded runtime state.

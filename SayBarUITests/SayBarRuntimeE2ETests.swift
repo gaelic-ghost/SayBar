@@ -104,7 +104,7 @@ private extension SayBarRuntimeE2ETests {
 
         try runtimeE2ERequire(
             launchedInForeground || launchedInBackground,
-            "SayBar should launch with embedded-runtime autostart enabled for runtime-on E2E testing."
+            "SayBar should launch with normal embedded runtime startup for runtime-on E2E testing."
         )
     }
 

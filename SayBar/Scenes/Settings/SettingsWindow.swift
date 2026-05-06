@@ -17,28 +17,21 @@ struct SettingsWindow: View {
     private let source: Source
 
     @Binding
-    var embeddedRuntimeAutostartEnabled: Bool
-
-    @Binding
     var isMenuBarExtraInserted: Bool
 
     init(
         server: EmbeddedServer,
-        embeddedRuntimeAutostartEnabled: Binding<Bool>,
         isMenuBarExtraInserted: Binding<Bool>
     ) {
         source = .server(server)
-        _embeddedRuntimeAutostartEnabled = embeddedRuntimeAutostartEnabled
         _isMenuBarExtraInserted = isMenuBarExtraInserted
     }
 
     init(
         displayState: SettingsDisplayState,
-        embeddedRuntimeAutostartEnabled: Binding<Bool>,
         isMenuBarExtraInserted: Binding<Bool>
     ) {
         source = .fixture(displayState)
-        _embeddedRuntimeAutostartEnabled = embeddedRuntimeAutostartEnabled
         _isMenuBarExtraInserted = isMenuBarExtraInserted
     }
 
@@ -66,7 +59,6 @@ struct SettingsWindow: View {
         Form {
             SettingsAppInfoSection(
                 appInfo: displayState.appInfo,
-                embeddedRuntimeAutostartEnabled: $embeddedRuntimeAutostartEnabled,
                 isMenuBarExtraInserted: $isMenuBarExtraInserted
             )
 
@@ -87,7 +79,6 @@ struct SettingsWindow: View {
 #Preview {
     SettingsWindow(
         server: EmbeddedServer(),
-        embeddedRuntimeAutostartEnabled: .constant(false),
         isMenuBarExtraInserted: .constant(true)
     )
 }

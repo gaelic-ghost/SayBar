@@ -30,13 +30,13 @@ The checked-in `SayBar` test plan includes:
 
 Current test coverage is intentionally narrow:
 
-- `SayBarAppEnvironmentTests` covers autostart argument parsing and runtime profile-root resolution
-- `SayBarAppLifecycleSupportTests` covers embedded runtime startup, disabled autostart, initial voice refresh, startup failure logging, termination request selection, and land-before-quit reply behavior
+- `SayBarAppEnvironmentTests` covers launch argument parsing and runtime profile-root resolution
+- `SayBarAppLifecycleSupportTests` covers embedded runtime startup, skipped startup, initial voice refresh, startup failure logging, termination request selection, and land-before-quit reply behavior
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
-- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, menu quick-action reachability, opening Settings from the menu extra with embedded autostart disabled, and fixture-backed Settings app, runtime, transport, and recent-error values
-- `SayBarUITestsLaunchTests` covers relaunch after termination with embedded autostart disabled
+- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, menu quick-action reachability, opening Settings from the menu extra with embedded runtime startup skipped, and fixture-backed Settings app, runtime, transport, and recent-error values
+- `SayBarUITestsLaunchTests` covers relaunch after termination with embedded runtime startup skipped
 
 The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime. Runtime-on audible validation is intentionally separate from this default coverage pass; see [runtime-on-e2e-test-plan.md](runtime-on-e2e-test-plan.md).
 
@@ -69,9 +69,9 @@ Goal: cover every `EmbeddedServer` surface SayBar already uses, without widening
 
 Planned coverage:
 
-- embedded lifecycle startup path: `SayBarApp` calls `liftoff()` when persisted autostart is enabled and no launch-only override disables it: covered through environment parsing plus the local app lifecycle seam
-- embedded lifecycle disabled path: `SayBarApp` does not call `liftoff()` when persisted autostart is disabled or `--saybar-disable-autostart` is present: covered through environment parsing plus the local app lifecycle seam
-- quit path: termination requests `land()` when autostart was enabled: covered through the local app lifecycle seam
+- embedded lifecycle startup path: `SayBarApp` calls `liftoff()` unless a launch-only override skips it: covered through environment parsing plus the local app lifecycle seam
+- embedded lifecycle skipped path: `SayBarApp` does not call `liftoff()` when `--saybar-skip-embedded-runtime-startup` is present: covered through environment parsing plus the local app lifecycle seam
+- quit path: termination requests `land()` when the launch started the embedded runtime: covered through the local app lifecycle seam
 - voice profile refresh path: empty profile cache triggers `refreshVoiceProfiles()`: covered through the local menu action seam
 - voice selection path: picker selection calls `setDefaultVoiceProfileName(_:)`: covered through the local menu action seam
 - backend selection path: picker selection calls `switchSpeechBackend(to:)`: covered through the local menu action seam
@@ -87,7 +87,7 @@ Implementation notes:
 - `SettingsDisplayState` remains a display mapping helper: production recomputes it from `EmbeddedServer` during render, while `--saybar-ui-fixture-populated-settings` supplies deterministic populated diagnostics for app-level UI coverage
 - if a seam is needed, keep it as a local implementation detail for app action testing, not as a new app-owned runtime model
 - do not adopt `ServerInstallLayout`, `ServerInstalledLogs`, LaunchAgent install helpers, or standalone-server paths in this phase
-- runtime-on integration tests should be explicit and isolated from the existing autostart-disabled shell UI tests
+- runtime-on integration tests should be explicit and isolated from the existing runtime-startup-skipped shell UI tests
 
 ### Phase 3: UI Implementation Review And Streamlining
 
@@ -122,12 +122,12 @@ Goal: add UI and Settings tests after the UI implementation is simpler.
 Planned coverage:
 
 - Settings opens reliably from the app shell: done for the menu-extra Settings button
-- Settings app section displays version, embedded autostart state, and menu bar insertion state: done for fixture-backed Settings
+- Settings app section displays version and menu bar insertion state: done for fixture-backed Settings
 - Runtime section displays status, worker stage, playback, speech backend, default voice profile, generation queue count, and playback queue count: done for fixture-backed Settings
 - Transport section renders empty and populated transport states: done for fixture-backed populated diagnostics
 - Recent errors section renders empty and populated error states: done for fixture-backed populated diagnostics
 - menu surface exposes stable accessibility identifiers for status, queue, controls, and picker rows: done for the current menu shell
-- menu quick actions remain available without layout regressions: done for disabled-autostart UI reachability
+- menu quick actions remain available without layout regressions: done for runtime-startup-skipped UI reachability
 
 Implementation notes:
 

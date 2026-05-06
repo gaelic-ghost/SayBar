@@ -15,7 +15,7 @@ final class SayBarUITests: XCTestCase {
 	@MainActor
 	private func makeApp(additionalLaunchArguments: [String] = []) -> XCUIApplication {
 		let app = XCUIApplication()
-		app.launchArguments.append("--saybar-disable-autostart")
+		app.launchArguments.append("--saybar-skip-embedded-runtime-startup")
 		app.launchArguments.append(contentsOf: additionalLaunchArguments)
 		return app
 	}
@@ -40,7 +40,7 @@ final class SayBarUITests: XCTestCase {
 
 		XCTAssertTrue(
 			launchedInForeground || launchedInBackground,
-			"SayBar should finish launching for UI tests even when embedded-runtime autostart is disabled.",
+			"SayBar should finish launching for UI tests when embedded runtime startup is skipped.",
 			file: file,
 			line: line,
 		)
@@ -112,20 +112,20 @@ final class SayBarUITests: XCTestCase {
 	}
 
 	@MainActor
-	func testAppLaunchesWithoutEmbeddedAutostart() throws {
+	func testAppLaunchesWithEmbeddedRuntimeStartupSkipped() throws {
 		let app = makeApp()
 		launchAndWait(app)
 	}
 
 	@MainActor
-	func testAppTerminatesCleanlyAfterLaunchWithoutEmbeddedAutostart() throws {
+	func testAppTerminatesCleanlyAfterLaunchWithEmbeddedRuntimeStartupSkipped() throws {
 		let app = makeApp()
 		launchAndWait(app)
 		app.terminate()
 
 		XCTAssertTrue(
 			app.wait(for: .notRunning, timeout: terminationTimeout),
-			"SayBar should terminate cleanly after a UI-test launch with embedded autostart disabled.",
+			"SayBar should terminate cleanly after a UI-test launch with embedded runtime startup skipped.",
 		)
 	}
 
@@ -154,7 +154,7 @@ final class SayBarUITests: XCTestCase {
 	}
 
 	@MainActor
-	func testMenuQuickActionsRemainTraversableWithoutEmbeddedAutostart() throws {
+	func testMenuQuickActionsRemainTraversableWithEmbeddedRuntimeStartupSkipped() throws {
 		let app = makeApp()
 		launchAndWait(app)
 
@@ -194,7 +194,6 @@ final class SayBarUITests: XCTestCase {
 			)
 			assertElementExists("saybar-settings-app-section", in: app)
 			assertElementExists("saybar-settings-version", in: app)
-			assertElementExists("saybar-settings-embedded-autostart", in: app)
 			assertElementExists("saybar-settings-menu-bar-extra-toggle", in: app)
 			assertElementExists("saybar-settings-runtime-section", in: app)
 			assertElementExists("saybar-settings-runtime-status", in: app)
@@ -221,7 +220,6 @@ final class SayBarUITests: XCTestCase {
 				"SayBar should open fixture-backed Settings through the same menu workflow.",
 			)
 			assertElementExists("saybar-settings-version", in: app)
-			assertElementExists("saybar-settings-embedded-autostart", in: app)
 			assertElementExists("saybar-settings-menu-bar-extra-toggle", in: app)
 			assertElementExists("saybar-settings-runtime-status", in: app)
 			assertElementExists("saybar-settings-worker-stage", in: app)
@@ -232,7 +230,6 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-settings-playback-queue", in: app)
 
 			assertTextExists("UI Test Fixture", in: app)
-			assertTextExists("Disabled", in: app)
 			assertTextExists("degraded", in: app)
 			assertTextExists("resident_model_ready", in: app)
 			assertTextExists("paused", in: app)

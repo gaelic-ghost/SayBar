@@ -30,11 +30,11 @@ struct MenuBarExtraWindow: View {
     private var isRunningModelAction = false
 
     let server: EmbeddedServer
-    let autostartEnabled: Bool
+    let launchesEmbeddedRuntime: Bool
 
     private var statusHeadline: String {
         MenuBarDisplaySupport.statusHeadline(
-            autostartEnabled: autostartEnabled,
+            launchesEmbeddedRuntime: launchesEmbeddedRuntime,
             recentErrorMessage: server.recentErrors.first?.message,
             startupError: server.overview.startupError,
             playbackState: server.playback.state,
@@ -45,7 +45,7 @@ struct MenuBarExtraWindow: View {
 
     private var statusDetail: String {
         MenuBarDisplaySupport.statusDetail(
-            autostartEnabled: autostartEnabled,
+            launchesEmbeddedRuntime: launchesEmbeddedRuntime,
             recentErrorMessage: server.recentErrors.first?.message,
             startupError: server.overview.startupError,
             playbackState: server.playback.state,
@@ -300,6 +300,6 @@ private extension MenuBarExtraWindow {
 #Preview {
     MenuBarExtraWindow(
         server: EmbeddedServer(),
-        autostartEnabled: false
+        launchesEmbeddedRuntime: false
     )
 }

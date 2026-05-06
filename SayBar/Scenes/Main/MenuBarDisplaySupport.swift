@@ -22,15 +22,15 @@ enum MenuBarDisplaySupport {
     }
 
     nonisolated static func statusHeadline(
-        autostartEnabled: Bool,
+        launchesEmbeddedRuntime: Bool,
         recentErrorMessage: String?,
         startupError: String?,
         playbackState: String,
         workerStage: String,
         serverMode: String
     ) -> String {
-        if !autostartEnabled {
-            return "SpeakSwiftlyServer is idle for this launch."
+        if !launchesEmbeddedRuntime {
+            return "SpeakSwiftlyServer startup is skipped for this launch."
         }
 
         if hasText(recentErrorMessage) {
@@ -66,7 +66,7 @@ enum MenuBarDisplaySupport {
     }
 
     nonisolated static func statusDetail(
-        autostartEnabled: Bool,
+        launchesEmbeddedRuntime: Bool,
         recentErrorMessage: String?,
         startupError: String?,
         playbackState: String,
@@ -75,8 +75,8 @@ enum MenuBarDisplaySupport {
         workerReady: Bool,
         serverMode: String
     ) -> String {
-        if !autostartEnabled {
-            return "Embedded autostart is disabled, so SayBar has not started the in-process runtime."
+        if !launchesEmbeddedRuntime {
+            return "SayBar was launched in lightweight test/debug mode, so it has not started the in-process runtime."
         }
 
         if let recentErrorMessage, !recentErrorMessage.isEmpty {

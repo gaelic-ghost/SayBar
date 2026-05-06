@@ -2,24 +2,24 @@
 import XCTest
 
 final class MenuBarDisplaySupportTests: XCTestCase {
-    func testStatusHeadlineShowsIdleWhenAutostartIsDisabled() {
+    func testStatusHeadlineShowsSkippedStartupWhenRuntimeLaunchIsDisabled() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: false,
+                launchesEmbeddedRuntime: false,
                 recentErrorMessage: "Recent warning",
                 startupError: "Startup failed",
                 playbackState: "playing",
                 workerStage: "resident_model_ready",
                 serverMode: "ready"
             ),
-            "SpeakSwiftlyServer is idle for this launch."
+            "SpeakSwiftlyServer startup is skipped for this launch."
         )
     }
 
     func testStatusHeadlinePrioritizesRecentErrorBeforeStartupAndPlayback() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: "Transport warning",
                 startupError: "Startup failed",
                 playbackState: "playing",
@@ -33,7 +33,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
     func testStatusHeadlinePrioritizesStartupErrorBeforePlayback() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: "Startup failed",
                 playbackState: "playing",
@@ -47,7 +47,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
     func testStatusHeadlineMapsPlaybackAndRuntimeStates() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "playing",
@@ -59,7 +59,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
 
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",
@@ -71,7 +71,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
 
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",
@@ -85,7 +85,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
     func testStatusHeadlineMapsServerModesAfterHigherPriorityStates() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",
@@ -97,7 +97,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
 
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",
@@ -109,7 +109,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
 
         XCTAssertEqual(
             MenuBarDisplaySupport.statusHeadline(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",
@@ -123,7 +123,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
     func testStatusDetailPrioritizesErrorsThenPlayback() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: "Transport warning",
                 startupError: "Startup failed",
                 playbackState: "playing",
@@ -139,7 +139,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
     func testStatusDetailMapsReadyAndWorkerStages() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "paused",
@@ -153,7 +153,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
 
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",
@@ -169,7 +169,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
     func testStatusDetailMapsActivePlaybackAndFallbackWorkerStage() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "playing",
@@ -183,7 +183,7 @@ final class MenuBarDisplaySupportTests: XCTestCase {
 
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
-                autostartEnabled: true,
+                launchesEmbeddedRuntime: true,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",

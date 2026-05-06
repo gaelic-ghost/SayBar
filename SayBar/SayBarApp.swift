@@ -21,22 +21,13 @@ struct SayBarApp: App {
 	@AppStorage("showMenuBarExtra")
 	private var isInserted: Bool = true
 
-	@AppStorage(Self.embeddedRuntimeAutostartKey)
-	private var embeddedRuntimeAutostartEnabled: Bool = true
-
-	private let runtimeAutostartEnabledForLaunch: Bool
+	private let launchesEmbeddedRuntime: Bool
 	private let settingsDisplayStateOverride: SettingsDisplayState?
 	private static let logger = Logger(subsystem: "com.galewilliams.SayBar", category: "app")
-	private static let embeddedRuntimeAutostartKey = "embeddedRuntimeAutostartEnabled"
 
 	init() {
 		let launchArguments = ProcessInfo.processInfo.arguments
-		let autostartDisabledForLaunch = SayBarAppEnvironment.autostartDisabledForLaunch(for: launchArguments)
-		let persistedAutostartEnabled = SayBarAppEnvironment.persistedEmbeddedRuntimeAutostartEnabled(
-			defaults: .standard,
-			key: Self.embeddedRuntimeAutostartKey
-		)
-		let runtimeAutostartEnabledForLaunch = persistedAutostartEnabled && !autostartDisabledForLaunch
+		let launchesEmbeddedRuntime = SayBarAppEnvironment.launchesEmbeddedRuntime(for: launchArguments)
 		let settingsDisplayStateOverride = SayBarAppEnvironment.settingsDisplayStateOverride(for: launchArguments)
 		let server = EmbeddedServer(
 			options: .init(
@@ -45,17 +36,17 @@ struct SayBarApp: App {
 			),
 		)
 
-		self.runtimeAutostartEnabledForLaunch = runtimeAutostartEnabledForLaunch
+		self.launchesEmbeddedRuntime = launchesEmbeddedRuntime
 		self.settingsDisplayStateOverride = settingsDisplayStateOverride
 		_server = State(initialValue: server)
 		SayBarTerminationCoordinator.shared.configure(
 			server: server,
-			autostartEnabled: runtimeAutostartEnabledForLaunch,
+			launchesEmbeddedRuntime: launchesEmbeddedRuntime,
 		)
 
 		Task { @MainActor in
-			_ = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfNeeded(
-				autostartEnabled: runtimeAutostartEnabledForLaunch,
+			_ = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfRequested(
+				launchesEmbeddedRuntime: launchesEmbeddedRuntime,
 				liftoff: {
 					try await server.liftoff()
 				},
@@ -73,7 +64,7 @@ struct SayBarApp: App {
 		MenuBarExtra(isInserted: $isInserted) {
 			MenuBarExtraWindow(
 				server: server,
-				autostartEnabled: runtimeAutostartEnabledForLaunch,
+				launchesEmbeddedRuntime: launchesEmbeddedRuntime,
 			)
 		} label: {
 			Label("SayBar", systemImage: "waveform.and.mic")
@@ -87,13 +78,11 @@ struct SayBarApp: App {
 			if let settingsDisplayStateOverride {
 				SettingsWindow(
 					displayState: settingsDisplayStateOverride,
-					embeddedRuntimeAutostartEnabled: $embeddedRuntimeAutostartEnabled,
 					isMenuBarExtraInserted: $isInserted,
 				)
 			} else {
 				SettingsWindow(
 					server: server,
-					embeddedRuntimeAutostartEnabled: $embeddedRuntimeAutostartEnabled,
 					isMenuBarExtraInserted: $isInserted,
 				)
 			}
@@ -120,20 +109,20 @@ private final class SayBarTerminationCoordinator {
 	static let shared = SayBarTerminationCoordinator()
 
 	private weak var server: EmbeddedServer?
-	private var autostartEnabled = false
+	private var launchesEmbeddedRuntime = false
 	private var isTerminationInFlight = false
 	private static let logger = Logger(subsystem: "com.galewilliams.SayBar", category: "termination")
 
 	private init() {}
 
-	func configure(server: EmbeddedServer, autostartEnabled: Bool) {
+	func configure(server: EmbeddedServer, launchesEmbeddedRuntime: Bool) {
 		self.server = server
-		self.autostartEnabled = autostartEnabled
+		self.launchesEmbeddedRuntime = launchesEmbeddedRuntime
 	}
 
 	func beginTermination() -> SayBarTerminationCoordinator? {
 		let request = SayBarAppLifecycleSupport.terminationRequest(
-			autostartEnabled: autostartEnabled,
+			launchesEmbeddedRuntime: launchesEmbeddedRuntime,
 			serverIsAvailable: server != nil,
 			isTerminationInFlight: isTerminationInFlight,
 		)
@@ -174,15 +163,8 @@ private final class SayBarTerminationCoordinator {
 }
 
 enum SayBarAppEnvironment {
-	static func autostartDisabledForLaunch(for launchArguments: [String]) -> Bool {
-		launchArguments.contains("--saybar-disable-autostart")
-	}
-
-	static func persistedEmbeddedRuntimeAutostartEnabled(
-		defaults: UserDefaults,
-		key: String
-	) -> Bool {
-		defaults.object(forKey: key) as? Bool ?? true
+	static func launchesEmbeddedRuntime(for launchArguments: [String]) -> Bool {
+		!launchArguments.contains("--saybar-skip-embedded-runtime-startup")
 	}
 
 	static func settingsDisplayStateOverride(for launchArguments: [String]) -> SettingsDisplayState? {

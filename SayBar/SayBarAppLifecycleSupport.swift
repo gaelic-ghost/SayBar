@@ -21,13 +21,13 @@ enum SayBarAppLifecycleSupport {
 	}
 
 	@MainActor
-	static func startEmbeddedRuntimeIfNeeded(
-		autostartEnabled: Bool,
+	static func startEmbeddedRuntimeIfRequested(
+		launchesEmbeddedRuntime: Bool,
 		liftoff: () async throws -> Void,
 		refreshVoiceProfiles: () async throws -> Void,
 		logStartupError: (Error) -> Void
 	) async -> StartupResult {
-		guard autostartEnabled else {
+		guard launchesEmbeddedRuntime else {
 			return .skipped
 		}
 
@@ -42,11 +42,11 @@ enum SayBarAppLifecycleSupport {
 	}
 
 	nonisolated static func terminationRequest(
-		autostartEnabled: Bool,
+		launchesEmbeddedRuntime: Bool,
 		serverIsAvailable: Bool,
 		isTerminationInFlight: Bool
 	) -> TerminationRequest {
-		guard autostartEnabled, serverIsAvailable else {
+		guard launchesEmbeddedRuntime, serverIsAvailable else {
 			return .terminateNow
 		}
 

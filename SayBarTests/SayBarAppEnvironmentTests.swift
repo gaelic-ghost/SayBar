@@ -3,46 +3,17 @@ import XCTest
 
 @MainActor
 final class SayBarAppEnvironmentTests: XCTestCase {
-	func testAutostartEnabledDefaultsToTrue() {
-		XCTAssertFalse(
-			SayBarAppEnvironment.autostartDisabledForLaunch(for: []),
-			"SayBar should leave embedded-runtime autostart available unless the UI test launch argument opts out.",
-		)
-	}
-
-	func testAutostartEnabledRespectsDisableFlag() {
+	func testEmbeddedRuntimeLaunchDefaultsToTrue() {
 		XCTAssertTrue(
-			SayBarAppEnvironment.autostartDisabledForLaunch(for: ["--saybar-disable-autostart"]),
-			"SayBar should suppress embedded-runtime autostart for this launch when the UI test launch argument requests it.",
+			SayBarAppEnvironment.launchesEmbeddedRuntime(for: []),
+			"SayBar should start the embedded runtime for normal launches.",
 		)
 	}
 
-	func testPersistedEmbeddedRuntimeAutostartDefaultsToTrue() {
-		let suiteName = "SayBarAppEnvironmentTests-\(UUID().uuidString)"
-		let defaults = UserDefaults(suiteName: suiteName)!
-		defer { defaults.removePersistentDomain(forName: suiteName) }
-
-		XCTAssertTrue(
-			SayBarAppEnvironment.persistedEmbeddedRuntimeAutostartEnabled(
-				defaults: defaults,
-				key: "embeddedRuntimeAutostartEnabled"
-			),
-			"SayBar should default embedded-runtime autostart on for normal app launches.",
-		)
-	}
-
-	func testPersistedEmbeddedRuntimeAutostartReadsStoredBool() {
-		let suiteName = "SayBarAppEnvironmentTests-\(UUID().uuidString)"
-		let defaults = UserDefaults(suiteName: suiteName)!
-		defer { defaults.removePersistentDomain(forName: suiteName) }
-		defaults.set(false, forKey: "embeddedRuntimeAutostartEnabled")
-
+	func testEmbeddedRuntimeLaunchRespectsSkipFlag() {
 		XCTAssertFalse(
-			SayBarAppEnvironment.persistedEmbeddedRuntimeAutostartEnabled(
-				defaults: defaults,
-				key: "embeddedRuntimeAutostartEnabled"
-			),
-			"SayBar should honor the persisted Settings toggle for embedded-runtime autostart.",
+			SayBarAppEnvironment.launchesEmbeddedRuntime(for: ["--saybar-skip-embedded-runtime-startup"]),
+			"SayBar should skip embedded runtime startup only when this launch explicitly requests lightweight test/debug mode.",
 		)
 	}
 

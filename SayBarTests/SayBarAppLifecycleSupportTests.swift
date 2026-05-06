@@ -3,13 +3,13 @@ import XCTest
 
 @MainActor
 final class SayBarAppLifecycleSupportTests: XCTestCase {
-	func testStartupSkipsRuntimeWorkWhenAutostartIsDisabled() async {
+	func testStartupSkipsRuntimeWorkWhenLaunchDoesNotStartEmbeddedRuntime() async {
 		var liftoffCallCount = 0
 		var refreshCallCount = 0
 		var loggedErrors: [Error] = []
 
-		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfNeeded(
-			autostartEnabled: false,
+		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfRequested(
+			launchesEmbeddedRuntime: false,
 			liftoff: {
 				liftoffCallCount += 1
 			},
@@ -27,11 +27,11 @@ final class SayBarAppLifecycleSupportTests: XCTestCase {
 		XCTAssertTrue(loggedErrors.isEmpty)
 	}
 
-	func testStartupLiftsOffThenRefreshesVoiceProfilesWhenAutostartIsEnabled() async {
+	func testStartupLiftsOffThenRefreshesVoiceProfilesWhenLaunchStartsEmbeddedRuntime() async {
 		var events: [String] = []
 
-		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfNeeded(
-			autostartEnabled: true,
+		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfRequested(
+			launchesEmbeddedRuntime: true,
 			liftoff: {
 				events.append("liftoff")
 			},
@@ -50,8 +50,8 @@ final class SayBarAppLifecycleSupportTests: XCTestCase {
 	func testStartupIgnoresInitialVoiceProfileRefreshFailureAfterLiftoff() async {
 		var events: [String] = []
 
-		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfNeeded(
-			autostartEnabled: true,
+		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfRequested(
+			launchesEmbeddedRuntime: true,
 			liftoff: {
 				events.append("liftoff")
 			},
@@ -71,8 +71,8 @@ final class SayBarAppLifecycleSupportTests: XCTestCase {
 	func testStartupLogsLiftoffFailureAndSkipsVoiceProfileRefresh() async {
 		var events: [String] = []
 
-		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfNeeded(
-			autostartEnabled: true,
+		let result = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfRequested(
+			launchesEmbeddedRuntime: true,
 			liftoff: {
 				events.append("liftoff")
 				throw LifecycleTestError.liftoffFailed
@@ -89,10 +89,10 @@ final class SayBarAppLifecycleSupportTests: XCTestCase {
 		XCTAssertEqual(events, ["liftoff", "log:liftoff failed"])
 	}
 
-	func testTerminationRequestMapsAutostartServerAndInFlightState() {
+	func testTerminationRequestMapsRuntimeLaunchServerAndInFlightState() {
 		XCTAssertEqual(
 			SayBarAppLifecycleSupport.terminationRequest(
-				autostartEnabled: false,
+				launchesEmbeddedRuntime: false,
 				serverIsAvailable: true,
 				isTerminationInFlight: false
 			),
@@ -100,7 +100,7 @@ final class SayBarAppLifecycleSupportTests: XCTestCase {
 		)
 		XCTAssertEqual(
 			SayBarAppLifecycleSupport.terminationRequest(
-				autostartEnabled: true,
+				launchesEmbeddedRuntime: true,
 				serverIsAvailable: false,
 				isTerminationInFlight: false
 			),
@@ -108,7 +108,7 @@ final class SayBarAppLifecycleSupportTests: XCTestCase {
 		)
 		XCTAssertEqual(
 			SayBarAppLifecycleSupport.terminationRequest(
-				autostartEnabled: true,
+				launchesEmbeddedRuntime: true,
 				serverIsAvailable: true,
 				isTerminationInFlight: true
 			),
@@ -116,7 +116,7 @@ final class SayBarAppLifecycleSupportTests: XCTestCase {
 		)
 		XCTAssertEqual(
 			SayBarAppLifecycleSupport.terminationRequest(
-				autostartEnabled: true,
+				launchesEmbeddedRuntime: true,
 				serverIsAvailable: true,
 				isTerminationInFlight: false
 			),

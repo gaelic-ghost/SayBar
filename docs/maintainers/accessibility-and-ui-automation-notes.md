@@ -45,7 +45,7 @@ The current stable rule is simpler:
 
 The checked-in UI test target currently follows Apple's documented `XCUIApplication` launch and state-wait pattern.
 
-The current checked-in tests validate these shell-level behaviors with `--saybar-disable-autostart`:
+The current checked-in tests validate these shell-level behaviors with `--saybar-skip-embedded-runtime-startup`:
 
 - initial launch completes
 - explicit app termination completes
@@ -71,7 +71,7 @@ Treat the current SayBar automation problem as a system-presentation boundary fi
 For the current repo state, the honest validation split is:
 
 - unit tests cover app-local display and action decisions without launching the runtime
-- UI tests cover launch, termination, relaunch, menu reachability, Settings reachability, and fixture-backed Settings values without embedded autostart
+- UI tests cover launch, termination, relaunch, menu reachability, Settings reachability, and fixture-backed Settings values with embedded runtime startup skipped
 - runtime-on audible validation should stay opt-in and isolated from the default UI suite
 
 ## Runtime And Sandbox Findings
@@ -80,16 +80,17 @@ For the current repo state, the honest validation split is:
 
 Current Xcode launches split cleanly into two behaviors:
 
-- when SayBar launches normally and the persisted autostart setting is enabled, the embedded runtime starts during app launch
-- when SayBar launches with `--saybar-disable-autostart`, the app shell launches without embedded runtime startup for that launch
+- when SayBar launches normally, the embedded runtime starts during app launch
+- when SayBar launches with `--saybar-skip-embedded-runtime-startup`, the app shell launches without embedded runtime startup for that launch
 
-That means the Settings autostart toggle controls normal launch behavior, while the launch argument remains useful for shell-focused UI tests and shell-level debugging.
+That means normal product launches always start the app-owned runtime, while the launch argument remains useful for shell-focused UI tests and shell-level debugging.
+This follows XCTest's supported UI-test control surface: the test sets `XCUIApplication.launchArguments`, and the app under test reads that explicit process argument during launch.
 
 ### Current quit-path finding
 
 The app now requests embedded-runtime shutdown through `EmbeddedServer.land()` before allowing macOS termination to finish.
 
-That makes the launch and quit ownership story explicit in app code even though the UI test target still exercises the lighter autostart-disabled path.
+That makes the launch and quit ownership story explicit in app code even though the UI test target still exercises the lighter runtime-startup-skipped path.
 
 ### Current ownership finding
 

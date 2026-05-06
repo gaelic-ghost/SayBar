@@ -25,7 +25,7 @@ final class SayBarUITestsLaunchTests: XCTestCase {
 	@MainActor
 	private func makeApp() -> XCUIApplication {
 		let app = XCUIApplication()
-		app.launchArguments.append("--saybar-disable-autostart")
+		app.launchArguments.append("--saybar-skip-embedded-runtime-startup")
 		return app
 	}
 
@@ -38,14 +38,14 @@ final class SayBarUITestsLaunchTests: XCTestCase {
 
 		XCTAssertTrue(
 			launchedInForeground || launchedInBackground,
-			"SayBar should relaunch successfully for UI tests when embedded autostart is disabled.",
+			"SayBar should relaunch successfully for UI tests when embedded runtime startup is skipped.",
 			file: file,
 			line: line,
 		)
 	}
 
 	@MainActor
-	func testAppCanRelaunchAfterTerminationWithoutEmbeddedAutostart() throws {
+	func testAppCanRelaunchAfterTerminationWithEmbeddedRuntimeStartupSkipped() throws {
 		let app = makeApp()
 		launchAndWait(app)
 

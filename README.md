@@ -55,15 +55,15 @@ Launch the `SayBar` scheme to start the app. The menu bar surface is intentional
 - one compact control row for resident-model power, playback or clipboard speech, and settings
 - one picker row for voice profile selection and speech backend selection
 
-Open Settings for deeper app and runtime diagnostics. The current settings surface shows the app version, a persisted embedded-runtime autostart toggle, menu bar insertion preference, runtime summary values, transport details, and recent retained errors.
+Open Settings for deeper app and runtime diagnostics. The current settings surface shows the app version, menu bar insertion preference, runtime summary values, transport details, and recent retained errors.
 
 The current implementation is embedded-runtime-first: SayBar hosts `SpeakSwiftlyServer` inside the app process rather than attaching to an external background service.
 
 Current lifecycle behavior is explicit in code now:
 
-- launch starts the embedded runtime when the persisted autostart setting is enabled and `--saybar-disable-autostart` is not present
+- launch starts the embedded runtime unless `--saybar-skip-embedded-runtime-startup` is present
 - quit requests `EmbeddedServer.land()` before allowing macOS termination to finish
-- launch-only and relaunch-after-terminate UI tests both run with embedded autostart disabled so the app shell can be validated without pulling the full runtime into every UI test
+- launch-only and relaunch-after-terminate UI tests both run with embedded runtime startup skipped so the app shell can be validated without pulling the full runtime into every UI test
 
 ## Development
 
