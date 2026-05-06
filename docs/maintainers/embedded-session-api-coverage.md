@@ -2,7 +2,7 @@
 
 ## Source Of Truth
 
-This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `5.0.12`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
+This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `5.0.13`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
 
 The current SayBar product baseline is still embedded-runtime-first. That means `EmbeddedServer` is in scope for active app behavior, while standalone LaunchAgent install helpers remain future-scope until SayBar intentionally grows an app-managed standalone-server mode.
 

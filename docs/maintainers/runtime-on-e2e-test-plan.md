@@ -44,6 +44,7 @@ The lane should avoid changing persistent user settings unless a test explicitly
 - Use a separate opt-in XCUITest plan and keep it outside CI and default validation.
 - Use the clipboard route as one request surface because it mirrors a real daily-driver workflow.
 - Exercise both embedded runtime transport surfaces, HTTP and MCP, with separate short audible requests so one obvious break in either path is caught quickly.
+- Run all three audible checks in one runtime-on suite pass: clipboard UI, embedded HTTP, and embedded MCP.
 - Assert completion from both the UI and runtime state.
 - Check both MCP and HTTP service surfaces during live-service coordination.
 - Keep execution sequential through XCUITest rather than adding a first-pass lock file.
@@ -52,7 +53,6 @@ The lane should avoid changing persistent user settings unless a test explicitly
 
 - Should SayBar expose a runtime-on test launch argument for shorter deterministic text and profile choices, or should the suite interact only through ordinary menu UI and pasteboard state?
 - Which exact embedded runtime observation should count as request completion: a queue count drop, last request state, playback-idle transition, request resource, or a combination?
-- Should the first implementation run three audible requests, covering clipboard UI plus HTTP plus MCP, or keep the transport checks to one request each and treat the clipboard route as the first user-facing request surface?
 - Which voice profile should be used for the audible checks, and should the suite fail if that profile is unavailable?
 
 ## Initial Recommendation
