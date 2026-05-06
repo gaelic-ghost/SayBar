@@ -18,9 +18,6 @@ struct MenuBarExtraWindow: View {
     private var openSettings
 
     @State
-    private var actionMessage: String?
-
-    @State
     private var isSubmittingClipboardSpeech = false
 
     @State
@@ -49,7 +46,6 @@ struct MenuBarExtraWindow: View {
     private var statusDetail: String {
         MenuBarDisplaySupport.statusDetail(
             autostartEnabled: autostartEnabled,
-            actionMessage: actionMessage,
             recentErrorMessage: server.recentErrors.first?.message,
             startupError: server.overview.startupError,
             playbackState: server.playback.state,
@@ -174,10 +170,8 @@ private extension MenuBarExtraWindow {
                 switch MenuBarActionSupport.residentModelCommand(workerStage: server.overview.workerStage) {
                     case .reload:
                         _ = try await server.reloadModels()
-                        actionMessage = "Resident models are loaded again."
                     case .unload:
                         _ = try await server.unloadModels()
-                        actionMessage = "Resident models are unloaded."
                 }
             } catch {
                 handleActionError(
@@ -196,7 +190,6 @@ private extension MenuBarExtraWindow {
                 case .pause:
                     do {
                         _ = try await server.pausePlayback()
-                        actionMessage = "Playback is paused."
                     } catch {
                         handleActionError(
                             error,
@@ -206,7 +199,6 @@ private extension MenuBarExtraWindow {
                 case .resume:
                     do {
                         _ = try await server.resumePlayback()
-                        actionMessage = "Playback resumed."
                     } catch {
                         handleActionError(
                             error,
@@ -223,7 +215,7 @@ private extension MenuBarExtraWindow {
     func submitClipboardSpeech() async {
         let clipboardText = NSPasteboard.general.string(forType: .string)
         guard !MenuBarActionSupport.normalizedClipboardText(clipboardText).isEmpty else {
-            actionMessage = "The clipboard does not contain text to speak."
+            Self.logger.notice("SayBar ignored the clipboard speech action because the clipboard did not contain speakable text.")
             return
         }
 
@@ -242,9 +234,9 @@ private extension MenuBarExtraWindow {
             )
             switch result {
                 case .emptyClipboard:
-                    actionMessage = "The clipboard does not contain text to speak."
+                    Self.logger.notice("SayBar ignored the clipboard speech action because the clipboard did not contain speakable text after normalization.")
                 case .queued:
-                    actionMessage = "Queued clipboard text for live speech."
+                    break
             }
         } catch {
             handleActionError(
@@ -265,7 +257,7 @@ private extension MenuBarExtraWindow {
                         try await server.setDefaultVoiceProfileName(profileName)
                     }
                 ) {
-                    actionMessage = "Default voice profile set to \(resolvedProfileName)."
+                    Self.logger.notice("SayBar set the embedded runtime default voice profile to '\(resolvedProfileName, privacy: .public)'.")
                 }
             } catch {
                 handleActionError(
@@ -282,13 +274,12 @@ private extension MenuBarExtraWindow {
         Task { @MainActor in
             isRunningBackendAction = true
             do {
-                let backendName = try await MenuBarActionSupport.switchSpeechBackend(
+                _ = try await MenuBarActionSupport.switchSpeechBackend(
                     to: backend,
                     switchSpeechBackend: { backend in
                         _ = try await server.switchSpeechBackend(to: backend)
                     }
                 )
-                actionMessage = "Speech backend switched to \(backendName)."
             } catch {
                 handleActionError(
                     error,
@@ -302,7 +293,6 @@ private extension MenuBarExtraWindow {
     @MainActor
     func handleActionError(_ error: Error, fallbackMessage: String) {
         let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-        actionMessage = message.isEmpty ? fallbackMessage : message
         Self.logger.error("\(fallbackMessage, privacy: .public) Likely cause: \(message, privacy: .public)")
     }
 }

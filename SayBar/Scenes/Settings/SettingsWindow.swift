@@ -9,29 +9,36 @@ import SpeakSwiftlyServer
 import SwiftUI
 
 struct SettingsWindow: View {
-    let displayState: SettingsDisplayState
+    private enum Source {
+        case server(EmbeddedServer)
+        case fixture(SettingsDisplayState)
+    }
+
+    private let source: Source
+
+    @Binding
+    var embeddedRuntimeAutostartEnabled: Bool
 
     @Binding
     var isMenuBarExtraInserted: Bool
 
     init(
         server: EmbeddedServer,
-        autostartEnabled: Bool,
+        embeddedRuntimeAutostartEnabled: Binding<Bool>,
         isMenuBarExtraInserted: Binding<Bool>
     ) {
-        displayState = SettingsDisplayState(
-            server: server,
-            autostartEnabled: autostartEnabled,
-            buildVersion: Self.buildVersion
-        )
+        source = .server(server)
+        _embeddedRuntimeAutostartEnabled = embeddedRuntimeAutostartEnabled
         _isMenuBarExtraInserted = isMenuBarExtraInserted
     }
 
     init(
         displayState: SettingsDisplayState,
+        embeddedRuntimeAutostartEnabled: Binding<Bool>,
         isMenuBarExtraInserted: Binding<Bool>
     ) {
-        self.displayState = displayState
+        source = .fixture(displayState)
+        _embeddedRuntimeAutostartEnabled = embeddedRuntimeAutostartEnabled
         _isMenuBarExtraInserted = isMenuBarExtraInserted
     }
 
@@ -41,10 +48,25 @@ struct SettingsWindow: View {
         return "\(version) (\(build))"
     }
 
+    private var displayState: SettingsDisplayState {
+        switch source {
+            case .server(let server):
+                SettingsDisplayState(
+                    server: server,
+                    buildVersion: Self.buildVersion
+                )
+            case .fixture(let displayState):
+                displayState
+        }
+    }
+
     var body: some View {
+        let displayState = displayState
+
         Form {
             SettingsAppInfoSection(
                 appInfo: displayState.appInfo,
+                embeddedRuntimeAutostartEnabled: $embeddedRuntimeAutostartEnabled,
                 isMenuBarExtraInserted: $isMenuBarExtraInserted
             )
 
@@ -65,7 +87,7 @@ struct SettingsWindow: View {
 #Preview {
     SettingsWindow(
         server: EmbeddedServer(),
-        autostartEnabled: false,
+        embeddedRuntimeAutostartEnabled: .constant(false),
         isMenuBarExtraInserted: .constant(true)
     )
 }

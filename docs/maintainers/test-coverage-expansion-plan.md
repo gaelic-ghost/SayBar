@@ -69,22 +69,22 @@ Goal: cover every `EmbeddedServer` surface SayBar already uses, without widening
 
 Planned coverage:
 
-- embedded lifecycle startup path: `SayBarApp` calls `liftoff()` when autostart is enabled: covered through the local app lifecycle seam
-- embedded lifecycle disabled path: `SayBarApp` does not call `liftoff()` when `--saybar-disable-autostart` is present: covered through environment parsing plus the local app lifecycle seam
+- embedded lifecycle startup path: `SayBarApp` calls `liftoff()` when persisted autostart is enabled and no launch-only override disables it: covered through environment parsing plus the local app lifecycle seam
+- embedded lifecycle disabled path: `SayBarApp` does not call `liftoff()` when persisted autostart is disabled or `--saybar-disable-autostart` is present: covered through environment parsing plus the local app lifecycle seam
 - quit path: termination requests `land()` when autostart was enabled: covered through the local app lifecycle seam
 - voice profile refresh path: empty profile cache triggers `refreshVoiceProfiles()`: covered through the local menu action seam
 - voice selection path: picker selection calls `setDefaultVoiceProfileName(_:)`: covered through the local menu action seam
 - backend selection path: picker selection calls `switchSpeechBackend(to:)`: covered through the local menu action seam
 - resident model power path: unloaded models call `reloadModels()`, loaded models call `unloadModels()`: command routing covered
 - playback button path: playing calls `pausePlayback()`, paused calls `resumePlayback()`, idle submits clipboard speech: command routing covered
-- clipboard speech path: empty clipboard reports a local message; non-empty clipboard calls `queueLiveSpeech(text:requestContext:)` with SayBar clipboard request metadata: covered through the local menu action seam
+- clipboard speech path: empty clipboard is ignored with a descriptive log entry; non-empty clipboard calls `queueLiveSpeech(text:requestContext:)` with SayBar clipboard request metadata: covered through the local menu action seam
 - observable state consumption: menu and Settings read `overview`, `generationQueue`, `playbackQueue`, `playback`, `runtimeConfiguration`, `voiceProfiles`, `transports`, and `recentErrors` directly; display mapping is covered for menu status, queue slots, selected voice fallback, controls, and Settings transport summaries, while deeper presentation checks belong to Phase 4 after the UI streamlining pass
 
 Implementation notes:
 
 - add test seams only where the current direct `EmbeddedServer` baseline cannot otherwise be observed: currently `MenuBarActionSupport` accepts async closures for the real server calls while `MenuBarExtraWindow` keeps direct `EmbeddedServer` ownership
 - `SayBarAppLifecycleSupport` applies the same seam shape to startup and termination: `SayBarApp` and `SayBarTerminationCoordinator` still perform the real `EmbeddedServer` calls, while tests observe the decisions through async closures
-- `SettingsDisplayState` provides a local display seam for Settings UI tests: production still maps directly from `EmbeddedServer`, while `--saybar-ui-fixture-populated-settings` supplies deterministic populated diagnostics for app-level UI coverage
+- `SettingsDisplayState` remains a display mapping helper: production recomputes it from `EmbeddedServer` during render, while `--saybar-ui-fixture-populated-settings` supplies deterministic populated diagnostics for app-level UI coverage
 - if a seam is needed, keep it as a local implementation detail for app action testing, not as a new app-owned runtime model
 - do not adopt `ServerInstallLayout`, `ServerInstalledLogs`, LaunchAgent install helpers, or standalone-server paths in this phase
 - runtime-on integration tests should be explicit and isolated from the existing autostart-disabled shell UI tests

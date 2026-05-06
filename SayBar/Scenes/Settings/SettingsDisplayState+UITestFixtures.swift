@@ -9,8 +9,7 @@ extension SettingsDisplayState {
     nonisolated static func uiTestPopulatedFixture(buildVersion: String) -> SettingsDisplayState {
         SettingsDisplayState(
             appInfo: AppInfo(
-                buildVersion: buildVersion,
-                embeddedAutostartStatus: SettingsDisplaySupport.enabledStatus(false)
+                buildVersion: buildVersion
             ),
             runtimeOverview: RuntimeOverview(
                 status: "degraded",

@@ -8,7 +8,6 @@
 struct SettingsDisplayState: Equatable {
     struct AppInfo: Equatable {
         let buildVersion: String
-        let embeddedAutostartStatus: String
     }
 
     struct RuntimeOverview: Equatable {

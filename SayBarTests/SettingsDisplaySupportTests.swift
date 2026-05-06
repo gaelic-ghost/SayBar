@@ -2,11 +2,6 @@
 import XCTest
 
 final class SettingsDisplaySupportTests: XCTestCase {
-    func testEnabledStatusMapsBooleanState() {
-        XCTAssertEqual(SettingsDisplaySupport.enabledStatus(true), "Enabled")
-        XCTAssertEqual(SettingsDisplaySupport.enabledStatus(false), "Disabled")
-    }
-
     func testDefaultVoiceProfileNameFallsBackToNone() {
         XCTAssertEqual(SettingsDisplaySupport.defaultVoiceProfileName("default-femme"), "default-femme")
         XCTAssertEqual(SettingsDisplaySupport.defaultVoiceProfileName(nil), "None")

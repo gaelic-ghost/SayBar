@@ -14,7 +14,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `EmbeddedServer.Options.port` | `EmbeddedServer.Options` | Implemented | Pins the embedded HTTP transport to port `7339`. |
 | `EmbeddedServer.Options.runtimeProfileRootURL` | `EmbeddedServer.Options` | Implemented | Points the embedded runtime at SayBar-owned Application Support profile storage. |
 | `EmbeddedServer.init(options:)` | `EmbeddedServer` | Implemented | Creates the app-owned embedded runtime model during app initialization. |
-| `liftoff(environment:)` | `EmbeddedServer` | Implemented | Starts the embedded runtime on launch unless `--saybar-disable-autostart` is present. |
+| `liftoff(environment:)` | `EmbeddedServer` | Implemented | Starts the embedded runtime on launch when the persisted autostart setting is enabled and `--saybar-disable-autostart` is not present. |
 | `land()` | `EmbeddedServer` | Implemented | Requests graceful embedded runtime shutdown before macOS app termination completes. |
 | `overview` | `EmbeddedServer` | Implemented | Drives menu status text, startup-error display, worker readiness, model-loaded state, and default voice fallback. |
 | `overview.service` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display the service identifier yet. |

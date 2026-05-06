@@ -4,16 +4,45 @@ import XCTest
 @MainActor
 final class SayBarAppEnvironmentTests: XCTestCase {
 	func testAutostartEnabledDefaultsToTrue() {
-		XCTAssertTrue(
-			SayBarAppEnvironment.autostartEnabled(for: []),
-			"SayBar should autostart the embedded runtime unless the UI test launch argument opts out.",
+		XCTAssertFalse(
+			SayBarAppEnvironment.autostartDisabledForLaunch(for: []),
+			"SayBar should leave embedded-runtime autostart available unless the UI test launch argument opts out.",
 		)
 	}
 
 	func testAutostartEnabledRespectsDisableFlag() {
+		XCTAssertTrue(
+			SayBarAppEnvironment.autostartDisabledForLaunch(for: ["--saybar-disable-autostart"]),
+			"SayBar should suppress embedded-runtime autostart for this launch when the UI test launch argument requests it.",
+		)
+	}
+
+	func testPersistedEmbeddedRuntimeAutostartDefaultsToTrue() {
+		let suiteName = "SayBarAppEnvironmentTests-\(UUID().uuidString)"
+		let defaults = UserDefaults(suiteName: suiteName)!
+		defer { defaults.removePersistentDomain(forName: suiteName) }
+
+		XCTAssertTrue(
+			SayBarAppEnvironment.persistedEmbeddedRuntimeAutostartEnabled(
+				defaults: defaults,
+				key: "embeddedRuntimeAutostartEnabled"
+			),
+			"SayBar should default embedded-runtime autostart on for normal app launches.",
+		)
+	}
+
+	func testPersistedEmbeddedRuntimeAutostartReadsStoredBool() {
+		let suiteName = "SayBarAppEnvironmentTests-\(UUID().uuidString)"
+		let defaults = UserDefaults(suiteName: suiteName)!
+		defer { defaults.removePersistentDomain(forName: suiteName) }
+		defaults.set(false, forKey: "embeddedRuntimeAutostartEnabled")
+
 		XCTAssertFalse(
-			SayBarAppEnvironment.autostartEnabled(for: ["--saybar-disable-autostart"]),
-			"SayBar should disable embedded-runtime autostart when the UI test launch argument requests it.",
+			SayBarAppEnvironment.persistedEmbeddedRuntimeAutostartEnabled(
+				defaults: defaults,
+				key: "embeddedRuntimeAutostartEnabled"
+			),
+			"SayBar should honor the persisted Settings toggle for embedded-runtime autostart.",
 		)
 	}
 

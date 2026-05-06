@@ -67,7 +67,6 @@ enum MenuBarDisplaySupport {
 
     nonisolated static func statusDetail(
         autostartEnabled: Bool,
-        actionMessage: String?,
         recentErrorMessage: String?,
         startupError: String?,
         playbackState: String,
@@ -78,10 +77,6 @@ enum MenuBarDisplaySupport {
     ) -> String {
         if !autostartEnabled {
             return "Embedded autostart is disabled, so SayBar has not started the in-process runtime."
-        }
-
-        if let actionMessage, !actionMessage.isEmpty {
-            return actionMessage
         }
 
         if let recentErrorMessage, !recentErrorMessage.isEmpty {

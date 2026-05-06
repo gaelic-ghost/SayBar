@@ -120,26 +120,10 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         )
     }
 
-    func testStatusDetailPrioritizesActionThenErrorsThenPlayback() {
+    func testStatusDetailPrioritizesErrorsThenPlayback() {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
                 autostartEnabled: true,
-                actionMessage: "Queued clipboard text for live speech.",
-                recentErrorMessage: "Transport warning",
-                startupError: "Startup failed",
-                playbackState: "playing",
-                activePlaybackRequestID: "request-1",
-                workerStage: "resident_model_ready",
-                workerReady: true,
-                serverMode: "ready"
-            ),
-            "Queued clipboard text for live speech."
-        )
-
-        XCTAssertEqual(
-            MenuBarDisplaySupport.statusDetail(
-                autostartEnabled: true,
-                actionMessage: nil,
                 recentErrorMessage: "Transport warning",
                 startupError: "Startup failed",
                 playbackState: "playing",
@@ -156,7 +140,6 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
                 autostartEnabled: true,
-                actionMessage: nil,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "paused",
@@ -171,7 +154,6 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
                 autostartEnabled: true,
-                actionMessage: nil,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",
@@ -188,7 +170,6 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
                 autostartEnabled: true,
-                actionMessage: nil,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "playing",
@@ -203,7 +184,6 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         XCTAssertEqual(
             MenuBarDisplaySupport.statusDetail(
                 autostartEnabled: true,
-                actionMessage: nil,
                 recentErrorMessage: nil,
                 startupError: nil,
                 playbackState: "idle",

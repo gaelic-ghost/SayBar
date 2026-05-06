@@ -6,10 +6,6 @@
 //
 
 enum SettingsDisplaySupport {
-    nonisolated static func enabledStatus(_ isEnabled: Bool) -> String {
-        isEnabled ? "Enabled" : "Disabled"
-    }
-
     nonisolated static func defaultVoiceProfileName(_ profileName: String?) -> String {
         profileName ?? "None"
     }

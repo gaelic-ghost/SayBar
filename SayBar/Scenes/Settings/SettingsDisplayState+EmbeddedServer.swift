@@ -8,11 +8,10 @@
 import SpeakSwiftlyServer
 
 extension SettingsDisplayState {
-    init(server: EmbeddedServer, autostartEnabled: Bool, buildVersion: String) {
+    init(server: EmbeddedServer, buildVersion: String) {
         self.init(
             appInfo: AppInfo(
-                buildVersion: buildVersion,
-                embeddedAutostartStatus: SettingsDisplaySupport.enabledStatus(autostartEnabled)
+                buildVersion: buildVersion
             ),
             runtimeOverview: RuntimeOverview(
                 status: server.overview.serverMode,

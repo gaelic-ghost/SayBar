@@ -21,13 +21,22 @@ struct SayBarApp: App {
 	@AppStorage("showMenuBarExtra")
 	private var isInserted: Bool = true
 
-	private let autostartEnabled: Bool
+	@AppStorage(Self.embeddedRuntimeAutostartKey)
+	private var embeddedRuntimeAutostartEnabled: Bool = true
+
+	private let runtimeAutostartEnabledForLaunch: Bool
 	private let settingsDisplayStateOverride: SettingsDisplayState?
 	private static let logger = Logger(subsystem: "com.galewilliams.SayBar", category: "app")
+	private static let embeddedRuntimeAutostartKey = "embeddedRuntimeAutostartEnabled"
 
 	init() {
 		let launchArguments = ProcessInfo.processInfo.arguments
-		let autostartEnabled = SayBarAppEnvironment.autostartEnabled(for: launchArguments)
+		let autostartDisabledForLaunch = SayBarAppEnvironment.autostartDisabledForLaunch(for: launchArguments)
+		let persistedAutostartEnabled = SayBarAppEnvironment.persistedEmbeddedRuntimeAutostartEnabled(
+			defaults: .standard,
+			key: Self.embeddedRuntimeAutostartKey
+		)
+		let runtimeAutostartEnabledForLaunch = persistedAutostartEnabled && !autostartDisabledForLaunch
 		let settingsDisplayStateOverride = SayBarAppEnvironment.settingsDisplayStateOverride(for: launchArguments)
 		let server = EmbeddedServer(
 			options: .init(
@@ -36,17 +45,17 @@ struct SayBarApp: App {
 			),
 		)
 
-		self.autostartEnabled = autostartEnabled
+		self.runtimeAutostartEnabledForLaunch = runtimeAutostartEnabledForLaunch
 		self.settingsDisplayStateOverride = settingsDisplayStateOverride
 		_server = State(initialValue: server)
 		SayBarTerminationCoordinator.shared.configure(
 			server: server,
-			autostartEnabled: autostartEnabled,
+			autostartEnabled: runtimeAutostartEnabledForLaunch,
 		)
 
 		Task { @MainActor in
 			_ = await SayBarAppLifecycleSupport.startEmbeddedRuntimeIfNeeded(
-				autostartEnabled: autostartEnabled,
+				autostartEnabled: runtimeAutostartEnabledForLaunch,
 				liftoff: {
 					try await server.liftoff()
 				},
@@ -64,7 +73,7 @@ struct SayBarApp: App {
 		MenuBarExtra(isInserted: $isInserted) {
 			MenuBarExtraWindow(
 				server: server,
-				autostartEnabled: autostartEnabled,
+				autostartEnabled: runtimeAutostartEnabledForLaunch,
 			)
 		} label: {
 			Label("SayBar", systemImage: "waveform.and.mic")
@@ -78,12 +87,13 @@ struct SayBarApp: App {
 			if let settingsDisplayStateOverride {
 				SettingsWindow(
 					displayState: settingsDisplayStateOverride,
+					embeddedRuntimeAutostartEnabled: $embeddedRuntimeAutostartEnabled,
 					isMenuBarExtraInserted: $isInserted,
 				)
 			} else {
 				SettingsWindow(
 					server: server,
-					autostartEnabled: autostartEnabled,
+					embeddedRuntimeAutostartEnabled: $embeddedRuntimeAutostartEnabled,
 					isMenuBarExtraInserted: $isInserted,
 				)
 			}
@@ -164,8 +174,15 @@ private final class SayBarTerminationCoordinator {
 }
 
 enum SayBarAppEnvironment {
-	static func autostartEnabled(for launchArguments: [String]) -> Bool {
-		!launchArguments.contains("--saybar-disable-autostart")
+	static func autostartDisabledForLaunch(for launchArguments: [String]) -> Bool {
+		launchArguments.contains("--saybar-disable-autostart")
+	}
+
+	static func persistedEmbeddedRuntimeAutostartEnabled(
+		defaults: UserDefaults,
+		key: String
+	) -> Bool {
+		defaults.object(forKey: key) as? Bool ?? true
 	}
 
 	static func settingsDisplayStateOverride(for launchArguments: [String]) -> SettingsDisplayState? {

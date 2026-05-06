@@ -80,10 +80,10 @@ For the current repo state, the honest validation split is:
 
 Current Xcode launches split cleanly into two behaviors:
 
-- when SayBar launches normally, the embedded runtime starts during app launch
-- when SayBar launches with `--saybar-disable-autostart`, the app shell launches without embedded runtime startup
+- when SayBar launches normally and the persisted autostart setting is enabled, the embedded runtime starts during app launch
+- when SayBar launches with `--saybar-disable-autostart`, the app shell launches without embedded runtime startup for that launch
 
-That means the autostart toggle remains useful for shell-focused UI tests and shell-level debugging.
+That means the Settings autostart toggle controls normal launch behavior, while the launch argument remains useful for shell-focused UI tests and shell-level debugging.
 
 ### Current quit-path finding
 

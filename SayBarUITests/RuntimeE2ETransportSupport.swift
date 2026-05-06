@@ -41,10 +41,12 @@ struct RuntimeE2EHTTPClient {
         _ type: Value.Type,
         path: String,
         method: String = "GET",
-        jsonBody: [String: Any]? = nil
+        jsonBody: [String: Any]? = nil,
+        acceptedStatusCodes: Set<Int>? = nil
     ) async throws -> Value {
         let response = try await request(path: path, method: method, jsonBody: jsonBody)
-        guard (200...299).contains(response.statusCode) else {
+        let acceptedStatus = acceptedStatusCodes?.contains(response.statusCode) ?? (200...299).contains(response.statusCode)
+        guard acceptedStatus else {
             throw RuntimeE2EError(
                 "Runtime E2E HTTP request to '\(path)' returned HTTP \(response.statusCode). Body: \(response.text)"
             )

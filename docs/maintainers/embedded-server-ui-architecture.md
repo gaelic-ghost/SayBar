@@ -38,7 +38,7 @@ Apple's SwiftUI app model makes the `App` conformer the app entry point and comp
 SayBar follows that model directly:
 
 - `SayBarApp` creates one `EmbeddedServer`
-- app launch calls `liftoff()` unless UI tests or operator launch arguments explicitly disable autostart
+- app launch calls `liftoff()` when the persisted autostart setting is enabled and UI tests or operator launch arguments have not disabled autostart for that launch
 - app termination requests `land()` before allowing macOS termination to finish
 
 That keeps ownership flat and keeps runtime startup and cleanup attached to the same app-owned model instead of splitting lifecycle work between multiple wrappers.

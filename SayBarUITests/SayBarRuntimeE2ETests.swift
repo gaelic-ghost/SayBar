@@ -141,11 +141,6 @@ private extension SayBarRuntimeE2ETests {
             "SayBar clipboard speech control should be hittable when the embedded runtime is ready."
         )
         button.click()
-
-        try runtimeE2ERequire(
-            app.descendants(matching: .any)["Queued clipboard text for live speech."].waitForExistence(timeout: menuTimeout),
-            "SayBar should visibly acknowledge the clipboard speech request before runtime completion polling starts."
-        )
     }
 
     func assertMenuShowsIdleQueue(_ app: XCUIApplication) async throws {
@@ -179,7 +174,11 @@ private extension SayBarRuntimeE2ETests {
 
     func waitForModelsUnloaded(http: RuntimeE2EHTTPClient, mcp: RuntimeE2EMCPClient) async throws {
         _ = try await waitUntil(timeout: runtimeReadyTimeout, pollInterval: 1) {
-            let readiness = try await http.decoded(RuntimeE2EReadinessSnapshot.self, path: "/readyz")
+            let readiness = try await http.decoded(
+                RuntimeE2EReadinessSnapshot.self,
+                path: "/readyz",
+                acceptedStatusCodes: [200, 503]
+            )
             let mcpOverview = try await mcp.readResourceJSON(uri: "speak-swiftly://overview")
             let mcpWorkerStage = mcpOverview["worker_stage"] as? String
             return readiness.workerStage == "resident_models_unloaded" && mcpWorkerStage == "resident_models_unloaded" ? true : nil
@@ -195,7 +194,11 @@ private extension SayBarRuntimeE2ETests {
 
         _ = try await mcp.callTool(name: "reload_models")
         _ = try await waitUntil(timeout: runtimeReadyTimeout, pollInterval: 1) {
-            let readiness = try await http.decoded(RuntimeE2EReadinessSnapshot.self, path: "/readyz")
+            let readiness = try await http.decoded(
+                RuntimeE2EReadinessSnapshot.self,
+                path: "/readyz",
+                acceptedStatusCodes: [200, 503]
+            )
             let mcpOverview = try await mcp.readResourceJSON(uri: "speak-swiftly://overview")
             let mcpWorkerMode = mcpOverview["worker_mode"] as? String
             let mcpWorkerStage = mcpOverview["worker_stage"] as? String
