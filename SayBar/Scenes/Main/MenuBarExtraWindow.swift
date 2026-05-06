@@ -32,19 +32,8 @@ struct MenuBarExtraWindow: View {
     let server: EmbeddedServer
     let launchesEmbeddedRuntime: Bool
 
-    private var statusHeadline: String {
-        MenuBarDisplaySupport.statusHeadline(
-            launchesEmbeddedRuntime: launchesEmbeddedRuntime,
-            recentErrorMessage: server.recentErrors.first?.message,
-            startupError: server.overview.startupError,
-            playbackState: server.playback.state,
-            workerStage: server.overview.workerStage,
-            serverMode: server.overview.serverMode
-        )
-    }
-
-    private var statusDetail: String {
-        MenuBarDisplaySupport.statusDetail(
+    private var status: MenuBarStatus {
+        MenuBarStatus(
             launchesEmbeddedRuntime: launchesEmbeddedRuntime,
             recentErrorMessage: server.recentErrors.first?.message,
             startupError: server.overview.startupError,
@@ -64,10 +53,7 @@ struct MenuBarExtraWindow: View {
     }
 
     private var selectedVoiceProfileName: String {
-        MenuBarDisplaySupport.selectedVoiceProfileName(
-            defaultVoiceProfileName: server.overview.defaultVoiceProfileName,
-            firstProfileName: server.voiceProfiles.first?.profileName
-        )
+        server.overview.defaultVoiceProfileName ?? server.voiceProfiles.first?.profileName ?? ""
     }
 
     private var selectedBackend: SpeakSwiftly.SpeechBackend {
@@ -77,20 +63,29 @@ struct MenuBarExtraWindow: View {
     }
 
     private var powerSymbolName: String {
-        MenuBarDisplaySupport.powerSymbolName(workerStage: server.overview.workerStage)
+        server.overview.workerStage == "resident_models_unloaded" ? "power.circle" : "power.circle.fill"
     }
 
     private var playbackSymbolName: String {
-        MenuBarDisplaySupport.playbackSymbolName(playbackState: server.playback.state)
+        switch server.playback.state {
+            case "playing":
+                return "pause.fill"
+            case "paused":
+                return "play.fill"
+            default:
+                return "clipboard"
+        }
     }
 
     // MARK: Main View Body
 
     var body: some View {
+        let currentStatus = status
+
         VStack(alignment: .leading, spacing: 12) {
             MenuHeaderComponent(
-                headline: statusHeadline,
-                detail: statusDetail
+                headline: currentStatus.headline,
+                detail: currentStatus.detail
             )
 
             QueueCountComponent(

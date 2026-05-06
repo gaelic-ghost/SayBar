@@ -1,197 +1,161 @@
 @testable import SayBar
 import XCTest
 
+@MainActor
 final class MenuBarDisplaySupportTests: XCTestCase {
     func testStatusHeadlineShowsSkippedStartupWhenRuntimeLaunchIsDisabled() {
-        XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: false,
-                recentErrorMessage: "Recent warning",
-                startupError: "Startup failed",
-                playbackState: "playing",
-                workerStage: "resident_model_ready",
-                serverMode: "ready"
-            ),
-            "SpeakSwiftlyServer startup is skipped for this launch."
+        let status = menuStatus(
+            launchesEmbeddedRuntime: false,
+            recentErrorMessage: "Recent warning",
+            startupError: "Startup failed",
+            playbackState: "playing",
+            workerStage: "resident_model_ready",
+            serverMode: "ready"
         )
+
+        XCTAssertEqual(status, .startupSkipped)
+        XCTAssertEqual(status.headline, "SpeakSwiftlyServer startup is skipped for this launch.")
     }
 
     func testStatusHeadlinePrioritizesRecentErrorBeforeStartupAndPlayback() {
-        XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: "Transport warning",
-                startupError: "Startup failed",
-                playbackState: "playing",
-                workerStage: "resident_model_ready",
-                serverMode: "ready"
-            ),
-            "SpeakSwiftlyServer is running with warnings."
+        let status = menuStatus(
+            recentErrorMessage: "Transport warning",
+            startupError: "Startup failed",
+            playbackState: "playing",
+            workerStage: "resident_model_ready",
+            serverMode: "ready"
         )
+
+        XCTAssertEqual(status, .warning("Transport warning"))
+        XCTAssertEqual(status.headline, "SpeakSwiftlyServer is running with warnings.")
     }
 
     func testStatusHeadlinePrioritizesStartupErrorBeforePlayback() {
-        XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: "Startup failed",
-                playbackState: "playing",
-                workerStage: "resident_model_ready",
-                serverMode: "ready"
-            ),
-            "SpeakSwiftlyServer hit a startup problem."
+        let status = menuStatus(
+            startupError: "Startup failed",
+            playbackState: "playing",
+            workerStage: "resident_model_ready",
+            serverMode: "ready"
         )
+
+        XCTAssertEqual(status, .startupProblem("Startup failed"))
+        XCTAssertEqual(status.headline, "SpeakSwiftlyServer hit a startup problem.")
     }
 
     func testStatusHeadlineMapsPlaybackAndRuntimeStates() {
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "playing",
                 workerStage: "resident_model_ready",
                 serverMode: "ready"
-            ),
+            ).headline,
             "SpeakSwiftlyServer is playing audio."
         )
 
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "idle",
                 workerStage: "resident_models_unloaded",
                 serverMode: "ready"
-            ),
+            ).headline,
             "SpeakSwiftlyServer is ready with models unloaded."
         )
 
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "idle",
                 workerStage: "starting",
                 serverMode: "broken"
-            ),
+            ).headline,
             "SpeakSwiftlyServer is unavailable."
         )
     }
 
     func testStatusHeadlineMapsServerModesAfterHigherPriorityStates() {
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "idle",
                 workerStage: "resident_model_ready",
                 serverMode: "degraded"
-            ),
+            ).headline,
             "SpeakSwiftlyServer is degraded."
         )
 
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "idle",
                 workerStage: "resident_model_ready",
                 serverMode: "ready"
-            ),
+            ).headline,
             "SpeakSwiftlyServer is ready."
         )
 
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusHeadline(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "idle",
                 workerStage: "starting",
                 serverMode: "starting"
-            ),
+            ).headline,
             "SpeakSwiftlyServer is starting."
         )
     }
 
     func testStatusDetailPrioritizesErrorsThenPlayback() {
-        XCTAssertEqual(
-            MenuBarDisplaySupport.statusDetail(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: "Transport warning",
-                startupError: "Startup failed",
-                playbackState: "playing",
-                activePlaybackRequestID: "request-1",
-                workerStage: "resident_model_ready",
-                workerReady: true,
-                serverMode: "ready"
-            ),
-            "Transport warning"
+        let status = menuStatus(
+            recentErrorMessage: "Transport warning",
+            startupError: "Startup failed",
+            playbackState: "playing",
+            activePlaybackRequestID: "request-1",
+            workerStage: "resident_model_ready",
+            workerReady: true,
+            serverMode: "ready"
         )
+
+        XCTAssertEqual(status, .warning("Transport warning"))
+        XCTAssertEqual(status.detail, "Transport warning")
     }
 
     func testStatusDetailMapsReadyAndWorkerStages() {
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusDetail(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "paused",
-                activePlaybackRequestID: nil,
                 workerStage: "resident_model_ready",
                 workerReady: true,
                 serverMode: "ready"
-            ),
+            ).detail,
             "The current playback queue is paused and can resume immediately."
         )
 
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusDetail(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "idle",
-                activePlaybackRequestID: nil,
                 workerStage: "resident_model_ready",
                 workerReady: false,
                 serverMode: "starting"
-            ),
+            ).detail,
             "The embedded runtime is live and the resident model is loaded."
         )
     }
 
     func testStatusDetailMapsActivePlaybackAndFallbackWorkerStage() {
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusDetail(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "playing",
                 activePlaybackRequestID: "request-1",
                 workerStage: "resident_model_ready",
                 workerReady: true,
                 serverMode: "ready"
-            ),
+            ).detail,
             "Playback is active for request request-1."
         )
 
         XCTAssertEqual(
-            MenuBarDisplaySupport.statusDetail(
-                launchesEmbeddedRuntime: true,
-                recentErrorMessage: nil,
-                startupError: nil,
+            menuStatus(
                 playbackState: "idle",
-                activePlaybackRequestID: nil,
                 workerStage: "warming_cache",
                 workerReady: false,
                 serverMode: "starting"
-            ),
+            ).detail,
             "The embedded runtime is currently reporting worker stage warming_cache."
         )
     }
@@ -234,43 +198,25 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         XCTAssertEqual(summary.visibleQueuedSlotCount, 0)
     }
 
-    func testSelectedVoiceProfilePrefersDefaultThenFirstProfileThenEmptyString() {
-        XCTAssertEqual(
-            MenuBarDisplaySupport.selectedVoiceProfileName(
-                defaultVoiceProfileName: "default-femme",
-                firstProfileName: "bright-femme"
-            ),
-            "default-femme"
+    private func menuStatus(
+        launchesEmbeddedRuntime: Bool = true,
+        recentErrorMessage: String? = nil,
+        startupError: String? = nil,
+        playbackState: String = "idle",
+        activePlaybackRequestID: String? = nil,
+        workerStage: String = "starting",
+        workerReady: Bool = false,
+        serverMode: String = "starting"
+    ) -> MenuBarStatus {
+        MenuBarStatus(
+            launchesEmbeddedRuntime: launchesEmbeddedRuntime,
+            recentErrorMessage: recentErrorMessage,
+            startupError: startupError,
+            playbackState: playbackState,
+            activePlaybackRequestID: activePlaybackRequestID,
+            workerStage: workerStage,
+            workerReady: workerReady,
+            serverMode: serverMode
         )
-
-        XCTAssertEqual(
-            MenuBarDisplaySupport.selectedVoiceProfileName(
-                defaultVoiceProfileName: nil,
-                firstProfileName: "bright-femme"
-            ),
-            "bright-femme"
-        )
-
-        XCTAssertEqual(
-            MenuBarDisplaySupport.selectedVoiceProfileName(
-                defaultVoiceProfileName: nil,
-                firstProfileName: nil
-            ),
-            ""
-        )
-    }
-
-    func testControlSymbolsReflectRuntimeAndPlaybackStates() {
-        XCTAssertEqual(
-            MenuBarDisplaySupport.powerSymbolName(workerStage: "resident_models_unloaded"),
-            "power.circle"
-        )
-        XCTAssertEqual(
-            MenuBarDisplaySupport.powerSymbolName(workerStage: "resident_model_ready"),
-            "power.circle.fill"
-        )
-        XCTAssertEqual(MenuBarDisplaySupport.playbackSymbolName(playbackState: "playing"), "pause.fill")
-        XCTAssertEqual(MenuBarDisplaySupport.playbackSymbolName(playbackState: "paused"), "play.fill")
-        XCTAssertEqual(MenuBarDisplaySupport.playbackSymbolName(playbackState: "idle"), "clipboard")
     }
 }
