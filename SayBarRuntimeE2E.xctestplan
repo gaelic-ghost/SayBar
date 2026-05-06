@@ -1,0 +1,47 @@
+{
+  "configurations" : [
+    {
+      "id" : "9E01AF2F-284D-4B05-8571-A4A9820B51CE",
+      "name" : "Runtime-On Audible E2E",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "environmentVariableEntries" : [
+      {
+        "key" : "SAYBAR_RUNTIME_E2E",
+        "value" : "1"
+      },
+      {
+        "key" : "SAYBAR_RUNTIME_E2E_ALLOW_AUDIO",
+        "value" : "1"
+      },
+      {
+        "key" : "SAYBAR_RUNTIME_E2E_MCP_URL",
+        "value" : "http://127.0.0.1:7337/mcp"
+      }
+    ],
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:SayBar.xcodeproj",
+      "identifier" : "49220E7E2F7ADE5A00A94BD8",
+      "name" : "SayBar"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "selectedTests" : [
+        "SayBarRuntimeE2ETests"
+      ],
+      "target" : {
+        "containerPath" : "container:SayBar.xcodeproj",
+        "identifier" : "49220E972F7ADE5B00A94BD8",
+        "name" : "SayBarUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

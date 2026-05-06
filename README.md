@@ -122,6 +122,12 @@ xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar
 
 Keep heavy build and test commands serialized on this machine. Do not run concurrent Xcode or SwiftPM validation flows.
 
+The runtime-on audible E2E lane is intentionally separate from normal validation. It starts SayBar with the embedded runtime on, unloads resident models from the LaunchAgent-backed localhost service, plays one short request through each checked surface, and reloads the LaunchAgent service models at the end:
+
+```sh
+xcodebuild -project SayBar.xcodeproj -scheme SayBar -testPlan SayBarRuntimeE2E test
+```
+
 Use the repo-maintenance entrypoint for guidance, toolkit, and release-surface checks:
 
 ```sh
