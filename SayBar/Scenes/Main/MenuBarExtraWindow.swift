@@ -59,7 +59,7 @@ struct MenuBarExtraWindow: View {
     private var selectedBackend: SpeakSwiftly.SpeechBackend {
         SpeakSwiftly.SpeechBackend.normalized(
             rawValue: server.runtimeConfiguration.activeRuntimeSpeechBackend
-        ) ?? .qwen3
+        ) ?? .qwen3_smol
     }
 
     private var powerSymbolName: String {

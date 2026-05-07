@@ -56,4 +56,25 @@ final class SayBarAppEnvironmentTests: XCTestCase {
 			"SayBar should keep embedded runtime profiles in a stable app-owned Application Support subdirectory.",
 		)
 	}
+
+	func testRuntimeConfigurationURLUsesApplicationSupportDirectory() throws {
+		let fileManager = FileManager.default
+		let applicationSupportURL = try XCTUnwrap(
+			fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first,
+			"The test environment should provide a user Application Support directory.",
+		)
+
+		let configurationURL = try XCTUnwrap(
+			SayBarAppEnvironment.runtimeConfigurationURL(fileManager: fileManager),
+			"SayBar should derive an embedded server configuration file underneath Application Support.",
+		)
+
+		XCTAssertEqual(
+			configurationURL,
+			applicationSupportURL
+				.appendingPathComponent("SayBar", isDirectory: true)
+				.appendingPathComponent("server.yaml", isDirectory: false),
+			"SayBar should keep embedded server configuration in the same app-owned Application Support root as runtime profiles.",
+		)
+	}
 }

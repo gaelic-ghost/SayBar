@@ -2,7 +2,7 @@
 
 ## Source Of Truth
 
-This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `5.0.13`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
+This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `6.1.2`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
 
 The current SayBar product baseline is still embedded-runtime-first. That means `EmbeddedServer` is in scope for active app behavior, while standalone LaunchAgent install helpers remain future-scope until SayBar intentionally grows an app-managed standalone-server mode.
 
@@ -13,6 +13,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `EmbeddedServer` | `SpeakSwiftlyServer` | Implemented | One long-lived observable app model owned by `SayBarApp` and passed directly into menu bar and Settings scenes. |
 | `EmbeddedServer.Options.port` | `EmbeddedServer.Options` | Implemented | Pins the embedded HTTP transport to port `7339`. |
 | `EmbeddedServer.Options.runtimeProfileRootURL` | `EmbeddedServer.Options` | Implemented | Points the embedded runtime at SayBar-owned Application Support profile storage. |
+| `EmbeddedServer.Options.configurationURL` | `EmbeddedServer.Options` | Implemented | Points the embedded runtime at SayBar-owned Application Support server configuration. |
 | `EmbeddedServer.init(options:)` | `EmbeddedServer` | Implemented | Creates the app-owned embedded runtime model during app initialization. |
 | `liftoff(environment:)` | `EmbeddedServer` | Implemented | Starts the embedded runtime on launch unless `--saybar-skip-embedded-runtime-startup` is present. |
 | `land()` | `EmbeddedServer` | Implemented | Requests graceful embedded runtime shutdown before macOS app termination completes. |
@@ -147,40 +148,6 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `HostStateSnapshot.runtimeConfiguration` | `HostStateSnapshot` | Consumed indirectly, partial | Applied by `EmbeddedServer`; SayBar reads the active backend value. |
 | `HostStateSnapshot.transports` | `HostStateSnapshot` | Consumed indirectly, partial | Applied by `EmbeddedServer`; Settings displays transport diagnostics. |
 | `HostStateSnapshot.recentErrors` | `HostStateSnapshot` | Consumed indirectly, partial | Applied by `EmbeddedServer`; menu and Settings display retained error messages. |
-| `ServerInstallLayout` | `SpeakSwiftlyServer` | Intentionally not used | Future app-managed standalone-server path contract; out of current embedded-runtime baseline. |
-| `ServerInstallLayout.defaultForCurrentUser(...)` | `ServerInstallLayout` | Intentionally not used | Future default path resolver for standalone LaunchAgent-backed installs. |
-| `ServerInstallLayout.launchAgentLabel` | `ServerInstallLayout` | Intentionally not used | Future standalone install metadata. |
-| `ServerInstallLayout.workingDirectoryURL` | `ServerInstallLayout` | Intentionally not used | Future standalone process working directory. |
-| `ServerInstallLayout.applicationSupportDirectoryURL` | `ServerInstallLayout` | Intentionally not used | Future standalone durable support root. |
-| `ServerInstallLayout.cacheDirectoryURL` | `ServerInstallLayout` | Intentionally not used | Future standalone cache root. |
-| `ServerInstallLayout.logsDirectoryURL` | `ServerInstallLayout` | Intentionally not used | Future standalone retained-log directory. |
-| `ServerInstallLayout.launchAgentsDirectoryURL` | `ServerInstallLayout` | Intentionally not used | Future standalone LaunchAgents directory. |
-| `ServerInstallLayout.launchAgentPlistURL` | `ServerInstallLayout` | Intentionally not used | Future standalone LaunchAgent plist path. |
-| `ServerInstallLayout.serverConfigFileURL` | `ServerInstallLayout` | Intentionally not used | Future standalone server config path. |
-| `ServerInstallLayout.launchAgentConfigAliasURL` | `ServerInstallLayout` | Intentionally not used | Future compatibility path for older LaunchAgent config aliases. |
-| `ServerInstallLayout.runtimeBaseDirectoryURL` | `ServerInstallLayout` | Intentionally not used | Future standalone runtime state root. |
-| `ServerInstallLayout.runtimeProfileRootURL` | `ServerInstallLayout` | Intentionally not used | Future standalone profile storage root; current embedded mode uses `EmbeddedServer.Options.runtimeProfileRootURL`. |
-| `ServerInstallLayout.runtimeConfigurationFileURL` | `ServerInstallLayout` | Intentionally not used | Future standalone persisted runtime configuration path. |
-| `ServerInstallLayout.standardOutLogURL` | `ServerInstallLayout` | Intentionally not used | Future retained stdout log path. |
-| `ServerInstallLayout.standardErrorLogURL` | `ServerInstallLayout` | Intentionally not used | Future retained stderr log path. |
-| `ServerInstalledLogKind.stdout` | `ServerInstalledLogKind` | Intentionally not used | Future retained stdout log selection. |
-| `ServerInstalledLogKind.stderr` | `ServerInstalledLogKind` | Intentionally not used | Future retained stderr log selection. |
-| `ServerInstalledLogFileSnapshot` | `SpeakSwiftlyServer` | Intentionally not used | Future retained-log display or diagnostics. |
-| `ServerInstalledLogFileSnapshot.kind` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future retained-log stream labeling. |
-| `ServerInstalledLogFileSnapshot.fileURL` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future retained-log file location display. |
-| `ServerInstalledLogFileSnapshot.exists` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future retained-log availability display. |
-| `ServerInstalledLogFileSnapshot.text` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future retained-log text display. |
-| `ServerInstalledLogFileSnapshot.lines` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future retained-log line display. |
-| `ServerInstalledLogFileSnapshot.jsonLineTexts` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future structured retained-log diagnostics. |
-| `ServerInstalledLogFileSnapshot.totalLineCount` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future retained-log truncation display. |
-| `ServerInstalledLogFileSnapshot.truncatedLineCount` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future retained-log truncation display. |
-| `ServerInstalledLogFileSnapshot.decodeJSONLines(as:decoder:)` | `ServerInstalledLogFileSnapshot` | Intentionally not used | Future structured retained-log decoding. |
-| `ServerInstalledLogsSnapshot` | `SpeakSwiftlyServer` | Intentionally not used | Future combined stdout/stderr diagnostics for standalone installs. |
-| `ServerInstalledLogsSnapshot.layout` | `ServerInstalledLogsSnapshot` | Intentionally not used | Future retained-log context for standalone installs. |
-| `ServerInstalledLogsSnapshot.stdout` | `ServerInstalledLogsSnapshot` | Intentionally not used | Future retained stdout diagnostics. |
-| `ServerInstalledLogsSnapshot.stderr` | `ServerInstalledLogsSnapshot` | Intentionally not used | Future retained stderr diagnostics. |
-| `ServerInstalledLogsSnapshot.file(for:)` | `ServerInstalledLogsSnapshot` | Intentionally not used | Future retained-log stream lookup. |
-| `ServerInstalledLogs.read(layout:maximumLineCount:)` | `ServerInstalledLogs` | Intentionally not used | Future retained stdout/stderr snapshot loading for standalone installs. |
 
 ## Coverage Summary
 
@@ -188,4 +155,4 @@ SayBar covers the core embedded-session baseline: app-owned lifecycle, observabl
 
 The main embedded-session gaps are deeper operator controls and diagnostics: request-level queue views, playback queue clear/cancel actions, backend transition progress, generation job progress, refresh timing, profile metadata, buffering details, and full runtime configuration inspection.
 
-The standalone install and retained-log helpers are intentionally not implemented in SayBar yet. They are available package APIs, but adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.
+The standalone install and retained-log helpers are intentionally not implemented in SayBar yet. In `SpeakSwiftlyServer` 6.1.2, those helpers live in the package's tool target rather than the embedded library target SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.

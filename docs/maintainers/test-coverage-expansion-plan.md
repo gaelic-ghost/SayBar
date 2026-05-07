@@ -86,7 +86,7 @@ Implementation notes:
 - `SayBarAppLifecycleSupport` applies the same seam shape to startup and termination: `SayBarApp` and `SayBarTerminationCoordinator` still perform the real `EmbeddedServer` calls, while tests observe the decisions through async closures
 - `SettingsDisplayState` remains a display mapping helper: production recomputes it from `EmbeddedServer` during render, while `--saybar-ui-fixture-populated-settings` supplies deterministic populated diagnostics for app-level UI coverage
 - if a seam is needed, keep it as a local implementation detail for app action testing, not as a new app-owned runtime model
-- do not adopt `ServerInstallLayout`, `ServerInstalledLogs`, LaunchAgent install helpers, or standalone-server paths in this phase
+- do not adopt `SpeakSwiftlyServerTool` install layout, retained-log helpers, LaunchAgent install helpers, or standalone-server paths in this phase
 - runtime-on integration tests should be explicit and isolated from the existing runtime-startup-skipped shell UI tests
 
 ### Phase 3: UI Implementation Review And Streamlining

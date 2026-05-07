@@ -33,6 +33,7 @@ struct SayBarApp: App {
 			options: .init(
 				port: 7339,
 				runtimeProfileRootURL: SayBarAppEnvironment.runtimeProfileRootURL(),
+				configurationURL: SayBarAppEnvironment.runtimeConfigurationURL(),
 			),
 		)
 
@@ -176,9 +177,19 @@ enum SayBarAppEnvironment {
 	}
 
 	static func runtimeProfileRootURL(fileManager: FileManager = .default) -> URL? {
+		applicationSupportRootURL(fileManager: fileManager)?
+			.appendingPathComponent("SpeakSwiftlyRuntime", isDirectory: true)
+	}
+
+	static func runtimeConfigurationURL(fileManager: FileManager = .default) -> URL? {
+		applicationSupportRootURL(fileManager: fileManager)?
+			.appendingPathComponent("server.yaml", isDirectory: false)
+	}
+
+	private static func applicationSupportRootURL(fileManager: FileManager) -> URL? {
 		fileManager
 			.urls(for: .applicationSupportDirectory, in: .userDomainMask)
 			.first?
-			.appendingPathComponent("SayBar/SpeakSwiftlyRuntime", isDirectory: true)
+			.appendingPathComponent("SayBar", isDirectory: true)
 	}
 }

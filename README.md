@@ -39,7 +39,7 @@ SayBar does not keep a second app-owned server controller anymore. The public `S
 
 The menu bar scene now reads those observable properties directly. SayBar keeps only genuinely app-local state alongside the server object, such as transient action feedback and button busy flags.
 
-`SpeakSwiftlyServer` now also exposes standalone-install layout and retained-log helper surfaces. SayBar is not adopting those helper paths yet. The current repo stays centered on the embedded-runtime contract until the product intentionally grows an app-managed standalone-server mode.
+`SpeakSwiftlyServer` now keeps standalone-install layout and retained-log helper surfaces in its tool target. SayBar is not adopting those helper paths yet. The current repo stays centered on the embedded library contract until the product intentionally grows an app-managed standalone-server mode.
 
 ## Quick Start
 
@@ -103,8 +103,8 @@ Primary project configuration:
 - App marketing version: `0.1.0`
 - App deployment target: macOS `15.6`
 - Test targets: `SayBarTests`, `SayBarUITests`
-- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `5.0.13`
-- Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `5.0.1`
+- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `6.1.2`
+- Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `7.1.0`
 - Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.21.0`
 
 The project also exposes package-managed schemes for the server package, but app-facing work in this repository should stay centered on the `SayBar` scheme unless a task explicitly targets package internals.
