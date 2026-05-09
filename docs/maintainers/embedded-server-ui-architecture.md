@@ -13,10 +13,10 @@ The current boundary is intentionally direct:
 
 ## Why This Shape
 
-`SpeakSwiftlyServer` now already provides the app-facing `@Observable` object that a host app is supposed to own. That surface includes:
+`SpeakSwiftlyServer` 7.0.0 provides the app-facing `@Observable` object that a host app is supposed to own. That surface includes:
 
 - lifecycle entrypoints such as `liftoff()` and `land()`
-- observable snapshots for overview, queues, playback, runtime configuration, transports, and recent errors
+- observable snapshots for overview, queues, playback, playback events, runtime configuration, backend transitions, current generation jobs, transports, and recent errors
 - direct embedded-host control actions such as voice-profile refresh, default voice selection, backend switching, model reload and unload, and playback controls
 
 Because the package already owns those responsibilities, SayBar should stay focused on:
@@ -26,7 +26,7 @@ Because the package already owns those responsibilities, SayBar should stay focu
 - app wording and app-specific control arrangement
 - native macOS affordances like settings presentation and clipboard access
 
-SayBar is intentionally not adopting the standalone-install helper surface yet. In `SpeakSwiftlyServer` 6.1.2, that helper surface is owned by the package's tool target rather than the embedded library target SayBar imports. The current product baseline is still the embedded runtime that lives inside the app process.
+SayBar is intentionally not adopting the standalone-install helper surface yet. In `SpeakSwiftlyServer` 7.0.0, that helper surface is owned by the package's tool target rather than the embedded library target SayBar imports. The current product baseline is still the embedded runtime that lives inside the app process.
 
 See [embedded-session-api-coverage.md](embedded-session-api-coverage.md) for the complete matrix of available embedded session API surfaces, current SayBar implementation coverage, and future-scope gaps.
 

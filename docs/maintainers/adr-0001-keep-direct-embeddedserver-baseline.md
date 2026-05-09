@@ -11,7 +11,7 @@ SayBar is a native macOS menu bar app that sits in front of `SpeakSwiftlyServer`
 The package now exposes `EmbeddedServer` as its app-facing `@Observable` embedding surface. That model already owns:
 
 - embedded lifecycle entrypoints such as `liftoff()` and `land()`
-- observable runtime snapshots for overview, queues, playback, runtime configuration, transports, and recent errors
+- observable runtime snapshots for overview, queues, playback, playback events, runtime configuration, backend transitions, current generation jobs, transports, and recent errors
 - direct app-host control actions for voice profiles, backend switching, model reload and unload, playback control, and live speech submission
 
 Earlier SayBar planning discussed app-owned controller and session-wrapper shapes, but those layers became redundant once the package surface stabilized around direct `EmbeddedServer` ownership.
@@ -37,4 +37,4 @@ This keeps the app boundary flat and easier to reason about:
 - SayBar can focus on menu bar presentation, settings diagnostics, and native macOS affordances
 - docs and tests can describe one app-owned model instead of multiple overlapping ownership layers
 
-Standalone install and retained-log helper APIs in `SpeakSwiftlyServer` 6.1.2 are owned by the package's tool target, not the embedded library target SayBar imports. They are not part of the current SayBar baseline unless the app intentionally grows a standalone-server mode.
+Standalone install and retained-log helper APIs in `SpeakSwiftlyServer` 7.0.0 are owned by the package's tool target, not the embedded library target SayBar imports. They are not part of the current SayBar baseline unless the app intentionally grows a standalone-server mode.

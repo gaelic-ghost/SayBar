@@ -2,7 +2,7 @@
 
 ## Source Of Truth
 
-This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `6.1.2`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
+This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `7.0.0`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
 
 The current SayBar product baseline is still embedded-runtime-first. That means `EmbeddedServer` is in scope for active app behavior, while standalone LaunchAgent install helpers remain future-scope until SayBar intentionally grows an app-managed standalone-server mode.
 
@@ -45,12 +45,29 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `playbackQueue.activeRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list active playback requests yet. |
 | `playbackQueue.queuedRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list queued playback requests yet. |
 | `playback` | `EmbeddedServer` | Implemented, partial | Drives menu playback headline, detail text, and pause/resume/clipboard button behavior. |
+| `playback.sequence` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback diagnostics, but SayBar does not show playback sequence identifiers yet. |
+| `playback.updatedAt` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback diagnostics, but SayBar does not show playback update timestamps yet. |
 | `playback.state` | `PlaybackStatusSnapshot` | Implemented | Switches menu wording and playback button icon between pause, resume, and clipboard speech. |
 | `playback.activeRequest` | `PlaybackStatusSnapshot` | Implemented, partial | Menu detail displays the active playback request identifier when playback is active. |
 | `playback.isStableForConcurrentGeneration` | `PlaybackStatusSnapshot` | Not surfaced | Available for richer buffering/concurrency diagnostics, but SayBar does not display it yet. |
 | `playback.isRebuffering` | `PlaybackStatusSnapshot` | Not surfaced | Available for richer playback diagnostics, but SayBar does not display rebuffering state yet. |
 | `playback.stableBufferedAudioMS` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not display buffer duration yet. |
 | `playback.stableBufferTargetMS` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not display target buffer duration yet. |
+| `playback.latestEvent` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback milestone diagnostics, but SayBar does not show the latest playback event yet. |
+| `playback.latestEvent.sequence` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event sequence identifiers yet. |
+| `playback.latestEvent.publishedAt` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event publish timestamps yet. |
+| `playback.latestEvent.event` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event labels yet. |
+| `playback.latestEvent.state` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar uses `playback.state` for current UI state. |
+| `playback.latestEvent.requestID` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event request identifiers yet. |
+| `playback.latestEvent.activeRequest` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar uses `playback.activeRequest` for current active playback text. |
+| `playback.latestEvent.queuedRequests` | `PlaybackEventSnapshot` | Not surfaced | Available for playback queue diagnostics, but SayBar does not list queued playback requests yet. |
+| `playback.latestEvent.bufferedAudioMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not show event buffer duration yet. |
+| `playback.latestEvent.queuedAudioMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback queue diagnostics, but SayBar does not show queued audio duration yet. |
+| `playback.latestEvent.bufferTargetMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not show target buffer duration yet. |
+| `playback.latestEvent.previousDevice` | `PlaybackEventSnapshot` | Not surfaced | Available for output-device diagnostics, but SayBar does not show playback device changes yet. |
+| `playback.latestEvent.currentDevice` | `PlaybackEventSnapshot` | Not surfaced | Available for output-device diagnostics, but SayBar does not show current playback device yet. |
+| `playback.latestEvent.isInterrupted` | `PlaybackEventSnapshot` | Not surfaced | Available for playback interruption diagnostics, but SayBar does not show interruption state yet. |
+| `playback.latestEvent.shouldResume` | `PlaybackEventSnapshot` | Not surfaced | Available for playback interruption diagnostics, but SayBar does not show resume recommendations yet. |
 | `runtimeRefresh` | `EmbeddedServer` | Not surfaced | Available for refresh-cycle diagnostics, but SayBar does not show refresh timing yet. |
 | `runtimeRefresh.sequenceID` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display refresh sequence identifiers yet. |
 | `runtimeRefresh.source` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display refresh source yet. |
@@ -79,17 +96,10 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `runtimeConfiguration` | `EmbeddedServer` | Implemented, partial | Settings displays the active backend; menu backend picker reads the active backend. |
 | `runtimeConfiguration.activeRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Implemented | Drives the backend picker selection and Settings speech backend value. |
 | `runtimeConfiguration.nextRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show pending backend configuration yet. |
-| `runtimeConfiguration.activeQwenResidentModel` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for model diagnostics, but SayBar does not show active Qwen model yet. |
-| `runtimeConfiguration.nextQwenResidentModel` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show next Qwen model yet. |
-| `runtimeConfiguration.activeMarvisResidentPolicy` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for model diagnostics, but SayBar does not show active Marvis policy yet. |
-| `runtimeConfiguration.nextMarvisResidentPolicy` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show next Marvis policy yet. |
 | `runtimeConfiguration.activeDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for runtime configuration diagnostics; SayBar uses `overview.defaultVoiceProfileName` instead. |
 | `runtimeConfiguration.nextDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show next default profile yet. |
 | `runtimeConfiguration.environmentSpeechBackendOverride` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show environment overrides yet. |
-| `runtimeConfiguration.environmentQwenResidentModelOverride` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show environment overrides yet. |
 | `runtimeConfiguration.persistedSpeechBackend` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted backend yet. |
-| `runtimeConfiguration.persistedQwenResidentModel` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted model yet. |
-| `runtimeConfiguration.persistedMarvisResidentPolicy` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted Marvis policy yet. |
 | `runtimeConfiguration.persistedDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted default profile yet. |
 | `runtimeConfiguration.profileRootPath` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show profile storage paths yet. |
 | `runtimeConfiguration.persistedConfigurationPath` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted configuration path yet. |
@@ -120,7 +130,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `recentErrors[].message` | `RecentErrorSnapshot` | Implemented | Displayed in menu status detail and Settings error row detail. |
 | `listVoiceProfiles()` | `EmbeddedServer` | Not used | Redundant for current UI because SwiftUI reads the observable `voiceProfiles` property directly. |
 | `refreshVoiceProfiles()` | `EmbeddedServer` | Implemented | Called after startup and when the menu opens with an empty profile cache. |
-| `queueLiveSpeech(text:profileName:textProfileID:sourceFormat:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text with SayBar clipboard request context while leaving profile, text profile, source format, and chunking options at their defaults. |
+| `queueLiveSpeech(text:profileName:textProfileID:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text with SayBar clipboard request context while leaving profile, text profile, and chunking options at their defaults. |
 | `setDefaultVoiceProfileName(_:)` | `EmbeddedServer` | Implemented | Voice-profile picker updates the embedded host's default voice profile. |
 | `clearDefaultVoiceProfileName()` | `EmbeddedServer` | Not used | Available for a future reset/default-profile UI action. |
 | `switchSpeechBackend(to:)` | `EmbeddedServer` | Implemented | Speech-backend picker switches the running runtime backend. |
@@ -153,6 +163,6 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 
 SayBar covers the core embedded-session baseline: app-owned lifecycle, observable status, queue counts, playback state, transport diagnostics, recent errors, voice profile refresh and selection, speech backend switching, resident model load/unload, playback pause/resume, and clipboard-to-speech submission.
 
-The main embedded-session gaps are deeper operator controls and diagnostics: request-level queue views, playback queue clear/cancel actions, backend transition progress, generation job progress, refresh timing, profile metadata, buffering details, and full runtime configuration inspection.
+The main embedded-session gaps are deeper operator controls and diagnostics: request-level queue views, playback queue clear/cancel actions, playback event details, backend transition progress, generation job progress, refresh timing, profile metadata, buffering details, and full runtime configuration inspection.
 
-The standalone install and retained-log helpers are intentionally not implemented in SayBar yet. In `SpeakSwiftlyServer` 6.1.2, those helpers live in the package's tool target rather than the embedded library target SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.
+The standalone install and retained-log helpers are intentionally not implemented in SayBar yet. In `SpeakSwiftlyServer` 7.0.0, those helpers live in the package's tool target rather than the embedded library target SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.
