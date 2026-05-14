@@ -2,7 +2,7 @@
 
 ## Source Of Truth
 
-This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `7.0.0`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
+This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `8.0.4`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
 
 The current SayBar product baseline is still embedded-runtime-first. That means `EmbeddedServer` is in scope for active app behavior, while standalone LaunchAgent install helpers remain future-scope until SayBar intentionally grows an app-managed standalone-server mode.
 
@@ -130,7 +130,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `recentErrors[].message` | `RecentErrorSnapshot` | Implemented | Displayed in menu status detail and Settings error row detail. |
 | `listVoiceProfiles()` | `EmbeddedServer` | Not used | Redundant for current UI because SwiftUI reads the observable `voiceProfiles` property directly. |
 | `refreshVoiceProfiles()` | `EmbeddedServer` | Implemented | Called after startup and when the menu opens with an empty profile cache. |
-| `queueLiveSpeech(text:profileName:textProfileID:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text with SayBar clipboard request context while leaving profile, text profile, and chunking options at their defaults. |
+| `queueLiveSpeech(text:profileName:textProfileID:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text with SayBar clipboard request context marked as live speech while leaving profile, text profile, and chunking options at their defaults. |
 | `setDefaultVoiceProfileName(_:)` | `EmbeddedServer` | Implemented | Voice-profile picker updates the embedded host's default voice profile. |
 | `clearDefaultVoiceProfileName()` | `EmbeddedServer` | Not used | Available for a future reset/default-profile UI action. |
 | `switchSpeechBackend(to:)` | `EmbeddedServer` | Implemented | Speech-backend picker switches the running runtime backend. |
@@ -165,4 +165,4 @@ SayBar covers the core embedded-session baseline: app-owned lifecycle, observabl
 
 The main embedded-session gaps are deeper operator controls and diagnostics: request-level queue views, playback queue clear/cancel actions, playback event details, backend transition progress, generation job progress, refresh timing, profile metadata, buffering details, and full runtime configuration inspection.
 
-The standalone install and retained-log helpers are intentionally not implemented in SayBar yet. In `SpeakSwiftlyServer` 7.0.0, those helpers live in the package's tool target rather than the embedded library target SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.
+The standalone install and retained-log helpers are intentionally not implemented in SayBar yet. In `SpeakSwiftlyServer` 8.0.4, those helpers still live outside the embedded library contract SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.

@@ -47,6 +47,7 @@ enum MenuBarActionSupport {
 
     nonisolated static func clipboardSpeechRequestContext() -> SpeakSwiftly.RequestContext {
         SpeakSwiftly.RequestContext(
+            reqPurpose: .speech,
             source: "Clipboard via SayBar",
             attributes: [
                 "saybar.action": "clipboard_speech",
