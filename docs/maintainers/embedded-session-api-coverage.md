@@ -20,7 +20,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `overview` | `EmbeddedServer` | Implemented | Drives menu status text, startup-error display, worker readiness, model-loaded state, and default voice fallback. |
 | `overview.service` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display the service identifier yet. |
 | `overview.environment` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display runtime environment yet. |
-| `overview.defaultVoiceProfileName` | `HostOverviewSnapshot` | Implemented | Selects the active voice profile in the menu picker and shows the default profile in Settings. |
+| `overview.defaultVoiceProfileName` | `HostOverviewSnapshot` | Implemented | Selects the active voice profile in the quick-config menu picker and shows the default profile in Settings. |
 | `overview.serverMode` | `HostOverviewSnapshot` | Implemented | Drives high-level ready, degraded, broken, or starting menu status and Settings status. |
 | `overview.workerMode` | `HostOverviewSnapshot` | Not surfaced | Available for deeper runtime diagnostics, but SayBar does not display it yet. |
 | `overview.workerStage` | `HostOverviewSnapshot` | Implemented | Drives menu status detail and resident-model power-button state. |
@@ -30,14 +30,14 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `overview.profileCacheWarning` | `HostOverviewSnapshot` | Not surfaced | Available for voice-profile diagnostics, but SayBar does not display cache warning text yet. |
 | `overview.profileCount` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar derives picker state from `voiceProfiles` directly. |
 | `overview.lastProfileRefreshAt` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not show refresh timestamps yet. |
-| `generationQueue` | `EmbeddedServer` | Implemented, partial | Menu shows separate active and queued generation counts as a 24-slot indicator; Settings shows the numeric count. |
+| `generationQueue` | `EmbeddedServer` | Implemented, partial | The menu queues surface shows separate active and queued generation counts as a 24-slot indicator plus request rows; Settings shows summary and diagnostics counts. |
 | `generationQueue.queueType` | `QueueStatusSnapshot` | Not surfaced | Available for diagnostics, but the menu already labels this queue as generation work. |
-| `generationQueue.activeCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queue indicator and Settings generation queue count. |
-| `generationQueue.queuedCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queue indicator and Settings generation queue count. |
+| `generationQueue.activeCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queues surface and Settings generation queue count. |
+| `generationQueue.queuedCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queues surface and Settings generation queue count. |
 | `generationQueue.activeRequest` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not show generation request details yet. |
 | `generationQueue.activeRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list active generation requests yet. |
 | `generationQueue.queuedRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list queued generation requests yet. |
-| `playbackQueue` | `EmbeddedServer` | Implemented, partial | Settings shows active plus queued playback count. |
+| `playbackQueue` | `EmbeddedServer` | Implemented, partial | The menu queues surface and Settings diagnostics show active plus queued playback count. |
 | `playbackQueue.queueType` | `QueueStatusSnapshot` | Not surfaced | Available for diagnostics, but Settings already labels this count as playback queue work. |
 | `playbackQueue.activeCount` | `QueueStatusSnapshot` | Implemented | Contributes to the Settings playback queue count. |
 | `playbackQueue.queuedCount` | `QueueStatusSnapshot` | Implemented | Contributes to the Settings playback queue count. |
@@ -93,8 +93,8 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `currentGenerationJobs[].startedAt` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show start time yet. |
 | `currentGenerationJobs[].latestStage` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for progress UI, but SayBar does not show generation stages yet. |
 | `currentGenerationJobs[].elapsedGenerationSeconds` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for progress UI, but SayBar does not show elapsed generation time yet. |
-| `runtimeConfiguration` | `EmbeddedServer` | Implemented, partial | Settings displays the active backend; menu backend picker reads the active backend. |
-| `runtimeConfiguration.activeRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Implemented | Drives the backend picker selection and Settings speech backend value. |
+| `runtimeConfiguration` | `EmbeddedServer` | Implemented, partial | Settings displays active and next-start backend details; the quick-config menu backend picker reads the active backend. |
+| `runtimeConfiguration.activeRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Implemented | Drives the quick-config backend picker selection and Settings speech backend value. |
 | `runtimeConfiguration.nextRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show pending backend configuration yet. |
 | `runtimeConfiguration.activeDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for runtime configuration diagnostics; SayBar uses `overview.defaultVoiceProfileName` instead. |
 | `runtimeConfiguration.nextDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show next default profile yet. |
@@ -109,7 +109,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `runtimeConfiguration.persistedConfigurationAppliesOnRestart` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show restart-application semantics yet. |
 | `runtimeConfiguration.activeRuntimeMatchesNextRuntime` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show active-vs-next runtime drift yet. |
 | `runtimeConfiguration.persistedConfigurationWillAffectNextRuntimeStart` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show next-start impact yet. |
-| `voiceProfiles` | `EmbeddedServer` | Implemented | Populates the menu voice-profile picker and disables the picker when no profiles are cached. |
+| `voiceProfiles` | `EmbeddedServer` | Implemented | Populates the quick-config menu voice-profile picker and disables the picker when no profiles are cached. |
 | `voiceProfiles[].profileName` | `ProfileSnapshot` | Implemented | Displayed as each picker option and used as the picker tag. |
 | `voiceProfiles[].vibe` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show profile vibe yet. |
 | `voiceProfiles[].createdAt` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show profile creation time yet. |
@@ -131,9 +131,9 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `listVoiceProfiles()` | `EmbeddedServer` | Not used | Redundant for current UI because SwiftUI reads the observable `voiceProfiles` property directly. |
 | `refreshVoiceProfiles()` | `EmbeddedServer` | Implemented | Called after startup and when the menu opens with an empty profile cache. |
 | `queueLiveSpeech(text:profileName:textProfileID:requestContext:qwenPreModelTextChunking:)` | `EmbeddedServer` | Implemented, basic | Menu playback button queues trimmed clipboard text with SayBar clipboard request context marked as live speech while leaving profile, text profile, and chunking options at their defaults. |
-| `setDefaultVoiceProfileName(_:)` | `EmbeddedServer` | Implemented | Voice-profile picker updates the embedded host's default voice profile. |
+| `setDefaultVoiceProfileName(_:)` | `EmbeddedServer` | Implemented | The quick-config voice-profile picker updates the embedded host's default voice profile. |
 | `clearDefaultVoiceProfileName()` | `EmbeddedServer` | Not used | Available for a future reset/default-profile UI action. |
-| `switchSpeechBackend(to:)` | `EmbeddedServer` | Implemented | Speech-backend picker switches the running runtime backend. |
+| `switchSpeechBackend(to:)` | `EmbeddedServer` | Implemented | The quick-config speech-backend picker switches the running runtime backend. |
 | `reloadModels()` | `EmbeddedServer` | Implemented | Resident-model power control reloads runtime models when models are unloaded. |
 | `unloadModels()` | `EmbeddedServer` | Implemented | Resident-model power control unloads runtime models when models are loaded. |
 | `pausePlayback()` | `EmbeddedServer` | Implemented | Playback control pauses active playback. |

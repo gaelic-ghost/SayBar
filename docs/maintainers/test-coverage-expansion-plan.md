@@ -126,7 +126,7 @@ Planned coverage:
 - Runtime section displays status, worker stage, playback, speech backend, default voice profile, generation queue count, and playback queue count: done for fixture-backed Settings
 - Transport section renders empty and populated transport states: done for fixture-backed populated diagnostics
 - Recent errors section renders empty and populated error states: done for fixture-backed populated diagnostics
-- menu surface exposes stable accessibility identifiers for status, queue, controls, and picker rows: done for the current menu shell
+- menu surface exposes stable accessibility identifiers for the primary status and controls, with queue and quick-config surfaces separated behind horizontal menu navigation: done for the current menu shell
 - menu quick actions remain available without layout regressions: done for runtime-startup-skipped UI reachability
 
 Implementation notes:

@@ -9,6 +9,11 @@ import SpeakSwiftlyServer
 import SwiftUI
 
 struct SettingsWindow: View {
+    private enum SettingsTab: Hashable {
+        case primary
+        case diagnostics
+    }
+
     private enum Source {
         case server(EmbeddedServer)
         case fixture(SettingsDisplayState)
@@ -18,6 +23,9 @@ struct SettingsWindow: View {
 
     @Binding
     var isMenuBarExtraInserted: Bool
+
+    @State
+    private var selectedTab: SettingsTab = .primary
 
     init(
         server: EmbeddedServer,
@@ -56,23 +64,58 @@ struct SettingsWindow: View {
     var body: some View {
         let displayState = displayState
 
-        Form {
-            SettingsAppInfoSection(
-                appInfo: displayState.appInfo,
-                isMenuBarExtraInserted: $isMenuBarExtraInserted
-            )
+        TabView(selection: $selectedTab) {
+            Form {
+                SettingsAppInfoSection(
+                    appInfo: displayState.appInfo,
+                    isMenuBarExtraInserted: $isMenuBarExtraInserted
+                )
 
-            SettingsRuntimeOverviewSection(runtimeOverview: displayState.runtimeOverview)
+                SettingsRuntimeOverviewSection(runtimeOverview: displayState.runtimeOverview)
+            }
+            .formStyle(.grouped)
+            .padding()
+            .tabItem {
+                Label("Primary", systemImage: "slider.horizontal.below.rectangle")
+            }
+            .tag(SettingsTab.primary)
+            .accessibilityIdentifier("saybar-settings-primary-tab")
 
-            SettingsTransportDiagnosticsSection(transports: displayState.transports)
+            Form {
+                SettingsDetailRowsSection(
+                    title: "Runtime Details",
+                    rows: displayState.runtimeDiagnostics
+                )
 
-            SettingsRecentErrorsSection(recentErrors: displayState.recentErrors)
+                SettingsDetailRowsSection(
+                    title: "Playback Details",
+                    rows: displayState.playbackDiagnostics
+                )
+
+                SettingsDetailRowsSection(
+                    title: "Configuration Details",
+                    rows: displayState.configurationDiagnostics
+                )
+
+                SettingsQueueDiagnosticsSection(queues: displayState.queues)
+
+                SettingsGenerationJobsSection(jobs: displayState.generationJobs)
+
+                SettingsTransportDiagnosticsSection(transports: displayState.transports)
+
+                SettingsRecentErrorsSection(recentErrors: displayState.recentErrors)
+            }
+            .formStyle(.grouped)
+            .padding()
+            .tabItem {
+                Label("Diagnostics", systemImage: "waveform.path.ecg.rectangle")
+            }
+            .tag(SettingsTab.diagnostics)
+            .accessibilityIdentifier("saybar-settings-diagnostics-tab")
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-window")
-        .formStyle(.grouped)
-        .padding()
-        .frame(minWidth: 420, idealWidth: 480, minHeight: 340)
+        .frame(minWidth: 460, idealWidth: 560, minHeight: 420)
     }
 }
 

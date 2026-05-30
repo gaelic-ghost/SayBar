@@ -60,6 +60,70 @@ struct QueueCountComponent: View {
     }
 }
 
+struct QueueRequestListComponent: View {
+    let title: String
+    let activeRequests: [ActiveRequestSnapshot]
+    let queuedRequests: [QueuedRequestSnapshot]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            if activeRequests.isEmpty && queuedRequests.isEmpty {
+                Text("Idle")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(activeRequests, id: \.id) { request in
+                    RequestRowComponent(
+                        state: "Active",
+                        id: request.id,
+                        operation: request.op,
+                        profileName: request.profileName
+                    )
+                }
+
+                ForEach(queuedRequests, id: \.id) { request in
+                    RequestRowComponent(
+                        state: "#\(request.queuePosition)",
+                        id: request.id,
+                        operation: request.op,
+                        profileName: request.profileName
+                    )
+                }
+            }
+        }
+        .accessibilityElement(children: .contain)
+    }
+}
+
+private struct RequestRowComponent: View {
+    let state: String
+    let id: String
+    let operation: String
+    let profileName: String?
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Text(state)
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .frame(width: 42, alignment: .leading)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(operation)
+                    .font(.caption)
+                    .lineLimit(1)
+                Text(profileName.map { "\($0) - \(id)" } ?? id)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+        }
+    }
+}
+
 private struct QueueSlotShape: View {
     enum State {
         case active
@@ -100,6 +164,23 @@ private struct QueueSlotShape: View {
             case .empty:
                 return .secondary.opacity(0.25)
         }
+    }
+}
+
+struct MenuPageHeaderComponent: View {
+    let title: String
+    let systemImage: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: systemImage)
+                .imageScale(.small)
+                .foregroundStyle(.secondary)
+            Text(title)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+        }
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -178,5 +259,32 @@ struct MenuPickerComponent: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-menu-picker-row")
+    }
+}
+
+struct MenuQuickConfigSurfaceComponent: View {
+    @Binding var selectedVoiceProfileName: String
+    @Binding var selectedBackend: SpeakSwiftly.SpeechBackend
+
+    let voiceProfiles: [ProfileSnapshot]
+    let availableBackends: [SpeakSwiftly.SpeechBackend]
+    let isVoicePickerDisabled: Bool
+    let isBackendPickerDisabled: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            MenuPageHeaderComponent(title: "Quick Config", systemImage: "slider.horizontal.3")
+
+            MenuPickerComponent(
+                selectedVoiceProfileName: $selectedVoiceProfileName,
+                selectedBackend: $selectedBackend,
+                voiceProfiles: voiceProfiles,
+                availableBackends: availableBackends,
+                isVoicePickerDisabled: isVoicePickerDisabled,
+                isBackendPickerDisabled: isBackendPickerDisabled
+            )
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-quick-config-surface")
     }
 }

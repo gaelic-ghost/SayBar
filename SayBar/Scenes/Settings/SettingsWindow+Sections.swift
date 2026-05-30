@@ -59,6 +59,101 @@ struct SettingsRuntimeOverviewSection: View {
     }
 }
 
+struct SettingsDetailRowsSection: View {
+    let title: String
+    let rows: [SettingsDisplayState.DetailRow]
+
+    var body: some View {
+        Section(title) {
+            if rows.isEmpty {
+                Text("No diagnostics are published yet.")
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(rows) { row in
+                    LabeledContent(row.label, value: row.value)
+                        .accessibilityIdentifier("saybar-settings-detail-\(row.id)")
+                }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-settings-\(title.normalizedAccessibilityID)-section")
+    }
+}
+
+struct SettingsQueueDiagnosticsSection: View {
+    let queues: [SettingsDisplayState.QueueDiagnostics]
+
+    var body: some View {
+        Section("Queues") {
+            if queues.isEmpty {
+                Text("No queue diagnostics are published yet.")
+                    .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("saybar-settings-empty-queues")
+            } else {
+                ForEach(queues) { queue in
+                    VStack(alignment: .leading, spacing: 6) {
+                        LabeledContent(queue.title, value: queue.summary)
+                            .accessibilityIdentifier("saybar-settings-queue-\(queue.id)")
+
+                        ForEach(queue.activeRequests) { request in
+                            SettingsRequestRow(request: request)
+                        }
+
+                        ForEach(queue.queuedRequests) { request in
+                            SettingsRequestRow(request: request)
+                        }
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-settings-queues-section")
+    }
+}
+
+private struct SettingsRequestRow: View {
+    let request: SettingsDisplayState.RequestRow
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("\(request.state) \(request.operation)")
+                .font(.caption.weight(.semibold))
+            Text("\(request.profileName) - \(request.id)")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+        .accessibilityIdentifier("saybar-settings-request-row-\(request.id)")
+    }
+}
+
+struct SettingsGenerationJobsSection: View {
+    let jobs: [SettingsDisplayState.GenerationJobRow]
+
+    var body: some View {
+        Section("Generation Jobs") {
+            if jobs.isEmpty {
+                Text("No generation jobs are active.")
+                    .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("saybar-settings-empty-generation-jobs")
+            } else {
+                ForEach(jobs) { job in
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(job.operation)
+                            .font(.caption.weight(.semibold))
+                        Text("\(job.profileName) - \(job.latestStage) - \(job.elapsed)")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                    .accessibilityIdentifier("saybar-settings-generation-job-\(job.id)")
+                }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-settings-generation-jobs-section")
+    }
+}
+
 struct SettingsTransportDiagnosticsSection: View {
     let transports: [SettingsDisplayState.TransportRow]
 
@@ -84,6 +179,13 @@ struct SettingsTransportDiagnosticsSection: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-transports-section")
+    }
+}
+
+private extension String {
+    var normalizedAccessibilityID: String {
+        lowercased()
+            .replacingOccurrences(of: " ", with: "-")
     }
 }
 

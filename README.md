@@ -51,11 +51,11 @@ Launch the `SayBar` scheme to start the app. The menu bar surface is intentional
 
 - a status headline
 - a detail line for the current warning, error, or runtime detail
-- a 24-slot generation queue indicator with separate active and queued counts
-- one compact control row for resident-model power, playback or clipboard speech, and settings
-- one picker row for voice profile selection and speech backend selection
+- one compact primary control row for resident-model power, playback or clipboard speech, and settings
+- a queue surface for generation and playback counts plus request-level rows
+- a quick configuration surface for voice profile selection and speech backend selection
 
-Open Settings for deeper app and runtime diagnostics. The current settings surface shows the app version, menu bar insertion preference, runtime summary values, transport details, and recent retained errors.
+Open Settings for deeper app and runtime diagnostics. The primary Settings tab shows the app version, menu bar insertion preference, and runtime summary values. The Diagnostics tab shows runtime detail rows, playback buffering detail, configuration state, queue/request detail, generation jobs, transport details, and recent retained errors.
 
 The current implementation is embedded-runtime-first: SayBar hosts `SpeakSwiftlyServer` inside the app process rather than attaching to an external background service.
 

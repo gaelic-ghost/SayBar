@@ -29,6 +29,12 @@ struct MenuBarExtraWindow: View {
     @State
     private var isRunningModelAction = false
 
+    @State
+    private var selectedSurface: MenuBarDisplaySupport.Surface = .primary
+
+    @State
+    private var surfaceTransitionEdge: Edge = .trailing
+
     let server: EmbeddedServer
     let launchesEmbeddedRuntime: Bool
 
@@ -49,6 +55,14 @@ struct MenuBarExtraWindow: View {
         MenuBarDisplaySupport.queueSummary(
             activeCount: server.generationQueue.activeCount,
             queuedCount: server.generationQueue.queuedCount
+        )
+    }
+
+    private var playbackQueueSummary: MenuBarDisplaySupport.QueueSummary {
+        MenuBarDisplaySupport.queueSummary(
+            activeCount: server.playbackQueue.activeCount,
+            queuedCount: server.playbackQueue.queuedCount,
+            capacity: 12
         )
     }
 
@@ -80,17 +94,46 @@ struct MenuBarExtraWindow: View {
     // MARK: Main View Body
 
     var body: some View {
+        ZStack(alignment: .leading) {
+            surfaceView
+                .id(selectedSurface)
+                .transition(surfaceTransition)
+        }
+        .padding(14)
+        .frame(width: 320)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-menu-window")
+        .overlay {
+            HorizontalSwipeGestureMonitor { direction in
+                navigateMenuSurface(direction)
+            }
+        }
+        .task {
+            await refreshVoiceProfilesIfNeeded()
+        }
+    }
+}
+
+private extension MenuBarExtraWindow {
+    @ViewBuilder
+    var surfaceView: some View {
+        switch selectedSurface {
+            case .queues:
+                queuesSurface
+            case .primary:
+                primarySurface
+            case .quickConfig:
+                quickConfigSurface
+        }
+    }
+
+    var primarySurface: some View {
         let currentStatus = status
 
-        VStack(alignment: .leading, spacing: 12) {
+        return VStack(alignment: .leading, spacing: 12) {
             MenuHeaderComponent(
                 headline: currentStatus.headline,
                 detail: currentStatus.detail
-            )
-
-            QueueCountComponent(
-                summary: queueSummary,
-                label: "Generation"
             )
 
             MenuControlGroupComponent(
@@ -102,37 +145,86 @@ struct MenuBarExtraWindow: View {
                 playbackAction: handlePlaybackButton,
                 openSettingsAction: { openSettings() }
             )
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier(MenuBarDisplaySupport.Surface.primary.accessibilityIdentifier)
+    }
 
-            MenuPickerComponent(
-                selectedVoiceProfileName: Binding(
-                    get: { selectedVoiceProfileName },
-                    set: { newValue in
-                        handleVoiceSelection(newValue)
-                    }
-                ),
-                selectedBackend: Binding(
-                    get: { selectedBackend },
-                    set: { newValue in
-                        handleBackendSelection(newValue)
-                    }
-                ),
-                voiceProfiles: server.voiceProfiles,
-                availableBackends: SpeakSwiftly.SpeechBackend.allCases,
-                isVoicePickerDisabled: server.voiceProfiles.isEmpty || isRunningVoiceAction,
-                isBackendPickerDisabled: isRunningBackendAction
+    var queuesSurface: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            MenuPageHeaderComponent(title: "Queues", systemImage: "list.bullet.rectangle")
+
+            QueueCountComponent(
+                summary: queueSummary,
+                label: "Generation"
+            )
+
+            QueueCountComponent(
+                summary: playbackQueueSummary,
+                label: "Playback"
+            )
+
+            QueueRequestListComponent(
+                title: "Generation Requests",
+                activeRequests: server.generationQueue.activeRequests,
+                queuedRequests: server.generationQueue.queuedRequests
+            )
+
+            QueueRequestListComponent(
+                title: "Playback Requests",
+                activeRequests: server.playbackQueue.activeRequests,
+                queuedRequests: server.playbackQueue.queuedRequests
             )
         }
-        .padding(14)
-        .frame(width: 320)
         .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("saybar-menu-window")
-        .task {
-            await refreshVoiceProfilesIfNeeded()
+        .accessibilityIdentifier(MenuBarDisplaySupport.Surface.queues.accessibilityIdentifier)
+    }
+
+    var quickConfigSurface: some View {
+        MenuQuickConfigSurfaceComponent(
+            selectedVoiceProfileName: Binding(
+                get: { selectedVoiceProfileName },
+                set: { newValue in
+                    handleVoiceSelection(newValue)
+                }
+            ),
+            selectedBackend: Binding(
+                get: { selectedBackend },
+                set: { newValue in
+                    handleBackendSelection(newValue)
+                }
+            ),
+            voiceProfiles: server.voiceProfiles,
+            availableBackends: SpeakSwiftly.SpeechBackend.allCases,
+            isVoicePickerDisabled: server.voiceProfiles.isEmpty || isRunningVoiceAction,
+            isBackendPickerDisabled: isRunningBackendAction
+        )
+        .accessibilityIdentifier(MenuBarDisplaySupport.Surface.quickConfig.accessibilityIdentifier)
+    }
+
+    var surfaceTransition: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: surfaceTransitionEdge).combined(with: .opacity),
+            removal: .move(edge: surfaceTransitionEdge == .leading ? .trailing : .leading).combined(with: .opacity)
+        )
+    }
+
+    @MainActor
+    func navigateMenuSurface(_ direction: MenuBarDisplaySupport.SurfaceNavigationDirection) {
+        let nextSurface = MenuBarDisplaySupport.navigatedSurface(
+            from: selectedSurface,
+            direction: direction
+        )
+        guard nextSurface != selectedSurface else {
+            return
+        }
+
+        surfaceTransitionEdge = direction == .previous ? .leading : .trailing
+        withAnimation(.snappy(duration: 0.22)) {
+            selectedSurface = nextSurface
         }
     }
-}
 
-private extension MenuBarExtraWindow {
     @MainActor
     func refreshVoiceProfilesIfNeeded() async {
         guard server.voiceProfiles.isEmpty else {

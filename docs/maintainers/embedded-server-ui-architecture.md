@@ -50,20 +50,24 @@ The current menu bar window is composed from small SwiftUI component views:
 - `QueueCountComponent`
 - `MenuControlGroupComponent`
 - `MenuPickerComponent`
+- `HorizontalSwipeGestureMonitor`
 
 `MenuBarExtraWindow` owns local UI state for:
 
 - local action feedback text
 - local button-busy flags for asynchronous actions
+- selected menu surface
+- the current slide transition edge
 
-That local state is deliberately UI-local. It is not a second source of truth for runtime state. Picker selections, queue counts, status text, playback state, active backend, and default voice profile are all read directly from the observable `EmbeddedServer` surface at render time.
+That local state is deliberately UI-local. It is not a second source of truth for runtime state. Picker selections, queue counts, request rows, status text, playback state, active backend, and default voice profile are all read directly from the observable `EmbeddedServer` surface at render time.
 
-The current compact menu layout is:
+The current compact menu layout is split into three horizontal surfaces:
 
-- header at the top
-- queue indicator in the middle
-- one button control row for power, playback or clipboard speech, and settings
-- one picker row for voice profile and speech backend
+- primary: status plus the power, playback or clipboard speech, and settings controls
+- queues: generation and playback queue counts plus active and queued request rows
+- quick config: voice profile and speech backend pickers
+
+The menu surface switcher is a local AppKit-backed gesture monitor. It listens for horizontal scroll-wheel gestures while the pointer is inside the menu window and updates only the selected SwiftUI surface. It does not own runtime state or route server actions.
 
 ## Clipboard Speech
 

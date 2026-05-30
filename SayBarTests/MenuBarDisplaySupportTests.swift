@@ -198,6 +198,33 @@ final class MenuBarDisplaySupportTests: XCTestCase {
         XCTAssertEqual(summary.visibleQueuedSlotCount, 0)
     }
 
+    func testSurfaceNavigationMovesBetweenQueuePrimaryAndQuickConfigSurfaces() {
+        XCTAssertEqual(
+            MenuBarDisplaySupport.navigatedSurface(from: .primary, direction: .previous),
+            .queues
+        )
+        XCTAssertEqual(
+            MenuBarDisplaySupport.navigatedSurface(from: .primary, direction: .next),
+            .quickConfig
+        )
+        XCTAssertEqual(
+            MenuBarDisplaySupport.navigatedSurface(from: .queues, direction: .previous),
+            .queues
+        )
+        XCTAssertEqual(
+            MenuBarDisplaySupport.navigatedSurface(from: .quickConfig, direction: .next),
+            .quickConfig
+        )
+        XCTAssertEqual(
+            MenuBarDisplaySupport.navigatedSurface(from: .queues, direction: .next),
+            .primary
+        )
+        XCTAssertEqual(
+            MenuBarDisplaySupport.navigatedSurface(from: .quickConfig, direction: .previous),
+            .primary
+        )
+    }
+
     private func menuStatus(
         launchesEmbeddedRuntime: Bool = true,
         recentErrorMessage: String? = nil,

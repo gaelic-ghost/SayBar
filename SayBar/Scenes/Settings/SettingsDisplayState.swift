@@ -20,6 +20,35 @@ struct SettingsDisplayState: Equatable {
         let playbackQueueCount: String
     }
 
+    struct DetailRow: Equatable, Identifiable {
+        let id: String
+        let label: String
+        let value: String
+    }
+
+    struct QueueDiagnostics: Equatable, Identifiable {
+        let id: String
+        let title: String
+        let summary: String
+        let activeRequests: [RequestRow]
+        let queuedRequests: [RequestRow]
+    }
+
+    struct RequestRow: Equatable, Identifiable {
+        let id: String
+        let state: String
+        let operation: String
+        let profileName: String
+    }
+
+    struct GenerationJobRow: Equatable, Identifiable {
+        let id: String
+        let operation: String
+        let profileName: String
+        let latestStage: String
+        let elapsed: String
+    }
+
     struct TransportRow: Equatable, Identifiable {
         let id: String
         let name: String
@@ -34,6 +63,11 @@ struct SettingsDisplayState: Equatable {
 
     let appInfo: AppInfo
     let runtimeOverview: RuntimeOverview
+    let runtimeDiagnostics: [DetailRow]
+    let playbackDiagnostics: [DetailRow]
+    let configurationDiagnostics: [DetailRow]
+    let queues: [QueueDiagnostics]
+    let generationJobs: [GenerationJobRow]
     let transports: [TransportRow]
     let recentErrors: [RecentErrorRow]
 }

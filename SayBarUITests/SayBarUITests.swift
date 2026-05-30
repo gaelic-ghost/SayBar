@@ -143,13 +143,12 @@ final class SayBarUITests: XCTestCase {
 				app.descendants(matching: .any)["saybar-menu-window"].waitForExistence(timeout: menuTimeout),
 				"SayBar should expose the menu window through a stable accessibility identifier.",
 			)
+			assertElementExists("saybar-menu-surface-primary", in: app)
 			assertElementExists("saybar-status-headline", in: app)
 			assertElementExists("saybar-status-detail", in: app)
-			assertElementExists("saybar-generation-queue-summary", in: app)
 			assertElementExists("saybar-resident-model-power", in: app)
 			assertElementExists("saybar-playback-or-clipboard-speech", in: app)
 			assertElementExists("saybar-open-settings", in: app)
-			assertElementExists("saybar-menu-picker-row", in: app)
 		}
 	}
 
@@ -170,10 +169,6 @@ final class SayBarUITests: XCTestCase {
 			assertElementIsHittable("saybar-resident-model-power", in: app)
 			assertElementIsHittable("saybar-playback-or-clipboard-speech", in: app)
 			assertElementIsHittable("saybar-open-settings", in: app)
-			assertElementExists("saybar-generation-queue", in: app)
-			assertElementExists("saybar-generation-queue-summary", in: app)
-			assertElementExists("saybar-voice-profile-picker", in: app)
-			assertElementExists("saybar-speech-backend-picker", in: app)
 		}
 	}
 
@@ -199,6 +194,13 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-settings-runtime-status", in: app)
 			assertElementExists("saybar-settings-generation-queue", in: app)
 			assertElementExists("saybar-settings-playback-queue", in: app)
+		}
+
+		XCTContext.runActivity(named: "Verify Settings diagnostics tab") { _ in
+			app.descendants(matching: .any)["Diagnostics"].click()
+			assertElementExists("saybar-settings-diagnostics-tab", in: app)
+			assertElementExists("saybar-settings-runtime-details-section", in: app)
+			assertElementExists("saybar-settings-queues-section", in: app)
 			assertElementExists("saybar-settings-transports-section", in: app)
 			assertElementExists("saybar-settings-recent-errors-section", in: app)
 		}
@@ -240,8 +242,16 @@ final class SayBarUITests: XCTestCase {
 		}
 
 		XCTContext.runActivity(named: "Verify populated diagnostics") { _ in
+			app.descendants(matching: .any)["Diagnostics"].click()
+			assertElementExists("saybar-settings-runtime-details-section", in: app)
+			assertElementExists("saybar-settings-playback-details-section", in: app)
+			assertElementExists("saybar-settings-configuration-details-section", in: app)
+			assertElementExists("saybar-settings-queue-fixture-generation", in: app)
+			assertElementExists("saybar-settings-generation-job-fixture-job", in: app)
 			assertElementExists("saybar-settings-transport-row-HTTP", in: app)
 			assertElementExists("saybar-settings-recent-error-row-Fixture Runtime", in: app)
+			assertTextExists("SayBar UI Fixture", in: app)
+			assertTextExists("generating_audio", in: app)
 			assertTextExists("HTTP", in: app)
 			assertTextExists("ready at 127.0.0.1:7339/mcp", in: app)
 			assertTextExists("Fixture Runtime", in: app)

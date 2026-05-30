@@ -51,10 +51,10 @@ The current checked-in tests validate these shell-level behaviors with `--saybar
 - explicit app termination completes
 - the app can relaunch after termination
 - the menu bar extra can be opened
-- the menu shell exposes stable status, queue, control, and picker identifiers
+- the primary menu shell exposes stable status and control identifiers
 - the menu quick-action controls remain reachable without starting the embedded runtime
 - Settings opens from the menu extra
-- Settings can render fixture-backed populated app, runtime, transport, and recent-error values
+- Settings can render fixture-backed populated app, runtime, diagnostics, transport, and recent-error values
 
 That test shape keeps the UI suite aligned with the supported XCUITest surface while avoiding a full embedded-runtime bootstrap in every UI test run.
 

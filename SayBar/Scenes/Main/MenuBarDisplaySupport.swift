@@ -6,6 +6,28 @@
 //
 
 enum MenuBarDisplaySupport {
+    enum Surface: Int, CaseIterable, Equatable {
+        case queues
+        case primary
+        case quickConfig
+
+        nonisolated var accessibilityIdentifier: String {
+            switch self {
+                case .queues:
+                    return "saybar-menu-surface-queues"
+                case .primary:
+                    return "saybar-menu-surface-primary"
+                case .quickConfig:
+                    return "saybar-menu-surface-quick-config"
+            }
+        }
+    }
+
+    enum SurfaceNavigationDirection: Equatable {
+        case previous
+        case next
+    }
+
     struct QueueSummary: Equatable {
         nonisolated let activeCount: Int
         nonisolated let queuedCount: Int
@@ -35,6 +57,24 @@ enum MenuBarDisplaySupport {
             totalCount: min(normalizedActiveCount + normalizedQueuedCount, normalizedCapacity),
             capacity: normalizedCapacity
         )
+    }
+
+    nonisolated static func navigatedSurface(
+        from surface: Surface,
+        direction: SurfaceNavigationDirection
+    ) -> Surface {
+        let allSurfaces = Surface.allCases
+        guard let currentIndex = allSurfaces.firstIndex(of: surface) else {
+            return .primary
+        }
+
+        let targetIndex = switch direction {
+            case .previous:
+                max(currentIndex - 1, allSurfaces.startIndex)
+            case .next:
+                min(currentIndex + 1, allSurfaces.index(before: allSurfaces.endIndex))
+        }
+        return allSurfaces[targetIndex]
     }
 }
 
