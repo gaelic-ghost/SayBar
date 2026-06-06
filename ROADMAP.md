@@ -73,6 +73,7 @@
 - [x] Surface runtime, playback, transport, and diagnostics sections in Settings.
 - [x] Build settings sections for configuration that genuinely belongs to the macOS app.
 - [x] Add diagnostics surfaces for logs, startup failures, and likely-cause messaging.
+- [ ] Verify the tabbed Settings diagnostics view against live embedded-runtime, playback, queue, and configuration states.
 - [x] Choose and document the long-term direct-embedding product baseline for App Store-compatible delivery.
 - [ ] Verify launch, relaunch, and quit behavior for background work.
 
@@ -122,6 +123,7 @@
 - [ ] Expand app-foundation tests for environment parsing, profile path construction, status mapping, queue display mapping, transport summaries, and recent-error precedence.
 - [x] Cover implemented embedded-session actions for lifecycle, voice refresh, default voice selection, backend switching, resident model reload/unload, playback pause/resume, and clipboard speech submission.
 - [ ] Review and streamline menu and Settings view implementations before adding deeper UI assertions.
+- [ ] Verify menu surface navigation with hands-on two-finger backward and forward swipe gestures over the menu bar window.
 - [ ] Add Settings and menu bar UI coverage after the view implementations are simpler and more testable.
 
 ### Exit criteria
