@@ -7,303 +7,630 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49ACDC532F8D74E500DA4DD3 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = 49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */; };
+		0CC8D31314AEADA3B11D02B9 /* SayBarAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */; };
+		2643835B53D7CF89F754CF2E /* HorizontalSwipeGestureMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5A9355726EEA9708B4A869 /* HorizontalSwipeGestureMonitor.swift */; };
+		2C65CA13958113A742AB398A /* SettingsWindow+Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */; };
+		5265EF00BB348BFAD73B8E6A /* SayBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D142FFE066724E872959B3DB /* SayBarApp.swift */; };
+		573493F20314BF6310E5569D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78B747C47E8A1A5B622BD18B /* Assets.xcassets */; };
+		613C2524994FA38F646999D8 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = E94BE94116B1C9BEC45DAB0B /* SpeakSwiftlyServer */; };
+		6BCFE6CDB8C7214D1C2C8CF0 /* MenuBarDisplaySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5CB6B52B784D1F074664FF /* MenuBarDisplaySupport.swift */; };
+		6C641CF4E8CB1CF15280B9D8 /* SettingsDisplayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63D5B195EC9533CC81BEB3F /* SettingsDisplayState.swift */; };
+		728866F6BBE4A5A21B2DAA42 /* SettingsDisplaySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147DD66E44686D207300B6AC /* SettingsDisplaySupport.swift */; };
+		7DE9DBB8C8176D66BC237DEA /* MenuBarExtraWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D861D2C217E3EB835F69BE8 /* MenuBarExtraWindow.swift */; };
+		8261255D32460D6EF3AE7AE8 /* SayBarAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE532B693453B727B9BDB04 /* SayBarAppDelegate.swift */; };
+		857BB92B3F749509E1BC1086 /* SayBarRuntimeE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973C718B4CF8E176EBFAD7A /* SayBarRuntimeE2ETests.swift */; };
+		8D29D8F333289519CB74BB43 /* SettingsDisplayState+UITestFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E086E525EE1E3A92F49AF /* SettingsDisplayState+UITestFixtures.swift */; };
+		B22F19DD838B498866E12BB8 /* MenuBarExtraWindow+Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A633A240A2EE5D2D78C9B4 /* MenuBarExtraWindow+Components.swift */; };
+		B3C8B01C1E80957266D4FD9E /* SayBarAppLifecycleSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */; };
+		BD98FC6A500C7F0DCBB0EAE8 /* SayBarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */; };
+		C3B9F6B5A47FF2E6035E81A1 /* SayBarAppLifecycleSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868D28DF9F9A69E698033D62 /* SayBarAppLifecycleSupport.swift */; };
+		C3DE9FB92D8EC0CFAAE9F604 /* MenuBarActionSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECCFF1DD2575C344113319C /* MenuBarActionSupportTests.swift */; };
+		C41A7BF01EDBF05F3A0007F7 /* SettingsDisplayState+EmbeddedServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */; };
+		CECC7F8BABD73C590C046F90 /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9BE7EFCE45D399F41CE74 /* SettingsWindow.swift */; };
+		D851C7F4624D9CC3B63291A9 /* RuntimeE2ETransportSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA015810E51C5C8D76E32C30 /* RuntimeE2ETransportSupport.swift */; };
+		E85A77D29BC649874032582A /* MenuBarActionSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6200908471B65403AF0CE3B /* MenuBarActionSupport.swift */; };
+		E9FA60ED42E488E836892E7A /* SayBarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E46753ABB475A171D35521 /* SayBarUITests.swift */; };
+		F200B2DA257CC21E6D94DF5D /* MenuBarDisplaySupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC145007B22D7747DC06BA00 /* MenuBarDisplaySupportTests.swift */; };
+		F7DDCCA2887CFB9D786A2EF8 /* SettingsDisplaySupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED9D9A808A9853B17BD9BF3 /* SettingsDisplaySupportTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		49220E8F2F7ADE5B00A94BD8 /* PBXContainerItemProxy */ = {
+		90F06B501E19A3012E70F6EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 49220E772F7ADE5A00A94BD8 /* Project object */;
+			containerPortal = CF1D10B4F24F41928B4B735B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 49220E7E2F7ADE5A00A94BD8;
+			remoteGlobalIDString = 0FBFC31AC6D9B63C769BD8B5;
 			remoteInfo = SayBar;
 		};
-		49220E992F7ADE5B00A94BD8 /* PBXContainerItemProxy */ = {
+		B7592AEA8CEA103DDEF1C68A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 49220E772F7ADE5A00A94BD8 /* Project object */;
+			containerPortal = CF1D10B4F24F41928B4B735B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 49220E7E2F7ADE5A00A94BD8;
+			remoteGlobalIDString = 0FBFC31AC6D9B63C769BD8B5;
 			remoteInfo = SayBar;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		49220E7F2F7ADE5A00A94BD8 /* SayBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SayBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		49220E8E2F7ADE5B00A94BD8 /* SayBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		49220E982F7ADE5B00A94BD8 /* SayBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		496E0E122F7F3F110027D8C1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		496E0E142F7F3F250027D8C1 /* ROADMAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ROADMAP.md; sourceTree = "<group>"; };
-		496E0E162F7F3F3C0027D8C1 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
-		49A281BD2FA158AC00ECA1F0 /* SayBar.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SayBar.xctestplan; sourceTree = "<group>"; };
-		49A9433F2F855A5900F4016C /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
-		49A943412F855A6300F4016C /* FIXME.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXME.md; sourceTree = "<group>"; };
+		0149B80779C8169D09B317E6 /* 40-xcode-test-plan.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "40-xcode-test-plan.sh"; sourceTree = "<group>"; };
+		0977E32559C575860A91285C /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		1463A32F7392B7870BC3BBFB /* 20-agents-guidance.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "20-agents-guidance.sh"; sourceTree = "<group>"; };
+		147DD66E44686D207300B6AC /* SettingsDisplaySupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplaySupport.swift; sourceTree = "<group>"; };
+		156F18D1AB9F17DF9231FA48 /* NOTICE */ = {isa = PBXFileReference; path = NOTICE; sourceTree = "<group>"; };
+		18F5CA7508A342DCB058947E /* 10-preflight.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "10-preflight.sh"; sourceTree = "<group>"; };
+		1B1CF3ACACDAFD74317CC368 /* 40-github-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "40-github-release.sh"; sourceTree = "<group>"; };
+		1BF93212401B3C4CC3AE667D /* ROADMAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ROADMAP.md; sourceTree = "<group>"; };
+		1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+EmbeddedServer.swift"; sourceTree = "<group>"; };
+		1E85CBAB58316ED2A8E77321 /* validation.env */ = {isa = PBXFileReference; path = validation.env; sourceTree = "<group>"; };
+		23FC3AF954582D8798C4999B /* validate-all.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "validate-all.sh"; sourceTree = "<group>"; };
+		29FB79CBDF99F6A0829F25B3 /* SayBar.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SayBar.xcconfig; sourceTree = "<group>"; };
+		2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2D2EFDFBB30E81698FBFF7BB /* SayBarRuntimeE2E.xctestplan */ = {isa = PBXFileReference; path = SayBarRuntimeE2E.xctestplan; sourceTree = "<group>"; };
+		4906274983CD9FF0B7CC4EBF /* 30-ci-wrapper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "30-ci-wrapper.sh"; sourceTree = "<group>"; };
+		4B53AFCBBCE5F851DE6D2686 /* pre-commit.sample */ = {isa = PBXFileReference; path = "pre-commit.sample"; sourceTree = "<group>"; };
+		4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsWindow+Sections.swift"; sourceTree = "<group>"; };
+		66A0FD19DF96FA6F110B8A70 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		67B9BE7EFCE45D399F41CE74 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
+		6A39FBE064B96B50A43B68E8 /* xcodegen-migration-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "xcodegen-migration-plan.md"; sourceTree = "<group>"; };
+		6F9C0D09719FFB67D136E9DD /* release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = release.sh; sourceTree = "<group>"; };
+		72EA0FEC159718BABB7BDA99 /* profile.env */ = {isa = PBXFileReference; path = profile.env; sourceTree = "<group>"; };
+		761584D346B07710EF15A175 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		7717B96B83670D39DAE70EAD /* FIXME.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXME.md; sourceTree = "<group>"; };
+		78B747C47E8A1A5B622BD18B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7A5E086E525EE1E3A92F49AF /* SettingsDisplayState+UITestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+UITestFixtures.swift"; sourceTree = "<group>"; };
+		81602F7B73C9AC44D8CECC18 /* SayBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		868D28DF9F9A69E698033D62 /* SayBarAppLifecycleSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppLifecycleSupport.swift; sourceTree = "<group>"; };
+		8C3632B659B94D17E7C7C7FA /* SayBar.xctestplan */ = {isa = PBXFileReference; path = SayBar.xctestplan; sourceTree = "<group>"; };
+		8C5A9355726EEA9708B4A869 /* HorizontalSwipeGestureMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSwipeGestureMonitor.swift; sourceTree = "<group>"; };
+		8D861D2C217E3EB835F69BE8 /* MenuBarExtraWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarExtraWindow.swift; sourceTree = "<group>"; };
+		90A633A240A2EE5D2D78C9B4 /* MenuBarExtraWindow+Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MenuBarExtraWindow+Components.swift"; sourceTree = "<group>"; };
+		91E46753ABB475A171D35521 /* SayBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarUITests.swift; sourceTree = "<group>"; };
+		94929CE1E6D6603868111B9D /* runtime-on-e2e-test-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "runtime-on-e2e-test-plan.md"; sourceTree = "<group>"; };
+		971419B7E5ABEC11782AAB30 /* 30-push-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "30-push-release.sh"; sourceTree = "<group>"; };
+		9ECCFF1DD2575C344113319C /* MenuBarActionSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarActionSupportTests.swift; sourceTree = "<group>"; };
+		A64BF97C0CE4D2BD276B3CCC /* 20-tag-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "20-tag-release.sh"; sourceTree = "<group>"; };
+		ADB076388A85B9316DFA0A19 /* 50-xcodegen-generated-project.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "50-xcodegen-generated-project.sh"; sourceTree = "<group>"; };
+		AFB6469DDD9632DAC8858A43 /* 10-toolkit-layout.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "10-toolkit-layout.sh"; sourceTree = "<group>"; };
+		B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppEnvironmentTests.swift; sourceTree = "<group>"; };
+		B95475D246FB3A1647E684CB /* test-coverage-expansion-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "test-coverage-expansion-plan.md"; sourceTree = "<group>"; };
+		B973C718B4CF8E176EBFAD7A /* SayBarRuntimeE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarRuntimeE2ETests.swift; sourceTree = "<group>"; };
+		B99033085B0831E19ABEEC7C /* sync-shared.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "sync-shared.sh"; sourceTree = "<group>"; };
+		BBD4947A8A74563B7C25FA0B /* release.env */ = {isa = PBXFileReference; path = release.env; sourceTree = "<group>"; };
+		BED9D9A808A9853B17BD9BF3 /* SettingsDisplaySupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplaySupportTests.swift; sourceTree = "<group>"; };
+		C0AFA67D4642BC85F256A8BA /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		C53796FDE508AC1A05090D33 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		C5995A0F7E65A08A862A4460 /* adr-0001-keep-direct-embeddedserver-baseline.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "adr-0001-keep-direct-embeddedserver-baseline.md"; sourceTree = "<group>"; };
+		CE5CB6B52B784D1F074664FF /* MenuBarDisplaySupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDisplaySupport.swift; sourceTree = "<group>"; };
+		CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppLifecycleSupportTests.swift; sourceTree = "<group>"; };
+		CF2AD5D1F53EE6B5D8BCED23 /* SayBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SayBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D142FFE066724E872959B3DB /* SayBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarApp.swift; sourceTree = "<group>"; };
+		D37BD44E07428E8AA1CD396D /* SayBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D38BC9A381C31BBBC736A6EC /* accessibility-and-ui-automation-notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "accessibility-and-ui-automation-notes.md"; sourceTree = "<group>"; };
+		DA015810E51C5C8D76E32C30 /* RuntimeE2ETransportSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeE2ETransportSupport.swift; sourceTree = "<group>"; };
+		DC145007B22D7747DC06BA00 /* MenuBarDisplaySupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDisplaySupportTests.swift; sourceTree = "<group>"; };
+		DD89FA2A9984DB2966A354A8 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
+		E6200908471B65403AF0CE3B /* MenuBarActionSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarActionSupport.swift; sourceTree = "<group>"; };
+		F130AC199FECE7DF376713C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F63D5B195EC9533CC81BEB3F /* SettingsDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplayState.swift; sourceTree = "<group>"; };
+		FB8C7B872CAFA29FA0BD5F71 /* embedded-server-ui-architecture.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "embedded-server-ui-architecture.md"; sourceTree = "<group>"; };
+		FCE532B693453B727B9BDB04 /* SayBarAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppDelegate.swift; sourceTree = "<group>"; };
+		FD9365D4757FBF8BBFB9B2FF /* embedded-session-api-coverage.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "embedded-session-api-coverage.md"; sourceTree = "<group>"; };
+		FEA9D2C7513FDF0B772383B2 /* common.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = common.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		49220E812F7ADE5A00A94BD8 /* SayBar */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SayBar;
-			sourceTree = "<group>";
-		};
-		49220E912F7ADE5B00A94BD8 /* SayBarTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SayBarTests;
-			sourceTree = "<group>";
-		};
-		49220E9B2F7ADE5B00A94BD8 /* SayBarUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SayBarUITests;
-			sourceTree = "<group>";
-		};
-		49A943432F855A6900F4016C /* docs */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = docs;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
-		49220E7C2F7ADE5A00A94BD8 /* Frameworks */ = {
+		E0080EAC75AE3DF2A41953AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49ACDC532F8D74E500DA4DD3 /* SpeakSwiftlyServer in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49220E8B2F7ADE5B00A94BD8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49220E952F7ADE5B00A94BD8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				613C2524994FA38F646999D8 /* SpeakSwiftlyServer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		49220E762F7ADE5A00A94BD8 = {
+		09192E3F12AC58B40AAB26F7 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				49A281BD2FA158AC00ECA1F0 /* SayBar.xctestplan */,
-				49A943432F855A6900F4016C /* docs */,
-				49A943412F855A6300F4016C /* FIXME.md */,
-				49A9433F2F855A5900F4016C /* TODO.md */,
-				496E0E162F7F3F3C0027D8C1 /* AGENTS.md */,
-				496E0E142F7F3F250027D8C1 /* ROADMAP.md */,
-				496E0E122F7F3F110027D8C1 /* README.md */,
-				49220E812F7ADE5A00A94BD8 /* SayBar */,
-				49220E912F7ADE5B00A94BD8 /* SayBarTests */,
-				49220E9B2F7ADE5B00A94BD8 /* SayBarUITests */,
-				49220E802F7ADE5A00A94BD8 /* Products */,
+				F63D5B195EC9533CC81BEB3F /* SettingsDisplayState.swift */,
+				1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */,
+				7A5E086E525EE1E3A92F49AF /* SettingsDisplayState+UITestFixtures.swift */,
+				147DD66E44686D207300B6AC /* SettingsDisplaySupport.swift */,
+				67B9BE7EFCE45D399F41CE74 /* SettingsWindow.swift */,
+				4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		0C46AFF7D9FABECDF787FE5F /* maintainers */ = {
+			isa = PBXGroup;
+			children = (
+				D38BC9A381C31BBBC736A6EC /* accessibility-and-ui-automation-notes.md */,
+				C5995A0F7E65A08A862A4460 /* adr-0001-keep-direct-embeddedserver-baseline.md */,
+				FB8C7B872CAFA29FA0BD5F71 /* embedded-server-ui-architecture.md */,
+				FD9365D4757FBF8BBFB9B2FF /* embedded-session-api-coverage.md */,
+				F130AC199FECE7DF376713C7 /* README.md */,
+				94929CE1E6D6603868111B9D /* runtime-on-e2e-test-plan.md */,
+				B95475D246FB3A1647E684CB /* test-coverage-expansion-plan.md */,
+				6A39FBE064B96B50A43B68E8 /* xcodegen-migration-plan.md */,
+			);
+			path = maintainers;
+			sourceTree = "<group>";
+		};
+		1391392292BFF419BB4E9F8C /* hooks */ = {
+			isa = PBXGroup;
+			children = (
+				4B53AFCBBCE5F851DE6D2686 /* pre-commit.sample */,
+			);
+			path = hooks;
+			sourceTree = "<group>";
+		};
+		21C88787E4018222D1A8C9D2 /* SayBarTests */ = {
+			isa = PBXGroup;
+			children = (
+				9ECCFF1DD2575C344113319C /* MenuBarActionSupportTests.swift */,
+				DC145007B22D7747DC06BA00 /* MenuBarDisplaySupportTests.swift */,
+				B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */,
+				CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */,
+				BED9D9A808A9853B17BD9BF3 /* SettingsDisplaySupportTests.swift */,
+			);
+			path = SayBarTests;
+			sourceTree = "<group>";
+		};
+		28B7F0C6088C8CB639E11E8E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				8C5A9355726EEA9708B4A869 /* HorizontalSwipeGestureMonitor.swift */,
+				E6200908471B65403AF0CE3B /* MenuBarActionSupport.swift */,
+				CE5CB6B52B784D1F074664FF /* MenuBarDisplaySupport.swift */,
+				8D861D2C217E3EB835F69BE8 /* MenuBarExtraWindow.swift */,
+				90A633A240A2EE5D2D78C9B4 /* MenuBarExtraWindow+Components.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		3D9092A5058B063D448E6C1B /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				0C46AFF7D9FABECDF787FE5F /* maintainers */,
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
+		43AB195775B1B3EB039EBA7B /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				FEA9D2C7513FDF0B772383B2 /* common.sh */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		50A5D88C26B2E6705CBA56F1 /* syncing */ = {
+			isa = PBXGroup;
+			children = (
+				66A0FD19DF96FA6F110B8A70 /* README.md */,
+			);
+			path = syncing;
+			sourceTree = "<group>";
+		};
+		5AA39F232FD076B840340A03 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				29FB79CBDF99F6A0829F25B3 /* SayBar.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		61E69BA37506BE434D9AAB91 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				28B7F0C6088C8CB639E11E8E /* Main */,
+				09192E3F12AC58B40AAB26F7 /* Settings */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		7CFB87B06D3F2C443D2AC968 /* validations */ = {
+			isa = PBXGroup;
+			children = (
+				AFB6469DDD9632DAC8858A43 /* 10-toolkit-layout.sh */,
+				1463A32F7392B7870BC3BBFB /* 20-agents-guidance.sh */,
+				4906274983CD9FF0B7CC4EBF /* 30-ci-wrapper.sh */,
+				0149B80779C8169D09B317E6 /* 40-xcode-test-plan.sh */,
+				ADB076388A85B9316DFA0A19 /* 50-xcodegen-generated-project.sh */,
+			);
+			path = validations;
+			sourceTree = "<group>";
+		};
+		8664912978740516763AA366 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				72EA0FEC159718BABB7BDA99 /* profile.env */,
+				BBD4947A8A74563B7C25FA0B /* release.env */,
+				1E85CBAB58316ED2A8E77321 /* validation.env */,
+			);
+			path = config;
+			sourceTree = "<group>";
+		};
+		8664CC20B3064A274F04DE3B /* SayBarUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DA015810E51C5C8D76E32C30 /* RuntimeE2ETransportSupport.swift */,
+				B973C718B4CF8E176EBFAD7A /* SayBarRuntimeE2ETests.swift */,
+				91E46753ABB475A171D35521 /* SayBarUITests.swift */,
+				2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */,
+			);
+			path = SayBarUITests;
+			sourceTree = "<group>";
+		};
+		AEC2F0FD0D1A89DFD4EF6E46 /* repo-maintenance */ = {
+			isa = PBXGroup;
+			children = (
+				8664912978740516763AA366 /* config */,
+				1391392292BFF419BB4E9F8C /* hooks */,
+				43AB195775B1B3EB039EBA7B /* lib */,
+				F8B5674E73887316842D0347 /* release */,
+				50A5D88C26B2E6705CBA56F1 /* syncing */,
+				7CFB87B06D3F2C443D2AC968 /* validations */,
+				6F9C0D09719FFB67D136E9DD /* release.sh */,
+				B99033085B0831E19ABEEC7C /* sync-shared.sh */,
+				23FC3AF954582D8798C4999B /* validate-all.sh */,
+			);
+			path = "repo-maintenance";
+			sourceTree = "<group>";
+		};
+		BED3C5464D566A1352FD9766 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CF2AD5D1F53EE6B5D8BCED23 /* SayBar.app */,
+				D37BD44E07428E8AA1CD396D /* SayBarTests.xctest */,
+				81602F7B73C9AC44D8CECC18 /* SayBarUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C5C228C92CB11DFF9DB86BDA = {
+			isa = PBXGroup;
+			children = (
+				5AA39F232FD076B840340A03 /* Config */,
+				3D9092A5058B063D448E6C1B /* docs */,
+				CADDE8C34E38B0FBC48FB022 /* SayBar */,
+				21C88787E4018222D1A8C9D2 /* SayBarTests */,
+				8664CC20B3064A274F04DE3B /* SayBarUITests */,
+				CC34681ECD7511287163FF81 /* scripts */,
+				DD89FA2A9984DB2966A354A8 /* AGENTS.md */,
+				C53796FDE508AC1A05090D33 /* CONTRIBUTING.md */,
+				7717B96B83670D39DAE70EAD /* FIXME.md */,
+				0977E32559C575860A91285C /* LICENSE */,
+				156F18D1AB9F17DF9231FA48 /* NOTICE */,
+				761584D346B07710EF15A175 /* README.md */,
+				1BF93212401B3C4CC3AE667D /* ROADMAP.md */,
+				8C3632B659B94D17E7C7C7FA /* SayBar.xctestplan */,
+				2D2EFDFBB30E81698FBFF7BB /* SayBarRuntimeE2E.xctestplan */,
+				C0AFA67D4642BC85F256A8BA /* TODO.md */,
+				BED3C5464D566A1352FD9766 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		49220E802F7ADE5A00A94BD8 /* Products */ = {
+		CADDE8C34E38B0FBC48FB022 /* SayBar */ = {
 			isa = PBXGroup;
 			children = (
-				49220E7F2F7ADE5A00A94BD8 /* SayBar.app */,
-				49220E8E2F7ADE5B00A94BD8 /* SayBarTests.xctest */,
-				49220E982F7ADE5B00A94BD8 /* SayBarUITests.xctest */,
+				61E69BA37506BE434D9AAB91 /* Scenes */,
+				78B747C47E8A1A5B622BD18B /* Assets.xcassets */,
+				D142FFE066724E872959B3DB /* SayBarApp.swift */,
+				FCE532B693453B727B9BDB04 /* SayBarAppDelegate.swift */,
+				868D28DF9F9A69E698033D62 /* SayBarAppLifecycleSupport.swift */,
 			);
-			name = Products;
+			path = SayBar;
+			sourceTree = "<group>";
+		};
+		CC34681ECD7511287163FF81 /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				AEC2F0FD0D1A89DFD4EF6E46 /* repo-maintenance */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
+		F8B5674E73887316842D0347 /* release */ = {
+			isa = PBXGroup;
+			children = (
+				18F5CA7508A342DCB058947E /* 10-preflight.sh */,
+				A64BF97C0CE4D2BD276B3CCC /* 20-tag-release.sh */,
+				971419B7E5ABEC11782AAB30 /* 30-push-release.sh */,
+				1B1CF3ACACDAFD74317CC368 /* 40-github-release.sh */,
+			);
+			path = release;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		49220E7E2F7ADE5A00A94BD8 /* SayBar */ = {
+		0FBFC31AC6D9B63C769BD8B5 /* SayBar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 49220EA22F7ADE5B00A94BD8 /* Build configuration list for PBXNativeTarget "SayBar" */;
+			buildConfigurationList = 337A1F37541A00F148845488 /* Build configuration list for PBXNativeTarget "SayBar" */;
 			buildPhases = (
-				49220E7B2F7ADE5A00A94BD8 /* Sources */,
-				49220E7C2F7ADE5A00A94BD8 /* Frameworks */,
-				49220E7D2F7ADE5A00A94BD8 /* Resources */,
+				7CDC1A32C3BF42E547A6187C /* Sources */,
+				154330DA17C8B4BC71B0F80C /* Resources */,
+				E0080EAC75AE3DF2A41953AA /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				49220E812F7ADE5A00A94BD8 /* SayBar */,
 			);
 			name = SayBar;
 			packageProductDependencies = (
-				49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */,
+				E94BE94116B1C9BEC45DAB0B /* SpeakSwiftlyServer */,
 			);
 			productName = SayBar;
-			productReference = 49220E7F2F7ADE5A00A94BD8 /* SayBar.app */;
+			productReference = CF2AD5D1F53EE6B5D8BCED23 /* SayBar.app */;
 			productType = "com.apple.product-type.application";
 		};
-		49220E8D2F7ADE5B00A94BD8 /* SayBarTests */ = {
+		A154A146C1006A6D4316030C /* SayBarUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 49220EA52F7ADE5B00A94BD8 /* Build configuration list for PBXNativeTarget "SayBarTests" */;
+			buildConfigurationList = 66688BB7113F0FA4F3BB921D /* Build configuration list for PBXNativeTarget "SayBarUITests" */;
 			buildPhases = (
-				49220E8A2F7ADE5B00A94BD8 /* Sources */,
-				49220E8B2F7ADE5B00A94BD8 /* Frameworks */,
-				49220E8C2F7ADE5B00A94BD8 /* Resources */,
+				1D972D30E6BED6FCEDBA6C14 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				49220E902F7ADE5B00A94BD8 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				49220E912F7ADE5B00A94BD8 /* SayBarTests */,
-			);
-			name = SayBarTests;
-			packageProductDependencies = (
-			);
-			productName = SayBarTests;
-			productReference = 49220E8E2F7ADE5B00A94BD8 /* SayBarTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		49220E972F7ADE5B00A94BD8 /* SayBarUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 49220EA82F7ADE5B00A94BD8 /* Build configuration list for PBXNativeTarget "SayBarUITests" */;
-			buildPhases = (
-				49220E942F7ADE5B00A94BD8 /* Sources */,
-				49220E952F7ADE5B00A94BD8 /* Frameworks */,
-				49220E962F7ADE5B00A94BD8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				49220E9A2F7ADE5B00A94BD8 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				49220E9B2F7ADE5B00A94BD8 /* SayBarUITests */,
+				ED74DB1EDAE68DEA043A1DEB /* PBXTargetDependency */,
 			);
 			name = SayBarUITests;
 			packageProductDependencies = (
 			);
 			productName = SayBarUITests;
-			productReference = 49220E982F7ADE5B00A94BD8 /* SayBarUITests.xctest */;
+			productReference = 81602F7B73C9AC44D8CECC18 /* SayBarUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		DB37B3A502689E74F057D09D /* SayBarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6502FBFFE903214C4B42F46C /* Build configuration list for PBXNativeTarget "SayBarTests" */;
+			buildPhases = (
+				B11ACC807BF450FC2C61A445 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				419BF5865C0BDB3F7D3C5C06 /* PBXTargetDependency */,
+			);
+			name = SayBarTests;
+			packageProductDependencies = (
+			);
+			productName = SayBarTests;
+			productReference = D37BD44E07428E8AA1CD396D /* SayBarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		49220E772F7ADE5A00A94BD8 /* Project object */ = {
+		CF1D10B4F24F41928B4B735B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2640;
+				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
-					49220E7E2F7ADE5A00A94BD8 = {
-						CreatedOnToolsVersion = 26.4;
+					0FBFC31AC6D9B63C769BD8B5 = {
+						DevelopmentTeam = BC73766F69;
+						ProvisioningStyle = Automatic;
 					};
-					49220E8D2F7ADE5B00A94BD8 = {
-						CreatedOnToolsVersion = 26.4;
-						TestTargetID = 49220E7E2F7ADE5A00A94BD8;
+					A154A146C1006A6D4316030C = {
+						DevelopmentTeam = BC73766F69;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 0FBFC31AC6D9B63C769BD8B5;
 					};
-					49220E972F7ADE5B00A94BD8 = {
-						CreatedOnToolsVersion = 26.4;
-						TestTargetID = 49220E7E2F7ADE5A00A94BD8;
+					DB37B3A502689E74F057D09D = {
+						DevelopmentTeam = BC73766F69;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 49220E7A2F7ADE5A00A94BD8 /* Build configuration list for PBXProject "SayBar" */;
+			buildConfigurationList = C9D5607C96187DFBC54751C9 /* Build configuration list for PBXProject "SayBar" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = 49220E762F7ADE5A00A94BD8;
+			mainGroup = C5C228C92CB11DFF9DB86BDA;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				49ACDC512F8D74E500DA4DD3 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
+				F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 49220E802F7ADE5A00A94BD8 /* Products */;
+			productRefGroup = BED3C5464D566A1352FD9766 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				49220E7E2F7ADE5A00A94BD8 /* SayBar */,
-				49220E8D2F7ADE5B00A94BD8 /* SayBarTests */,
-				49220E972F7ADE5B00A94BD8 /* SayBarUITests */,
+				0FBFC31AC6D9B63C769BD8B5 /* SayBar */,
+				DB37B3A502689E74F057D09D /* SayBarTests */,
+				A154A146C1006A6D4316030C /* SayBarUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		49220E7D2F7ADE5A00A94BD8 /* Resources */ = {
+		154330DA17C8B4BC71B0F80C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49220E8C2F7ADE5B00A94BD8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49220E962F7ADE5B00A94BD8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				573493F20314BF6310E5569D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		49220E7B2F7ADE5A00A94BD8 /* Sources */ = {
+		1D972D30E6BED6FCEDBA6C14 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D851C7F4624D9CC3B63291A9 /* RuntimeE2ETransportSupport.swift in Sources */,
+				857BB92B3F749509E1BC1086 /* SayBarRuntimeE2ETests.swift in Sources */,
+				E9FA60ED42E488E836892E7A /* SayBarUITests.swift in Sources */,
+				BD98FC6A500C7F0DCBB0EAE8 /* SayBarUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49220E8A2F7ADE5B00A94BD8 /* Sources */ = {
+		7CDC1A32C3BF42E547A6187C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2643835B53D7CF89F754CF2E /* HorizontalSwipeGestureMonitor.swift in Sources */,
+				E85A77D29BC649874032582A /* MenuBarActionSupport.swift in Sources */,
+				6BCFE6CDB8C7214D1C2C8CF0 /* MenuBarDisplaySupport.swift in Sources */,
+				B22F19DD838B498866E12BB8 /* MenuBarExtraWindow+Components.swift in Sources */,
+				7DE9DBB8C8176D66BC237DEA /* MenuBarExtraWindow.swift in Sources */,
+				5265EF00BB348BFAD73B8E6A /* SayBarApp.swift in Sources */,
+				8261255D32460D6EF3AE7AE8 /* SayBarAppDelegate.swift in Sources */,
+				C3B9F6B5A47FF2E6035E81A1 /* SayBarAppLifecycleSupport.swift in Sources */,
+				C41A7BF01EDBF05F3A0007F7 /* SettingsDisplayState+EmbeddedServer.swift in Sources */,
+				8D29D8F333289519CB74BB43 /* SettingsDisplayState+UITestFixtures.swift in Sources */,
+				6C641CF4E8CB1CF15280B9D8 /* SettingsDisplayState.swift in Sources */,
+				728866F6BBE4A5A21B2DAA42 /* SettingsDisplaySupport.swift in Sources */,
+				2C65CA13958113A742AB398A /* SettingsWindow+Sections.swift in Sources */,
+				CECC7F8BABD73C590C046F90 /* SettingsWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49220E942F7ADE5B00A94BD8 /* Sources */ = {
+		B11ACC807BF450FC2C61A445 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3DE9FB92D8EC0CFAAE9F604 /* MenuBarActionSupportTests.swift in Sources */,
+				F200B2DA257CC21E6D94DF5D /* MenuBarDisplaySupportTests.swift in Sources */,
+				0CC8D31314AEADA3B11D02B9 /* SayBarAppEnvironmentTests.swift in Sources */,
+				B3C8B01C1E80957266D4FD9E /* SayBarAppLifecycleSupportTests.swift in Sources */,
+				F7DDCCA2887CFB9D786A2EF8 /* SettingsDisplaySupportTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		49220E902F7ADE5B00A94BD8 /* PBXTargetDependency */ = {
+		419BF5865C0BDB3F7D3C5C06 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 49220E7E2F7ADE5A00A94BD8 /* SayBar */;
-			targetProxy = 49220E8F2F7ADE5B00A94BD8 /* PBXContainerItemProxy */;
+			target = 0FBFC31AC6D9B63C769BD8B5 /* SayBar */;
+			targetProxy = B7592AEA8CEA103DDEF1C68A /* PBXContainerItemProxy */;
 		};
-		49220E9A2F7ADE5B00A94BD8 /* PBXTargetDependency */ = {
+		ED74DB1EDAE68DEA043A1DEB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 49220E7E2F7ADE5A00A94BD8 /* SayBar */;
-			targetProxy = 49220E992F7ADE5B00A94BD8 /* PBXContainerItemProxy */;
+			target = 0FBFC31AC6D9B63C769BD8B5 /* SayBar */;
+			targetProxy = 90F06B501E19A3012E70F6EC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		49220EA02F7ADE5B00A94BD8 /* Debug */ = {
+		27731A1CB9DB4EAE7E553A9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SayBar.app/Contents/MacOS/SayBar";
+			};
+			name = Release;
+		};
+		601644BABABE63ECEB66E8AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				TEST_TARGET_NAME = SayBar;
+			};
+			name = Debug;
+		};
+		AB7128A3C47086853CC29DC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SayBar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+			};
+			name = Release;
+		};
+		B99A455CBA7FDE728FC27DDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29FB79CBDF99F6A0829F25B3 /* SayBar.xcconfig */;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -331,17 +658,15 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = BC73766F69;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -349,27 +674,74 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
-		49220EA12F7ADE5B00A94BD8 /* Release */ = {
+		BBA9F3511DCF0CA094F5A68F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				TEST_TARGET_NAME = SayBar;
+			};
+			name = Release;
+		};
+		CBD391C00C44B2E7631BC4AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SayBar.app/Contents/MacOS/SayBar";
+			};
+			name = Debug;
+		};
+		E4575C24748215BABCDF5C79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29FB79CBDF99F6A0829F25B3 /* SayBar.xcconfig */;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -397,11 +769,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = BC73766F69;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -409,18 +779,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_VERSION = 6.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
-		49220EA32F7ADE5B00A94BD8 /* Debug */ = {
+		EE527AA4BBAA341F1DFB02A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -429,7 +797,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BC73766F69;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
@@ -453,7 +820,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -464,211 +830,73 @@
 				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
 				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
 				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				SDKROOT = macosx;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
-		};
-		49220EA42F7ADE5B00A94BD8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTOMATION_APPLE_EVENTS = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BC73766F69;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
-				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
-				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
-				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
-				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
-				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
-				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
-				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
-				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
-				ENABLE_RESOURCE_ACCESS_USB = NO;
-				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = SayBar;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
-				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
-				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
-				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
-				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
-				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-			};
-			name = Release;
-		};
-		49220EA62F7ADE5B00A94BD8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BC73766F69;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SayBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SayBar";
-			};
-			name = Debug;
-		};
-		49220EA72F7ADE5B00A94BD8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BC73766F69;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SayBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SayBar";
-			};
-			name = Release;
-		};
-		49220EA92F7ADE5B00A94BD8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BC73766F69;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-				TEST_TARGET_NAME = SayBar;
-			};
-			name = Debug;
-		};
-		49220EAA2F7ADE5B00A94BD8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BC73766F69;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBarUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-				TEST_TARGET_NAME = SayBar;
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		49220E7A2F7ADE5A00A94BD8 /* Build configuration list for PBXProject "SayBar" */ = {
+		337A1F37541A00F148845488 /* Build configuration list for PBXNativeTarget "SayBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				49220EA02F7ADE5B00A94BD8 /* Debug */,
-				49220EA12F7ADE5B00A94BD8 /* Release */,
+				EE527AA4BBAA341F1DFB02A6 /* Debug */,
+				AB7128A3C47086853CC29DC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		49220EA22F7ADE5B00A94BD8 /* Build configuration list for PBXNativeTarget "SayBar" */ = {
+		6502FBFFE903214C4B42F46C /* Build configuration list for PBXNativeTarget "SayBarTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				49220EA32F7ADE5B00A94BD8 /* Debug */,
-				49220EA42F7ADE5B00A94BD8 /* Release */,
+				CBD391C00C44B2E7631BC4AD /* Debug */,
+				27731A1CB9DB4EAE7E553A9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		49220EA52F7ADE5B00A94BD8 /* Build configuration list for PBXNativeTarget "SayBarTests" */ = {
+		66688BB7113F0FA4F3BB921D /* Build configuration list for PBXNativeTarget "SayBarUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				49220EA62F7ADE5B00A94BD8 /* Debug */,
-				49220EA72F7ADE5B00A94BD8 /* Release */,
+				601644BABABE63ECEB66E8AC /* Debug */,
+				BBA9F3511DCF0CA094F5A68F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		49220EA82F7ADE5B00A94BD8 /* Build configuration list for PBXNativeTarget "SayBarUITests" */ = {
+		C9D5607C96187DFBC54751C9 /* Build configuration list for PBXProject "SayBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				49220EA92F7ADE5B00A94BD8 /* Debug */,
-				49220EAA2F7ADE5B00A94BD8 /* Release */,
+				B99A455CBA7FDE728FC27DDD /* Debug */,
+				E4575C24748215BABCDF5C79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		49ACDC512F8D74E500DA4DD3 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
+		F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gaelic-ghost/SpeakSwiftlyServer";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 8.0.4;
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		49ACDC522F8D74E500DA4DD3 /* SpeakSwiftlyServer */ = {
+		E94BE94116B1C9BEC45DAB0B /* SpeakSwiftlyServer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 49ACDC512F8D74E500DA4DD3 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
+			package = F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;
 			productName = SpeakSwiftlyServer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 49220E772F7ADE5A00A94BD8 /* Project object */;
+	rootObject = CF1D10B4F24F41928B4B735B /* Project object */;
 }

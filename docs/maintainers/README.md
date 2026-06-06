@@ -17,7 +17,7 @@ Use these docs in this order:
 6. [accessibility-and-ui-automation-notes.md](accessibility-and-ui-automation-notes.md)
    This is the current reference note for menu bar accessibility inspection, XCUITest behavior, and menu-bar presentation constraints.
 7. [xcodegen-migration-plan.md](xcodegen-migration-plan.md)
-   This is the staged plan for moving project shape into XcodeGen and shared build settings into checked-in xcconfig files.
+   This is the project-generation contract for XcodeGen-owned project shape and checked-in xcconfig shared build settings.
 
 ## Reading Guide
 

@@ -1,25 +1,26 @@
-# XcodeGen Migration Plan
+# XcodeGen Project Contract
 
-This note plans the migration from an Xcode-authored project file to an XcodeGen-backed project specification with external Xcode build settings configuration files.
+This note records the migration from an Xcode-authored project file to an XcodeGen-backed project specification with external Xcode build settings configuration files.
 
 ## Current State
 
-- `SayBar.xcodeproj` is the active project integration surface.
-- `SayBar.xcodeproj/project.pbxproj` is tracked and currently contains the target definitions, schemes, package reference, file membership, and most build settings.
+- `project.yml` is the source of truth for target definitions, schemes, package references, and file membership.
+- `Config/SayBar.xcconfig` is the source of truth for shared build settings.
+- `SayBar.xcodeproj` is tracked generated output so Xcode opens normally.
 - `SayBar.xctestplan` and `SayBarRuntimeE2E.xctestplan` are checked in and should stay checked in.
 - The active app-facing scheme is `SayBar`.
-- The app target depends on the `SpeakSwiftlyServer` package product.
+- The app target depends on the `SpeakSwiftlyServer` package product through the XcodeGen package declaration.
 - The current deployment target is macOS `15.6`.
 - The current Swift language mode is Swift `6.0`.
 
 ## Desired Source Of Truth
 
-Use a deliberate two-file split:
+Use the deliberate two-file split:
 
 - `project.yml` owns project shape: targets, schemes, source membership, package references, test-plan wiring, build phases, and generated project options.
 - `Config/SayBar.xcconfig` owns shared build settings values that should be readable and reviewable outside the generated project file.
 
-This is a durable building-block change. It removes the current failure mode where routine build-setting or file-membership edits become hard-to-review `.pbxproj` changes, and it gives future target or settings edits one plain-text entry point.
+This is a durable building-block change. It removes the failure mode where routine build-setting or file-membership edits become hard-to-review `.pbxproj` changes, and it gives future target or settings edits one plain-text entry point.
 
 ## Documentation Anchors
 
@@ -28,7 +29,7 @@ This is a durable building-block change. It removes the current failure mode whe
 - XcodeGen documents YAML or JSON project specs, target definitions, build settings, and per-configuration `configFiles`: [XcodeGen Project Spec](https://yonaskolb.github.io/XcodeGen/Docs/ProjectSpec.html).
 - XcodeGen documents build-setting precedence across target settings, target xcconfig files, project settings, project xcconfig files, and SDK defaults: [XcodeGen Usage](https://yonaskolb.github.io/XcodeGen/Docs/Usage.html).
 
-## Migration Slices
+## Completed Migration Slices
 
 ### 1. Capture The Existing Project Contract
 
@@ -40,7 +41,7 @@ This is a durable building-block change. It removes the current failure mode whe
 
 ### 2. Add A Shadow XcodeGen Spec
 
-- Add `project.yml` without changing the generated project yet.
+- Add `project.yml` as the project-shape source of truth.
 - Model the existing targets:
   - `SayBar`
   - `SayBarTests`
@@ -48,7 +49,7 @@ This is a durable building-block change. It removes the current failure mode whe
 - Model the `SpeakSwiftlyServer` package dependency from the real GitHub URL and pinned version.
 - Model the checked-in test plans and preserve the current `SayBar` scheme behavior.
 - Keep generated `Info.plist` behavior unless a separate product decision moves it to checked-in plist files.
-- Run `xcodegen generate --spec project.yml` only on a disposable copy or reviewed branch until the generated diff is understood.
+- Run `xcodegen generate --spec project.yml` after spec or shared build-setting changes.
 
 ### 3. Move Shared Settings Into XCConfig
 
@@ -78,13 +79,13 @@ This is a durable building-block change. It removes the current failure mode whe
 ### 5. Switch The Repo Contract
 
 - Update `README.md` setup and validation instructions to mention `xcodegen generate`.
-- Update `AGENTS.md` only if the existing XcodeGen guidance is not specific enough after the migration lands.
-- Update `scripts/repo-maintenance/validate-all.sh` or add a validation script that checks the generated project is in sync with `project.yml`.
-- Decide whether CI should install XcodeGen and verify regeneration as part of the `validate` job.
+- Keep `AGENTS.md` on the existing XcodeGen guidance because it already says to edit the spec and regenerate instead of hand-editing generated `.pbxproj` files.
+- Add a repo-maintenance validation script that checks the generated project is in sync with `project.yml`.
+- Keep CI using the repo-maintenance entrypoint so generated-project drift is caught by the managed `validate` job.
 
 ## Validation Gate
 
-Run these checks after the generated project is accepted:
+Run these checks after changing `project.yml`, `Config/SayBar.xcconfig`, package versions, or generated project output:
 
 ```sh
 xcodegen generate --spec project.yml

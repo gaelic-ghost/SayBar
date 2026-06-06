@@ -93,14 +93,14 @@ final class MenuBarActionSupportTests: XCTestCase {
     func testSwitchSpeechBackendCallsServerActionAndReturnsBackendName() async throws {
         var requestedBackend: SpeakSwiftly.SpeechBackend?
         let backendName = try await MenuBarActionSupport.switchSpeechBackend(
-            to: .marvis,
+            to: .qwen3_smol_4bit,
             switchSpeechBackend: { backend in
                 requestedBackend = backend
             }
         )
 
-        XCTAssertEqual(requestedBackend, .marvis)
-        XCTAssertEqual(backendName, "marvis")
+        XCTAssertEqual(requestedBackend, .qwen3_smol_4bit)
+        XCTAssertEqual(backendName, "qwen3_smol_4bit")
     }
 
     func testQueueClipboardSpeechSkipsEmptyClipboardAndQueuesTrimmedText() async throws {

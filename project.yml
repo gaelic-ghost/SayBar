@@ -1,0 +1,164 @@
+name: SayBar
+
+options:
+  minimumXcodeGenVersion: 2.45.4
+  bundleIdPrefix: com.galewilliams
+  createIntermediateGroups: true
+  developmentLanguage: en
+  groupSortPosition: top
+  xcodeVersion: "26.4"
+  deploymentTarget:
+    macOS: "15.6"
+
+configs:
+  Debug: debug
+  Release: release
+
+configFiles:
+  Debug: Config/SayBar.xcconfig
+  Release: Config/SayBar.xcconfig
+
+fileGroups:
+  - AGENTS.md
+  - Config
+  - CONTRIBUTING.md
+  - FIXME.md
+  - LICENSE
+  - NOTICE
+  - README.md
+  - ROADMAP.md
+  - TODO.md
+  - docs
+  - scripts
+  - SayBar.xctestplan
+  - SayBarRuntimeE2E.xctestplan
+
+packages:
+  SpeakSwiftlyServer:
+    url: https://github.com/gaelic-ghost/SpeakSwiftlyServer
+    from: 11.0.0
+
+targets:
+  SayBar:
+    type: application
+    platform: macOS
+    sources:
+      - path: SayBar
+    dependencies:
+      - package: SpeakSwiftlyServer
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        AUTOMATION_APPLE_EVENTS: YES
+        CODE_SIGN_STYLE: Automatic
+        COMBINE_HIDPI_IMAGES: YES
+        CURRENT_PROJECT_VERSION: 1
+        ENABLE_APP_SANDBOX: YES
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_INCOMING_NETWORK_CONNECTIONS: YES
+        ENABLE_OUTGOING_NETWORK_CONNECTIONS: YES
+        ENABLE_PREVIEWS: YES
+        ENABLE_RESOURCE_ACCESS_AUDIO_INPUT: NO
+        ENABLE_RESOURCE_ACCESS_BLUETOOTH: NO
+        ENABLE_RESOURCE_ACCESS_CALENDARS: NO
+        ENABLE_RESOURCE_ACCESS_CAMERA: NO
+        ENABLE_RESOURCE_ACCESS_CONTACTS: NO
+        ENABLE_RESOURCE_ACCESS_LOCATION: NO
+        ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY: NO
+        ENABLE_RESOURCE_ACCESS_PRINTING: NO
+        ENABLE_RESOURCE_ACCESS_USB: NO
+        ENABLE_USER_SELECTED_FILES: readonly
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: SayBar
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        LD_RUNPATH_SEARCH_PATHS:
+          - $(inherited)
+          - "@executable_path/../Frameworks"
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.galewilliams.SayBar
+        PRODUCT_NAME: $(TARGET_NAME)
+        REGISTER_APP_GROUPS: YES
+        RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES: NO
+        RUNTIME_EXCEPTION_ALLOW_JIT: NO
+        RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY: NO
+        RUNTIME_EXCEPTION_DEBUGGING_TOOL: NO
+        RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION: NO
+        RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION: NO
+        STRING_CATALOG_GENERATE_SYMBOLS: YES
+        SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+        SWIFT_EMIT_LOC_STRINGS: YES
+        SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+
+  SayBarTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: SayBarTests
+    dependencies:
+      - target: SayBar
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: 1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.galewilliams.SayBarTests
+        PRODUCT_NAME: $(TARGET_NAME)
+        STRING_CATALOG_GENERATE_SYMBOLS: NO
+        SWIFT_EMIT_LOC_STRINGS: NO
+        SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+
+  SayBarUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - path: SayBarUITests
+    dependencies:
+      - target: SayBar
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: 1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.galewilliams.SayBarUITests
+        PRODUCT_NAME: $(TARGET_NAME)
+        STRING_CATALOG_GENERATE_SYMBOLS: NO
+        SWIFT_EMIT_LOC_STRINGS: NO
+        SWIFT_STRICT_CONCURRENCY: complete
+        SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+        TEST_TARGET_NAME: SayBar
+
+schemes:
+  SayBar:
+    build:
+      parallelizeBuild: true
+      buildImplicitDependencies: true
+      targets:
+        SayBar: all
+    run:
+      config: Debug
+      executable: SayBar
+    test:
+      config: Debug
+      targets:
+        - name: SayBarTests
+          parallelizable: true
+        - name: SayBarUITests
+          parallelizable: true
+      testPlans:
+        - path: SayBar.xctestplan
+          defaultPlan: true
+        - path: SayBarRuntimeE2E.xctestplan
+    profile:
+      config: Release
+      executable: SayBar
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+      revealArchiveInOrganizer: true
+    management:
+      shared: true

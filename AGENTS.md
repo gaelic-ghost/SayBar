@@ -18,6 +18,8 @@ Use this file for durable repo-local guidance before changing code, docs, projec
 - Read [docs/maintainers/README.md](docs/maintainers/README.md) for the maintainer-doc index and recommended reading order.
 - Use [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md) and [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) as the current architecture records for direct `EmbeddedServer` ownership.
 - Use `SayBar/SayBarApp.swift`, `SayBar/Scenes/Main/MenuBarExtraWindow.swift`, and `SayBar/Scenes/Settings/SettingsWindow.swift` as the main app-flow anchors.
+- Use `project.yml` as the source of truth for Xcode targets, schemes, package dependencies, test-plan references, file membership, and project-generation options.
+- Use `Config/SayBar.xcconfig` as the source of truth for shared Xcode build settings.
 - Use `scripts/repo-maintenance/` for local validation, shared sync, and release automation.
 
 ## Working Rules
@@ -34,6 +36,7 @@ Use this file for durable repo-local guidance before changing code, docs, projec
 ### Source of Truth
 
 - Prefer the repo-local Apple Dev Skills plugin workflow when it is installed here.
+- This repository is XcodeGen-backed. Edit `project.yml` and `Config/SayBar.xcconfig`, then run `xcodegen generate --spec project.yml` instead of making direct generated-project edits.
 - For active Xcode execution work, use `Apple Dev Skills:xcode-app-project-workflow` as the top-level entry point.
 - For Apple and Swift documentation lookup, use `Apple Dev Skills:explore-apple-swift-docs` before implementation planning.
 - For repo-guidance refresh in this Xcode app repository, use `Apple Dev Skills:sync-xcode-project-guidance`.
@@ -41,7 +44,7 @@ Use this file for durable repo-local guidance before changing code, docs, projec
 - Read relevant Apple documentation before making architecture or lifecycle decisions for SwiftUI, `MenuBarExtra`, app scenes, settings windows, app lifecycle, service management, or any SwiftData use in this repository.
 - Prefer Xcode-aware tooling and project-safe workflows over manual project-file edits.
 - Never edit `.pbxproj` files directly.
-- Never edit `SayBar.xcodeproj/project.pbxproj` directly. If a project configuration change is required, make it through Xcode or another project-aware workflow.
+- Never edit `SayBar.xcodeproj/project.pbxproj` directly. If a project configuration change is required, make it through `project.yml`, `Config/SayBar.xcconfig`, and `xcodegen generate --spec project.yml`.
 
 ### Communication and Escalation
 
@@ -59,10 +62,17 @@ open SayBar.xcodeproj
 
 Let Xcode resolve Swift package dependencies, then use the `SayBar` scheme for app-facing work.
 
+Regenerate the Xcode project after changing project shape, target membership, package dependencies, schemes, or shared build settings:
+
+```sh
+xcodegen generate --spec project.yml
+```
+
 ### Validation
 
 ```sh
 scripts/repo-maintenance/validate-all.sh
+xcodegen generate --spec project.yml
 xcodebuild -project SayBar.xcodeproj -scheme SayBar build
 xcodebuild -project SayBar.xcodeproj -scheme SayBar test
 ```
@@ -94,6 +104,7 @@ Use `scripts/repo-maintenance/sync-shared.sh` for repo-local shared sync tasks a
 - Menu bar status remains clear enough for Gale to understand whether services are stopped, starting, ready, degraded, or broken with minimal interaction.
 - Settings and menu bar surfaces stay intentionally distinct: quick actions and immediate status in the menu bar, deeper configuration and diagnostics in Settings.
 - Validation commands that were relevant to the change have either passed or are reported with exact blockers.
+- XcodeGen-generated project output remains in sync with `project.yml` and `Config/SayBar.xcconfig`.
 
 ## Safety Boundaries
 
@@ -101,6 +112,7 @@ Use `scripts/repo-maintenance/sync-shared.sh` for repo-local shared sync tasks a
 
 - Never do feature work, release work, submodule add work, submodule update work, or umbrella-doc edits directly inside the base `../speak-to-user` checkout.
 - Never edit `SayBar.xcodeproj/project.pbxproj` directly.
+- Never change Swift package dependencies, target membership, schemes, or shared build settings only in the generated Xcode project. Change the XcodeGen spec or xcconfig first.
 - Never run concurrent Xcode, SwiftPM, or other heavy validation commands.
 - Never mirror sibling-library state locally unless there is a concrete app-level reason.
 - Never leave transitional shims or duplicate codepaths behind unless Gale explicitly approves that compromise.
@@ -136,7 +148,7 @@ There are no deeper repo-local `AGENTS.md` files in this repository right now. I
 - Prefer the simplest correct Swift that is easiest to read and reason about.
 - Prefer synthesized and framework-provided behavior over extra wrappers and boilerplate.
 - Keep data flow straight and dependency direction unidirectional.
-- Treat the `.xcworkspace` or `.xcodeproj` as the source of truth for app integration, schemes, and build settings.
+- Treat `project.yml` and `Config/SayBar.xcconfig` as the source of truth for app integration, schemes, package dependencies, file membership, and shared build settings. Treat the `.xcodeproj` as generated output that remains tracked and reviewed.
 - Prefer Xcode-aware tooling or `xcodebuild` over ad hoc filesystem assumptions when project structure or target membership is involved.
 - Never edit `.pbxproj` files directly. When Xcode or another project-aware workflow legitimately changes the tracked `.pbxproj`, treat that diff as critical project state: review it, stage it, and commit it with the branch before any push, merge, release, or cleanup.
 - Prefer Swift Testing for modern unit-style tests, keep XCTest where Apple tooling or dependencies still require it, and use XCUITest with explicit element wait APIs instead of fixed sleeps.
