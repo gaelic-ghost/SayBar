@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/mlx-audio-swift.git",
       "state" : {
-        "revision" : "dfb938211eb4132966bd703e626c0307a0b4bb44",
-        "version" : "0.99.0"
+        "revision" : "856e04afb3c6eb931d92bb0d6ae7bbfbdfa89b15",
+        "version" : "0.100.0"
       }
     },
     {
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/SpeakSwiftly.git",
       "state" : {
-        "revision" : "cc5918c47978ad7771fddb905a51e36fb010d681",
-        "version" : "9.0.2"
+        "revision" : "c88211814092a2368c670a79539090dc17b7fb9a",
+        "version" : "11.0.0"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/SpeakSwiftlyServer",
       "state" : {
-        "revision" : "2b52892492a67b3f6e52f7262dd2fd7a04d4345f",
-        "version" : "8.0.4"
+        "revision" : "49d3f4e77a1813a3c6a239ad52a13ff3fe4c7619",
+        "version" : "11.0.0"
       }
     },
     {
@@ -348,8 +348,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/TextForSpeech.git",
       "state" : {
-        "revision" : "26f30afddc198f551422e1e434c0bc2398172512",
-        "version" : "0.22.1"
+        "revision" : "089c387690afb6c0b9b91629f69bf22ce8a2bd14",
+        "version" : "0.23.0"
       }
     },
     {

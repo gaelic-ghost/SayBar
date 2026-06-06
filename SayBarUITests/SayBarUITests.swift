@@ -235,7 +235,7 @@ final class SayBarUITests: XCTestCase {
 			assertTextExists("degraded", in: app)
 			assertTextExists("resident_model_ready", in: app)
 			assertTextExists("paused", in: app)
-			assertTextExists("marvis", in: app)
+			assertTextExists("qwen3_smol_4bit", in: app)
 			assertTextExists("fixture-femme", in: app)
 			assertTextExists("9", in: app)
 			assertTextExists("4", in: app)

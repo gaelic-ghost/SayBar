@@ -16,6 +16,8 @@ Use these docs in this order:
    This is the proposed opt-in runtime-on E2E lane for manual Debug validation against real audio.
 6. [accessibility-and-ui-automation-notes.md](accessibility-and-ui-automation-notes.md)
    This is the current reference note for menu bar accessibility inspection, XCUITest behavior, and menu-bar presentation constraints.
+7. [xcodegen-migration-plan.md](xcodegen-migration-plan.md)
+   This is the project-generation contract for XcodeGen-owned project shape and checked-in xcconfig shared build settings.
 
 ## Reading Guide
 
@@ -25,3 +27,4 @@ Use these docs in this order:
 - If you need to expand test coverage, use the test coverage expansion plan before adding new UI tests.
 - If you need to exercise real audio while running SayBar in Debug, read the runtime-on E2E plan before adding or running any audible tests.
 - If you need to understand current accessibility or menu bar UI automation behavior, read the accessibility and UI automation notes after the architecture note.
+- If you need to change project generation, build settings ownership, or the future `.pbxproj` source-of-truth contract, read the XcodeGen migration plan before editing project configuration.

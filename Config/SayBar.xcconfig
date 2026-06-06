@@ -1,0 +1,10 @@
+// Shared SayBar build settings.
+//
+// XcodeGen owns target shape and package declarations. Keep shared build settings
+// here so routine configuration changes are reviewable without reading pbxproj.
+
+DEVELOPMENT_TEAM = BC73766F69
+ENABLE_USER_SCRIPT_SANDBOXING = YES
+MACOSX_DEPLOYMENT_TARGET = 15.6
+SWIFT_APPROACHABLE_CONCURRENCY = YES
+SWIFT_VERSION = 6.0

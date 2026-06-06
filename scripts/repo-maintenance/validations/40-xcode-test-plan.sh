@@ -5,10 +5,18 @@ SELF_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 export REPO_MAINTENANCE_COMMON_DIR="$SELF_DIR/../lib"
 . "$SELF_DIR/../lib/common.sh"
 
+package_resolution_args=
+
+if [ "${CI:-}" = "true" ]; then
+  package_resolution_args="-disablePackageRepositoryCache"
+fi
+
 if ! output="$(
+  # shellcheck disable=SC2086
   xcodebuild -showTestPlans \
     -project "$REPO_ROOT/SayBar.xcodeproj" \
     -scheme SayBar \
+    $package_resolution_args \
     2>&1
 )"; then
   printf '%s\n' "$output" >&2

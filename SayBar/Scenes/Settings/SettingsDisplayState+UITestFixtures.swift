@@ -15,7 +15,7 @@ extension SettingsDisplayState {
                 status: "degraded",
                 workerStage: "resident_model_ready",
                 playbackState: "paused",
-                speechBackend: "marvis",
+                speechBackend: "qwen3_smol_4bit",
                 defaultVoiceProfileName: "fixture-femme",
                 generationQueueCount: SettingsDisplaySupport.queueCount(activeCount: 2, queuedCount: 7),
                 playbackQueueCount: SettingsDisplaySupport.queueCount(activeCount: 1, queuedCount: 3)
@@ -31,7 +31,7 @@ extension SettingsDisplayState {
                 DetailRow(id: "fixture-playback-buffered", label: "Buffered Audio", value: "1200 ms"),
             ],
             configurationDiagnostics: [
-                DetailRow(id: "fixture-active-backend", label: "Active Backend", value: "marvis"),
+                DetailRow(id: "fixture-active-backend", label: "Active Backend", value: "qwen3_smol_4bit"),
                 DetailRow(id: "fixture-next-backend", label: "Next Backend", value: "qwen3_smol"),
             ],
             queues: [

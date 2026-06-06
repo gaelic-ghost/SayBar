@@ -43,7 +43,7 @@ The menu bar scene now reads those observable properties directly. SayBar keeps 
 
 ## Quick Start
 
-SayBar is still a developer-facing app repo. To try it locally, open the Xcode project, select the `SayBar` scheme, let Xcode resolve packages, and run the app on macOS.
+SayBar is still a developer-facing app repo. To try it locally, regenerate the Xcode project when the spec changes, open the Xcode project, select the `SayBar` scheme, let Xcode resolve packages, and run the app on macOS.
 
 ## Usage
 
@@ -76,6 +76,12 @@ Use Xcode-aware workflows for app changes and keep the standalone `SayBar` repos
 3. Let Xcode resolve Swift package dependencies the first time you open the project.
 4. Run the app on macOS from Xcode.
 
+When project shape, target membership, package dependencies, or shared build settings change, edit [project.yml](project.yml) or [Config/SayBar.xcconfig](Config/SayBar.xcconfig), then regenerate before opening Xcode:
+
+```sh
+xcodegen generate --spec project.yml
+```
+
 The current project includes these Xcode targets:
 
 - `SayBar`
@@ -95,6 +101,7 @@ The maintainer docs are split intentionally:
 - [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md) records the staged test coverage plan.
 - [docs/maintainers/runtime-on-e2e-test-plan.md](docs/maintainers/runtime-on-e2e-test-plan.md) records the proposed opt-in runtime-on audible E2E lane.
 - [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
+- [docs/maintainers/xcodegen-migration-plan.md](docs/maintainers/xcodegen-migration-plan.md) records the XcodeGen-owned project shape and xcconfig-owned shared build settings contract.
 
 Primary project configuration:
 
@@ -103,11 +110,13 @@ Primary project configuration:
 - App marketing version: `0.1.0`
 - App deployment target: macOS `15.6`
 - Test targets: `SayBarTests`, `SayBarUITests`
-- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `8.0.4`
-- Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `9.0.2`
-- Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.22.1`
+- Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `11.0.0`
+- Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `11.0.0`
+- Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.23.0`
 
 The project also exposes package-managed schemes for the server package, but app-facing work in this repository should stay centered on the `SayBar` scheme unless a task explicitly targets package internals.
+
+Project generation is XcodeGen-backed. Treat [project.yml](project.yml) as the source of truth for targets, schemes, package dependencies, and file membership. Treat [Config/SayBar.xcconfig](Config/SayBar.xcconfig) as the source of truth for shared build settings. `SayBar.xcodeproj` remains checked in as generated output so Xcode opens normally, and generated `.pbxproj` diffs must still be reviewed as critical project state.
 
 ### Validation
 
@@ -116,6 +125,7 @@ For app work, prefer a scheme-based Xcode validation pass:
 ```sh
 xcodebuild -list -project SayBar.xcodeproj
 xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar
+xcodegen generate --spec project.yml
 xcodebuild -project SayBar.xcodeproj -scheme SayBar build
 xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar
 ```
@@ -141,7 +151,9 @@ scripts/repo-maintenance/validate-all.sh
 ├── SayBar/               # App source and assets
 ├── SayBarTests/          # Unit-style app tests
 ├── SayBarUITests/        # XCUITest coverage for launch and app shell behavior
-├── SayBar.xcodeproj/     # Xcode-managed project and package resolution
+├── Config/               # Shared Xcode build settings
+├── project.yml           # XcodeGen project source of truth
+├── SayBar.xcodeproj/     # Generated Xcode project and package resolution
 ├── docs/maintainers/     # Architecture, ADR, and maintainer notes
 └── scripts/repo-maintenance/
     ├── validate-all.sh   # Local validation entrypoint used by CI

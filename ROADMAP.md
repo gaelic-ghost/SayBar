@@ -18,6 +18,7 @@
 - [ ] M3. Settings, diagnostics, and operator workflow
 - [ ] M4. Release and monorepo integration discipline
 - [ ] M5. Foundation and embedded-session test coverage
+- [x] M6. Project generation and build settings hygiene
 
 ## M1. App shell foundation and service-hosting boundaries
 
@@ -132,3 +133,24 @@
 - [ ] `xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar` is the documented baseline test command.
 - [x] Implemented embedded-session behavior has focused coverage without adding a second app-owned runtime model.
 - [ ] UI coverage starts from a streamlined, stable menu and Settings implementation.
+
+## M6. Project generation and build settings hygiene
+
+### Scope
+
+- Move project shape and shared build settings toward plain-text sources of truth without disrupting the current Xcode app workflow.
+
+### Tickets
+
+- [x] Plan the staged XcodeGen and xcconfig migration in maintainer docs.
+- [x] Add a `project.yml` that models the current app, unit-test, and UI-test targets.
+- [x] Add checked-in xcconfig coverage for shared build settings.
+- [x] Regenerate `SayBar.xcodeproj` from XcodeGen and review the generated diff against the current project contract.
+- [x] Add repo-maintenance validation that detects generated-project drift.
+
+### Exit criteria
+
+- [x] Project shape is reviewable in `project.yml`.
+- [x] Shared build settings are reviewable in checked-in xcconfig files.
+- [x] The generated Xcode project builds and unit-style tests pass through the documented `SayBar` scheme.
+- [x] Repo-maintenance validation catches stale generated project output.
