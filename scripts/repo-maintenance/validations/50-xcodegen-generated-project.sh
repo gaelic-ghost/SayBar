@@ -20,7 +20,7 @@ trap 'rm -f "$before_manifest" "$after_manifest"' EXIT
 
 (
   cd "$REPO_ROOT"
-  find SayBar.xcodeproj -type f -print | sort | while IFS= read -r project_file; do
+  git ls-files SayBar.xcodeproj | sort | while IFS= read -r project_file; do
     shasum "$project_file"
   done
 ) > "$before_manifest"
@@ -32,7 +32,7 @@ trap 'rm -f "$before_manifest" "$after_manifest"' EXIT
 
 (
   cd "$REPO_ROOT"
-  find SayBar.xcodeproj -type f -print | sort | while IFS= read -r project_file; do
+  git ls-files SayBar.xcodeproj | sort | while IFS= read -r project_file; do
     shasum "$project_file"
   done
 ) > "$after_manifest"
