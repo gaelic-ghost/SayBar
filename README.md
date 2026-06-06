@@ -95,6 +95,7 @@ The maintainer docs are split intentionally:
 - [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md) records the staged test coverage plan.
 - [docs/maintainers/runtime-on-e2e-test-plan.md](docs/maintainers/runtime-on-e2e-test-plan.md) records the proposed opt-in runtime-on audible E2E lane.
 - [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
+- [docs/maintainers/xcodegen-migration-plan.md](docs/maintainers/xcodegen-migration-plan.md) plans the staged move toward XcodeGen-owned project shape and xcconfig-owned shared build settings.
 
 Primary project configuration:
 
@@ -108,6 +109,8 @@ Primary project configuration:
 - Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.22.1`
 
 The project also exposes package-managed schemes for the server package, but app-facing work in this repository should stay centered on the `SayBar` scheme unless a task explicitly targets package internals.
+
+Project generation is still Xcode-authored today. The intended migration path is documented in the XcodeGen maintainer plan; until that migration lands, treat `SayBar.xcodeproj` as the project source of truth and review any `.pbxproj` diff as critical project state.
 
 ### Validation
 
