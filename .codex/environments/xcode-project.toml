@@ -1,0 +1,22 @@
+# Repo-local Codex environment for the tracked SayBar scheme.
+# Keep DerivedData inside the worktree so Codex GUI validation stays isolated.
+version = 1
+name = "xcode-project"
+
+[setup]
+script = "xcodebuild -project SayBar.xcodeproj -scheme SayBar -derivedDataPath ./DerivedData -resolvePackageDependencies"
+
+[[actions]]
+name = "resolve packages"
+icon = "tool"
+command = "xcodebuild -project SayBar.xcodeproj -scheme SayBar -derivedDataPath ./DerivedData -resolvePackageDependencies"
+
+[[actions]]
+name = "build"
+icon = "tool"
+command = "xcodebuild -project SayBar.xcodeproj -scheme SayBar -derivedDataPath ./DerivedData build"
+
+[[actions]]
+name = "test"
+icon = "tool"
+command = "xcodebuild -project SayBar.xcodeproj -scheme SayBar -derivedDataPath ./DerivedData test -testPlan SayBar"
