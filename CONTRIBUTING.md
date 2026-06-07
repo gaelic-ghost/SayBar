@@ -44,7 +44,7 @@ Open `SayBar.xcodeproj` in Xcode, select the `SayBar` scheme, and let Xcode reso
 
 ### Runtime Behavior
 
-Normal app runs start the embedded runtime from inside SayBar. UI-test and shell-focused launches can pass `--saybar-disable-autostart` to validate the app shell without starting the full embedded runtime.
+Normal app runs start the embedded runtime from inside SayBar. UI-test and shell-focused launches can pass `--saybar-skip-embedded-runtime-startup` to validate the app shell without starting the full embedded runtime.
 
 ## Development Expectations
 
