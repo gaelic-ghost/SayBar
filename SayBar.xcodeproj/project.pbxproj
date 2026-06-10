@@ -10,6 +10,7 @@
 		0CC8D31314AEADA3B11D02B9 /* SayBarAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */; };
 		2643835B53D7CF89F754CF2E /* HorizontalSwipeGestureMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5A9355726EEA9708B4A869 /* HorizontalSwipeGestureMonitor.swift */; };
 		2C65CA13958113A742AB398A /* SettingsWindow+Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */; };
+		392D7A55B77BF73AF7DA2254 /* SettingsDisplayStateMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */; };
 		5265EF00BB348BFAD73B8E6A /* SayBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D142FFE066724E872959B3DB /* SayBarApp.swift */; };
 		573493F20314BF6310E5569D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78B747C47E8A1A5B622BD18B /* Assets.xcassets */; };
 		613C2524994FA38F646999D8 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = E94BE94116B1C9BEC45DAB0B /* SpeakSwiftlyServer */; };
@@ -60,6 +61,7 @@
 		18F5CA7508A342DCB058947E /* 10-preflight.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "10-preflight.sh"; sourceTree = "<group>"; };
 		1B1CF3ACACDAFD74317CC368 /* 40-github-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "40-github-release.sh"; sourceTree = "<group>"; };
 		1BF93212401B3C4CC3AE667D /* ROADMAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ROADMAP.md; sourceTree = "<group>"; };
+		1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplayStateMappingTests.swift; sourceTree = "<group>"; };
 		1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+EmbeddedServer.swift"; sourceTree = "<group>"; };
 		1E85CBAB58316ED2A8E77321 /* validation.env */ = {isa = PBXFileReference; path = validation.env; sourceTree = "<group>"; };
 		23FC3AF954582D8798C4999B /* validate-all.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "validate-all.sh"; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				DC145007B22D7747DC06BA00 /* MenuBarDisplaySupportTests.swift */,
 				B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */,
 				CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */,
+				1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */,
 				BED9D9A808A9853B17BD9BF3 /* SettingsDisplaySupportTests.swift */,
 			);
 			path = SayBarTests;
@@ -503,6 +506,7 @@
 				F200B2DA257CC21E6D94DF5D /* MenuBarDisplaySupportTests.swift in Sources */,
 				0CC8D31314AEADA3B11D02B9 /* SayBarAppEnvironmentTests.swift in Sources */,
 				B3C8B01C1E80957266D4FD9E /* SayBarAppLifecycleSupportTests.swift in Sources */,
+				392D7A55B77BF73AF7DA2254 /* SettingsDisplayStateMappingTests.swift in Sources */,
 				F7DDCCA2887CFB9D786A2EF8 /* SettingsDisplaySupportTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

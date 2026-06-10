@@ -202,6 +202,7 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-settings-runtime-details-section", in: app)
 			assertElementExists("saybar-settings-queues-section", in: app)
 			assertElementExists("saybar-settings-transports-section", in: app)
+			assertElementExists("saybar-settings-network-audio-section", in: app)
 			assertElementExists("saybar-settings-recent-errors-section", in: app)
 		}
 	}
@@ -249,12 +250,19 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-settings-queue-fixture-generation", in: app)
 			assertElementExists("saybar-settings-generation-job-fixture-job", in: app)
 			assertElementExists("saybar-settings-transport-row-HTTP", in: app)
+			assertElementExists("saybar-settings-network-audio-section", in: app)
+			assertElementExists("saybar-settings-network-audio-destination-fixture-speaker", in: app)
 			assertElementExists("saybar-settings-recent-error-row-Fixture Runtime", in: app)
 			assertTextExists("SayBar UI Fixture", in: app)
+			assertTextExists("medium", in: app)
 			assertTextExists("generating_audio", in: app)
 			assertTextExists("HTTP", in: app)
 			assertTextExists("ready at 127.0.0.1:7339/mcp", in: app)
+			assertTextExists("http://127.0.0.1:7339", in: app)
+			assertTextExists("Fixture Speaker", in: app)
+			assertTextExists("fixture-speaker.local", in: app)
 			assertTextExists("Fixture Runtime", in: app)
+			assertTextExists("fixture_warning at 2026-06-06T12:01:00Z", in: app)
 			assertTextExists("Fixture warning for Settings diagnostics.", in: app)
 		}
 	}

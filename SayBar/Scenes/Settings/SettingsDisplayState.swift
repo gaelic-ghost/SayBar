@@ -53,11 +53,24 @@ struct SettingsDisplayState: Equatable {
         let id: String
         let name: String
         let summary: String
+        let enabled: String
+        let advertisedAddress: String
+        let activeStreamCount: String
+    }
+
+    struct NetworkAudioDestinationRow: Equatable, Identifiable {
+        let id: String
+        let name: String
+        let endpoint: String
+        let capabilities: String
+        let lastSeen: String
     }
 
     struct RecentErrorRow: Equatable, Identifiable {
         let id: String
         let source: String
+        let code: String
+        let occurredAt: String
         let message: String
     }
 
@@ -69,5 +82,7 @@ struct SettingsDisplayState: Equatable {
     let queues: [QueueDiagnostics]
     let generationJobs: [GenerationJobRow]
     let transports: [TransportRow]
+    let networkAudioReceiverDiagnostics: [DetailRow]
+    let networkAudioDestinations: [NetworkAudioDestinationRow]
     let recentErrors: [RecentErrorRow]
 }

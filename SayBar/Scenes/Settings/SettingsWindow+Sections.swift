@@ -171,6 +171,15 @@ struct SettingsTransportDiagnosticsSection: View {
                         Text(transport.summary)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                        LabeledContent("Enabled", value: transport.enabled)
+                            .font(.caption)
+                            .accessibilityIdentifier("saybar-settings-transport-\(transport.name)-enabled")
+                        LabeledContent("Advertised Address", value: transport.advertisedAddress)
+                            .font(.caption)
+                            .accessibilityIdentifier("saybar-settings-transport-\(transport.name)-advertised-address")
+                        LabeledContent("Active Streams", value: transport.activeStreamCount)
+                            .font(.caption)
+                            .accessibilityIdentifier("saybar-settings-transport-\(transport.name)-active-streams")
                     }
                     .padding(.vertical, 2)
                     .accessibilityIdentifier("saybar-settings-transport-row-\(transport.name)")
@@ -179,6 +188,46 @@ struct SettingsTransportDiagnosticsSection: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("saybar-settings-transports-section")
+    }
+}
+
+struct SettingsNetworkAudioSection: View {
+    let receiverDiagnostics: [SettingsDisplayState.DetailRow]
+    let destinations: [SettingsDisplayState.NetworkAudioDestinationRow]
+
+    var body: some View {
+        Section("Network Audio") {
+            ForEach(receiverDiagnostics) { row in
+                LabeledContent(row.label, value: row.value)
+                    .accessibilityIdentifier("saybar-settings-network-audio-\(row.id)")
+            }
+
+            if destinations.isEmpty {
+                Text("No LAN audio receivers are visible.")
+                    .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("saybar-settings-empty-network-audio-destinations")
+            } else {
+                ForEach(destinations) { destination in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(destination.name)
+                            .font(.headline)
+                        Text(destination.endpoint)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(destination.capabilities)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                        LabeledContent("Last Seen", value: destination.lastSeen)
+                            .font(.caption)
+                            .accessibilityIdentifier("saybar-settings-network-audio-destination-\(destination.id)-last-seen")
+                    }
+                    .padding(.vertical, 2)
+                    .accessibilityIdentifier("saybar-settings-network-audio-destination-\(destination.id)")
+                }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-settings-network-audio-section")
     }
 }
 
@@ -203,6 +252,9 @@ struct SettingsRecentErrorsSection: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(error.source)
                             .font(.headline)
+                        Text("\(error.code) at \(error.occurredAt)")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
                         Text(error.message)
                             .font(.caption)
                             .foregroundStyle(.secondary)
