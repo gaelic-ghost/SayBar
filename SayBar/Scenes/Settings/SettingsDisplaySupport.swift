@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SpeakSwiftlyServer
 
 enum SettingsDisplaySupport {
     nonisolated static func fallback(_ value: String?) -> String {
@@ -17,6 +18,20 @@ enum SettingsDisplaySupport {
 
     nonisolated static func boolean(_ value: Bool) -> String {
         value ? "Yes" : "No"
+    }
+
+    nonisolated static func count(_ value: Int?) -> String {
+        guard let value else {
+            return "None"
+        }
+        return String(max(value, 0))
+    }
+
+    nonisolated static func list(_ values: [String]) -> String {
+        if values.isEmpty {
+            return "None"
+        }
+        return values.joined(separator: ", ")
     }
 
     nonisolated static func elapsedSeconds(_ value: Double?) -> String {
@@ -50,5 +65,33 @@ enum SettingsDisplaySupport {
             return "\(state) at \(resolvedPath)"
         }
         return "\(state) at \(address)\(resolvedPath)"
+    }
+
+    nonisolated static func networkAudioEndpoint(
+        _ endpoint: NetworkAudioEndpointSnapshot
+    ) -> String {
+        switch endpoint.kind {
+            case "host_port":
+                guard let host = endpoint.host else {
+                    return "host_port"
+                }
+                guard let port = endpoint.port else {
+                    return host
+                }
+                return "\(host):\(port)"
+            case "bonjour_service":
+                return fallback(endpoint.name)
+            default:
+                return endpoint.kind
+        }
+    }
+
+    nonisolated static func networkAudioCapabilities(
+        _ capabilities: NetworkAudioCapabilitiesSnapshot
+    ) -> String {
+        let sampleRates = capabilities.sampleRates.map(String.init).joined(separator: ", ")
+        let channelCounts = capabilities.channelCounts.map(String.init).joined(separator: ", ")
+        let formats = list(capabilities.sampleFormats)
+        return "v\(capabilities.protocolVersion); \(formats); \(sampleRates) Hz; \(channelCounts) channel(s)"
     }
 }

@@ -103,6 +103,11 @@ struct SettingsWindow: View {
 
                 SettingsTransportDiagnosticsSection(transports: displayState.transports)
 
+                SettingsNetworkAudioSection(
+                    receiverDiagnostics: displayState.networkAudioReceiverDiagnostics,
+                    destinations: displayState.networkAudioDestinations
+                )
+
                 SettingsRecentErrorsSection(recentErrors: displayState.recentErrors)
             }
             .formStyle(.grouped)

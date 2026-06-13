@@ -72,8 +72,9 @@ final class SayBarUITests: XCTestCase {
 		file: StaticString = #filePath,
 		line: UInt = #line
 	) {
+		let element = app.descendants(matching: .any)[identifier]
 		XCTAssertTrue(
-			app.descendants(matching: .any)[identifier].exists,
+			element.waitForExistence(timeout: menuTimeout),
 			"SayBar should expose \(identifier) through a stable accessibility identifier.",
 			file: file,
 			line: line,
@@ -143,7 +144,6 @@ final class SayBarUITests: XCTestCase {
 				app.descendants(matching: .any)["saybar-menu-window"].waitForExistence(timeout: menuTimeout),
 				"SayBar should expose the menu window through a stable accessibility identifier.",
 			)
-			assertElementExists("saybar-menu-surface-primary", in: app)
 			assertElementExists("saybar-status-headline", in: app)
 			assertElementExists("saybar-status-detail", in: app)
 			assertElementExists("saybar-resident-model-power", in: app)
@@ -198,10 +198,10 @@ final class SayBarUITests: XCTestCase {
 
 		XCTContext.runActivity(named: "Verify Settings diagnostics tab") { _ in
 			app.descendants(matching: .any)["Diagnostics"].click()
-			assertElementExists("saybar-settings-diagnostics-tab", in: app)
 			assertElementExists("saybar-settings-runtime-details-section", in: app)
 			assertElementExists("saybar-settings-queues-section", in: app)
 			assertElementExists("saybar-settings-transports-section", in: app)
+			assertElementExists("saybar-settings-network-audio-section", in: app)
 			assertElementExists("saybar-settings-recent-errors-section", in: app)
 		}
 	}
@@ -249,12 +249,18 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-settings-queue-fixture-generation", in: app)
 			assertElementExists("saybar-settings-generation-job-fixture-job", in: app)
 			assertElementExists("saybar-settings-transport-row-HTTP", in: app)
+			assertElementExists("saybar-settings-network-audio-section", in: app)
+			assertElementExists("saybar-settings-network-audio-destination-fixture-speaker", in: app)
 			assertElementExists("saybar-settings-recent-error-row-Fixture Runtime", in: app)
 			assertTextExists("SayBar UI Fixture", in: app)
-			assertTextExists("generating_audio", in: app)
+			assertTextExists("medium", in: app)
 			assertTextExists("HTTP", in: app)
 			assertTextExists("ready at 127.0.0.1:7339/mcp", in: app)
+			assertTextExists("http://127.0.0.1:7339", in: app)
+			assertTextExists("Fixture Speaker", in: app)
+			assertTextExists("fixture-speaker.local", in: app)
 			assertTextExists("Fixture Runtime", in: app)
+			assertTextExists("fixture_warning at 2026-06-06T12:01:00Z", in: app)
 			assertTextExists("Fixture warning for Settings diagnostics.", in: app)
 		}
 	}

@@ -18,115 +18,127 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `liftoff(environment:)` | `EmbeddedServer` | Implemented | Starts the embedded runtime on launch unless `--saybar-skip-embedded-runtime-startup` is present. |
 | `land()` | `EmbeddedServer` | Implemented | Requests graceful embedded runtime shutdown before macOS app termination completes. |
 | `overview` | `EmbeddedServer` | Implemented | Drives menu status text, startup-error display, worker readiness, model-loaded state, and default voice fallback. |
-| `overview.service` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display the service identifier yet. |
-| `overview.environment` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display runtime environment yet. |
+| `overview.service` | `HostOverviewSnapshot` | Implemented | Displayed in Settings runtime details. |
+| `overview.environment` | `HostOverviewSnapshot` | Implemented | Displayed in Settings runtime details. |
 | `overview.defaultVoiceProfileName` | `HostOverviewSnapshot` | Implemented | Selects the active voice profile in the quick-config menu picker and shows the default profile in Settings. |
 | `overview.serverMode` | `HostOverviewSnapshot` | Implemented | Drives high-level ready, degraded, broken, or starting menu status and Settings status. |
-| `overview.workerMode` | `HostOverviewSnapshot` | Not surfaced | Available for deeper runtime diagnostics, but SayBar does not display it yet. |
+| `overview.workerMode` | `HostOverviewSnapshot` | Implemented | Displayed in Settings runtime details. |
 | `overview.workerStage` | `HostOverviewSnapshot` | Implemented | Drives menu status detail and resident-model power-button state. |
 | `overview.workerReady` | `HostOverviewSnapshot` | Implemented | Helps decide when the menu can report that the embedded runtime is ready. |
 | `overview.startupError` | `HostOverviewSnapshot` | Implemented | Displayed as the highest-priority startup problem in the menu status text. |
-| `overview.profileCacheState` | `HostOverviewSnapshot` | Not surfaced | Available for voice-profile diagnostics, but SayBar currently only displays profile list presence. |
-| `overview.profileCacheWarning` | `HostOverviewSnapshot` | Not surfaced | Available for voice-profile diagnostics, but SayBar does not display cache warning text yet. |
-| `overview.profileCount` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar derives picker state from `voiceProfiles` directly. |
-| `overview.lastProfileRefreshAt` | `HostOverviewSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not show refresh timestamps yet. |
+| `overview.profileCacheState` | `HostOverviewSnapshot` | Implemented | Displayed in Settings runtime details. |
+| `overview.profileCacheWarning` | `HostOverviewSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `overview.profileCount` | `HostOverviewSnapshot` | Implemented | Displayed in Settings runtime details; the menu picker still reads `voiceProfiles` directly. |
+| `overview.lastProfileRefreshAt` | `HostOverviewSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
 | `generationQueue` | `EmbeddedServer` | Implemented, partial | The menu queues surface shows separate active and queued generation counts as a 24-slot indicator plus request rows; Settings shows summary and diagnostics counts. |
 | `generationQueue.queueType` | `QueueStatusSnapshot` | Not surfaced | Available for diagnostics, but the menu already labels this queue as generation work. |
 | `generationQueue.activeCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queues surface and Settings generation queue count. |
 | `generationQueue.queuedCount` | `QueueStatusSnapshot` | Implemented | Contributes to the menu queues surface and Settings generation queue count. |
-| `generationQueue.activeRequest` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not show generation request details yet. |
-| `generationQueue.activeRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list active generation requests yet. |
-| `generationQueue.queuedRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list queued generation requests yet. |
+| `generationQueue.activeRequest` | `QueueStatusSnapshot` | Implemented indirectly | Settings lists active generation requests through `activeRequests`. |
+| `generationQueue.activeRequests` | `QueueStatusSnapshot` | Implemented | Settings queue diagnostics list active generation request id, operation, and profile. |
+| `generationQueue.queuedRequests` | `QueueStatusSnapshot` | Implemented | Settings queue diagnostics list queued generation request id, operation, profile, and queue position. |
 | `playbackQueue` | `EmbeddedServer` | Implemented, partial | The menu queues surface and Settings diagnostics show active plus queued playback count. |
 | `playbackQueue.queueType` | `QueueStatusSnapshot` | Not surfaced | Available for diagnostics, but Settings already labels this count as playback queue work. |
 | `playbackQueue.activeCount` | `QueueStatusSnapshot` | Implemented | Contributes to the Settings playback queue count. |
 | `playbackQueue.queuedCount` | `QueueStatusSnapshot` | Implemented | Contributes to the Settings playback queue count. |
 | `playbackQueue.activeRequest` | `QueueStatusSnapshot` | Not surfaced | Available for playback request diagnostics, but SayBar currently uses `playback.activeRequest` for active playback text. |
-| `playbackQueue.activeRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list active playback requests yet. |
-| `playbackQueue.queuedRequests` | `QueueStatusSnapshot` | Not surfaced | Available for request-level diagnostics, but SayBar does not list queued playback requests yet. |
+| `playbackQueue.activeRequests` | `QueueStatusSnapshot` | Implemented | Settings queue diagnostics list active playback request id, operation, and profile. |
+| `playbackQueue.queuedRequests` | `QueueStatusSnapshot` | Implemented | Settings queue diagnostics list queued playback request id, operation, profile, and queue position. |
 | `playback` | `EmbeddedServer` | Implemented, partial | Drives menu playback headline, detail text, and pause/resume/clipboard button behavior. |
-| `playback.sequence` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback diagnostics, but SayBar does not show playback sequence identifiers yet. |
-| `playback.updatedAt` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback diagnostics, but SayBar does not show playback update timestamps yet. |
+| `playback.sequence` | `PlaybackStatusSnapshot` | Implemented | Displayed in Settings playback details with a `None` fallback. |
+| `playback.updatedAt` | `PlaybackStatusSnapshot` | Implemented | Displayed in Settings playback details with a `None` fallback. |
 | `playback.state` | `PlaybackStatusSnapshot` | Implemented | Switches menu wording and playback button icon between pause, resume, and clipboard speech. |
 | `playback.activeRequest` | `PlaybackStatusSnapshot` | Implemented, partial | Menu detail displays the active playback request identifier when playback is active. |
-| `playback.isStableForConcurrentGeneration` | `PlaybackStatusSnapshot` | Not surfaced | Available for richer buffering/concurrency diagnostics, but SayBar does not display it yet. |
-| `playback.isRebuffering` | `PlaybackStatusSnapshot` | Not surfaced | Available for richer playback diagnostics, but SayBar does not display rebuffering state yet. |
-| `playback.stableBufferedAudioMS` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not display buffer duration yet. |
-| `playback.stableBufferTargetMS` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not display target buffer duration yet. |
-| `playback.latestEvent` | `PlaybackStatusSnapshot` | Not surfaced | Available for playback milestone diagnostics, but SayBar does not show the latest playback event yet. |
-| `playback.latestEvent.sequence` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event sequence identifiers yet. |
-| `playback.latestEvent.publishedAt` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event publish timestamps yet. |
-| `playback.latestEvent.event` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event labels yet. |
+| `playback.isStableForConcurrentGeneration` | `PlaybackStatusSnapshot` | Implemented | Displayed in Settings playback details. |
+| `playback.isRebuffering` | `PlaybackStatusSnapshot` | Implemented | Displayed in Settings playback details. |
+| `playback.stableBufferedAudioMS` | `PlaybackStatusSnapshot` | Implemented | Displayed in Settings playback details with a `None` fallback. |
+| `playback.stableBufferTargetMS` | `PlaybackStatusSnapshot` | Implemented | Displayed in Settings playback details with a `None` fallback. |
+| `playback.latestEvent` | `PlaybackStatusSnapshot` | Implemented, partial | Settings displays the latest event label and current device when present. |
+| `playback.latestEvent.sequence` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event sequence identifiers in current Settings diagnostics. |
+| `playback.latestEvent.publishedAt` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event publish timestamps in current Settings diagnostics. |
+| `playback.latestEvent.event` | `PlaybackEventSnapshot` | Implemented | Displayed in Settings playback details with a `None` fallback. |
 | `playback.latestEvent.state` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar uses `playback.state` for current UI state. |
-| `playback.latestEvent.requestID` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event request identifiers yet. |
+| `playback.latestEvent.requestID` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar does not show event request identifiers in current Settings diagnostics. |
 | `playback.latestEvent.activeRequest` | `PlaybackEventSnapshot` | Not surfaced | Available for playback event diagnostics, but SayBar uses `playback.activeRequest` for current active playback text. |
-| `playback.latestEvent.queuedRequests` | `PlaybackEventSnapshot` | Not surfaced | Available for playback queue diagnostics, but SayBar does not list queued playback requests yet. |
-| `playback.latestEvent.bufferedAudioMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not show event buffer duration yet. |
-| `playback.latestEvent.queuedAudioMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback queue diagnostics, but SayBar does not show queued audio duration yet. |
-| `playback.latestEvent.bufferTargetMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not show target buffer duration yet. |
-| `playback.latestEvent.previousDevice` | `PlaybackEventSnapshot` | Not surfaced | Available for output-device diagnostics, but SayBar does not show playback device changes yet. |
-| `playback.latestEvent.currentDevice` | `PlaybackEventSnapshot` | Not surfaced | Available for output-device diagnostics, but SayBar does not show current playback device yet. |
-| `playback.latestEvent.isInterrupted` | `PlaybackEventSnapshot` | Not surfaced | Available for playback interruption diagnostics, but SayBar does not show interruption state yet. |
-| `playback.latestEvent.shouldResume` | `PlaybackEventSnapshot` | Not surfaced | Available for playback interruption diagnostics, but SayBar does not show resume recommendations yet. |
-| `runtimeRefresh` | `EmbeddedServer` | Not surfaced | Available for refresh-cycle diagnostics, but SayBar does not show refresh timing yet. |
-| `runtimeRefresh.sequenceID` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display refresh sequence identifiers yet. |
-| `runtimeRefresh.source` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display refresh source yet. |
-| `runtimeRefresh.startedAt` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display refresh start time yet. |
-| `runtimeRefresh.generationQueueRefreshedAt` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display queue refresh timing yet. |
-| `runtimeRefresh.playbackQueueRefreshedAt` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display queue refresh timing yet. |
-| `runtimeRefresh.playbackStateRefreshedAt` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display playback refresh timing yet. |
-| `runtimeRefresh.completedAt` | `RuntimeRefreshSnapshot` | Not surfaced | Available for diagnostics, but SayBar does not display refresh completion time yet. |
-| `runtimeBackendTransition` | `EmbeddedServer` | Not surfaced | Available for backend-switch progress, but SayBar currently only shows a local busy flag and completion/error message. |
-| `runtimeBackendTransition.state` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for backend transition UI, but SayBar does not show it yet. |
-| `runtimeBackendTransition.activeSpeechBackend` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for transition diagnostics; SayBar uses `runtimeConfiguration.activeRuntimeSpeechBackend` for the picker. |
-| `runtimeBackendTransition.requestedSpeechBackend` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for transition diagnostics, but SayBar does not show pending backend requests yet. |
-| `runtimeBackendTransition.requestID` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for transition diagnostics, but SayBar does not show backend switch request identifiers yet. |
-| `runtimeBackendTransition.operation` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for transition diagnostics, but SayBar does not show backend switch operation labels yet. |
-| `runtimeBackendTransition.waitingReason` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for transition diagnostics, but SayBar does not show waiting reasons yet. |
-| `runtimeBackendTransition.submittedAt` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for transition diagnostics, but SayBar does not show submission time yet. |
-| `runtimeBackendTransition.startedAt` | `RuntimeBackendTransitionSnapshot` | Not surfaced | Available for transition diagnostics, but SayBar does not show start time yet. |
-| `currentGenerationJobs` | `EmbeddedServer` | Not surfaced | Available for live generation progress, but SayBar does not list active generation jobs yet. |
-| `currentGenerationJobs[].jobID` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show generation job identifiers yet. |
-| `currentGenerationJobs[].op` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show generation operations yet. |
-| `currentGenerationJobs[].profileName` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show per-job profile names yet. |
-| `currentGenerationJobs[].submittedAt` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show submission time yet. |
-| `currentGenerationJobs[].startedAt` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show start time yet. |
-| `currentGenerationJobs[].latestStage` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for progress UI, but SayBar does not show generation stages yet. |
-| `currentGenerationJobs[].elapsedGenerationSeconds` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for progress UI, but SayBar does not show elapsed generation time yet. |
-| `runtimeConfiguration` | `EmbeddedServer` | Implemented, partial | Settings displays active and next-start backend details; the quick-config menu backend picker reads the active backend. |
+| `playback.latestEvent.queuedRequests` | `PlaybackEventSnapshot` | Not surfaced | Available for playback queue diagnostics, but SayBar does not list queued playback requests in current Settings diagnostics. |
+| `playback.latestEvent.bufferedAudioMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not show event buffer duration in current Settings diagnostics. |
+| `playback.latestEvent.queuedAudioMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback queue diagnostics, but SayBar does not show queued audio duration in current Settings diagnostics. |
+| `playback.latestEvent.bufferTargetMS` | `PlaybackEventSnapshot` | Not surfaced | Available for playback buffering diagnostics, but SayBar does not show target buffer duration in current Settings diagnostics. |
+| `playback.latestEvent.previousDevice` | `PlaybackEventSnapshot` | Not surfaced | Available for output-device diagnostics, but SayBar does not show playback device changes in current Settings diagnostics. |
+| `playback.latestEvent.currentDevice` | `PlaybackEventSnapshot` | Implemented | Displayed in Settings playback details with a `None` fallback. |
+| `playback.latestEvent.isInterrupted` | `PlaybackEventSnapshot` | Not surfaced | Available for playback interruption diagnostics, but SayBar does not show interruption state in current Settings diagnostics. |
+| `playback.latestEvent.shouldResume` | `PlaybackEventSnapshot` | Not surfaced | Available for playback interruption diagnostics, but SayBar does not show resume recommendations in current Settings diagnostics. |
+| `runtimeRefresh` | `EmbeddedServer` | Implemented | Settings runtime details display refresh sequence, source, timing markers, and completion. |
+| `runtimeRefresh.sequenceID` | `RuntimeRefreshSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeRefresh.source` | `RuntimeRefreshSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeRefresh.startedAt` | `RuntimeRefreshSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeRefresh.generationQueueRefreshedAt` | `RuntimeRefreshSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeRefresh.playbackQueueRefreshedAt` | `RuntimeRefreshSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeRefresh.playbackStateRefreshedAt` | `RuntimeRefreshSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeRefresh.completedAt` | `RuntimeRefreshSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeBackendTransition` | `EmbeddedServer` | Implemented | Settings runtime details display backend-switch state, requested backend, request id, operation, waiting reason, and timestamps. |
+| `runtimeBackendTransition.state` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details. |
+| `runtimeBackendTransition.activeSpeechBackend` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details; the menu picker still reads `runtimeConfiguration.activeRuntimeSpeechBackend`. |
+| `runtimeBackendTransition.requestedSpeechBackend` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeBackendTransition.requestID` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeBackendTransition.operation` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeBackendTransition.waitingReason` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeBackendTransition.submittedAt` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `runtimeBackendTransition.startedAt` | `RuntimeBackendTransitionSnapshot` | Implemented | Displayed in Settings runtime details with a `None` fallback. |
+| `currentGenerationJobs` | `EmbeddedServer` | Implemented, partial | Settings lists active generation jobs with operation, profile, latest stage, and elapsed generation time. |
+| `currentGenerationJobs[].jobID` | `CurrentGenerationJobSnapshot` | Implemented | Used as the stable Settings generation-job row identifier. |
+| `currentGenerationJobs[].op` | `CurrentGenerationJobSnapshot` | Implemented | Displayed in Settings generation-job rows. |
+| `currentGenerationJobs[].profileName` | `CurrentGenerationJobSnapshot` | Implemented | Displayed in Settings generation-job rows with a `None` fallback. |
+| `currentGenerationJobs[].submittedAt` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show submission time in current Settings diagnostics. |
+| `currentGenerationJobs[].startedAt` | `CurrentGenerationJobSnapshot` | Not surfaced | Available for job diagnostics, but SayBar does not show start time in current Settings diagnostics. |
+| `currentGenerationJobs[].latestStage` | `CurrentGenerationJobSnapshot` | Implemented | Displayed in Settings generation-job rows with a `None` fallback. |
+| `currentGenerationJobs[].elapsedGenerationSeconds` | `CurrentGenerationJobSnapshot` | Implemented | Displayed in Settings generation-job rows with a `None` fallback. |
+| `runtimeConfiguration` | `EmbeddedServer` | Implemented | Settings displays active, next-start, persisted, ducking, path, and restart-impact configuration details; the quick-config menu backend picker reads the active backend. |
 | `runtimeConfiguration.activeRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Implemented | Drives the quick-config backend picker selection and Settings speech backend value. |
-| `runtimeConfiguration.nextRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show pending backend configuration yet. |
-| `runtimeConfiguration.activeDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for runtime configuration diagnostics; SayBar uses `overview.defaultVoiceProfileName` instead. |
-| `runtimeConfiguration.nextDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for next-start diagnostics, but SayBar does not show next default profile yet. |
-| `runtimeConfiguration.environmentSpeechBackendOverride` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show environment overrides yet. |
-| `runtimeConfiguration.persistedSpeechBackend` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted backend yet. |
-| `runtimeConfiguration.persistedDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted default profile yet. |
-| `runtimeConfiguration.profileRootPath` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show profile storage paths yet. |
-| `runtimeConfiguration.persistedConfigurationPath` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted configuration path yet. |
-| `runtimeConfiguration.persistedConfigurationExists` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted configuration existence yet. |
-| `runtimeConfiguration.persistedConfigurationState` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted configuration state yet. |
-| `runtimeConfiguration.persistedConfigurationError` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show persisted configuration errors yet. |
-| `runtimeConfiguration.persistedConfigurationAppliesOnRestart` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show restart-application semantics yet. |
-| `runtimeConfiguration.activeRuntimeMatchesNextRuntime` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show active-vs-next runtime drift yet. |
-| `runtimeConfiguration.persistedConfigurationWillAffectNextRuntimeStart` | `RuntimeConfigurationSnapshot` | Not surfaced | Available for configuration diagnostics, but SayBar does not show next-start impact yet. |
+| `runtimeConfiguration.nextRuntimeSpeechBackend` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.activeDuckMediaVolume` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.nextDuckMediaVolume` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.activeDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details with a `None` fallback; the primary runtime section still uses `overview.defaultVoiceProfileName`. |
+| `runtimeConfiguration.nextDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details with a `None` fallback. |
+| `runtimeConfiguration.environmentSpeechBackendOverride` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details with a `None` fallback. |
+| `runtimeConfiguration.persistedSpeechBackend` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details with a `None` fallback. |
+| `runtimeConfiguration.persistedDuckMediaVolume` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details with a `None` fallback. |
+| `runtimeConfiguration.persistedDefaultVoiceProfileName` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details with a `None` fallback. |
+| `runtimeConfiguration.profileRootPath` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.persistedConfigurationPath` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.persistedConfigurationExists` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.persistedConfigurationState` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.persistedConfigurationError` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details with a `None` fallback. |
+| `runtimeConfiguration.persistedConfigurationAppliesOnRestart` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.activeRuntimeMatchesNextRuntime` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
+| `runtimeConfiguration.persistedConfigurationWillAffectNextRuntimeStart` | `RuntimeConfigurationSnapshot` | Implemented | Displayed in Settings configuration details. |
 | `voiceProfiles` | `EmbeddedServer` | Implemented | Populates the quick-config menu voice-profile picker and disables the picker when no profiles are cached. |
 | `voiceProfiles[].profileName` | `ProfileSnapshot` | Implemented | Displayed as each picker option and used as the picker tag. |
-| `voiceProfiles[].vibe` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show profile vibe yet. |
-| `voiceProfiles[].createdAt` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show profile creation time yet. |
-| `voiceProfiles[].voiceDescription` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show voice descriptions yet. |
-| `voiceProfiles[].sourceText` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show source text yet. |
-| `transports` | `EmbeddedServer` | Implemented, partial | Settings lists transport name plus state/address/path summary. |
+| `voiceProfiles[].vibe` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show profile vibe in current Settings diagnostics. |
+| `voiceProfiles[].createdAt` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show profile creation time in current Settings diagnostics. |
+| `voiceProfiles[].voiceDescription` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show voice descriptions in current Settings diagnostics. |
+| `voiceProfiles[].sourceText` | `ProfileSnapshot` | Not surfaced | Available for richer profile UI, but SayBar does not show source text in current Settings diagnostics. |
+| `transports` | `EmbeddedServer` | Implemented | Settings lists transport name, state/address/path summary, enabled state, advertised address, and active stream count. |
 | `transports[].name` | `TransportStatusSnapshot` | Implemented | Displayed as the transport row headline in Settings. |
-| `transports[].enabled` | `TransportStatusSnapshot` | Not surfaced | Available for transport diagnostics, but SayBar does not show enabled state yet. |
+| `transports[].enabled` | `TransportStatusSnapshot` | Implemented | Displayed in each Settings transport row. |
 | `transports[].state` | `TransportStatusSnapshot` | Implemented | Displayed in each transport summary. |
 | `transports[].host` | `TransportStatusSnapshot` | Implemented | Used to compose each transport address summary. |
 | `transports[].port` | `TransportStatusSnapshot` | Implemented | Used to compose each transport address summary. |
 | `transports[].path` | `TransportStatusSnapshot` | Implemented | Used to compose each transport path summary. |
-| `transports[].advertisedAddress` | `TransportStatusSnapshot` | Not surfaced | Available for diagnostics, but SayBar composes host, port, and path directly today. |
-| `recentErrors` | `EmbeddedServer` | Implemented, partial | Menu uses the newest error message as high-priority status detail; Settings lists retained errors. |
-| `recentErrors[].occurredAt` | `RecentErrorSnapshot` | Not surfaced | Available for error diagnostics, but SayBar does not display timestamps yet. |
+| `transports[].advertisedAddress` | `TransportStatusSnapshot` | Implemented | Displayed in each Settings transport row with a `None` fallback. |
+| `transports[].activeStreamCount` | `TransportStatusSnapshot` | Implemented | Displayed in each Settings transport row with a `None` fallback. |
+| `networkAudioDestinations` | `EmbeddedServer` | Implemented | Settings lists visible LAN audio receivers with endpoint, capabilities, and last-seen time. |
+| `networkAudioDestinations[].id` | `NetworkAudioDestinationSnapshot` | Implemented | Used as the stable Settings destination-row identifier. |
+| `networkAudioDestinations[].name` | `NetworkAudioDestinationSnapshot` | Implemented | Displayed as the Settings network-audio destination row headline. |
+| `networkAudioDestinations[].endpoint` | `NetworkAudioDestinationSnapshot` | Implemented | Displayed as a host:port or Bonjour service label in Settings. |
+| `networkAudioDestinations[].capabilities` | `NetworkAudioDestinationSnapshot` | Implemented | Displayed as protocol, sample format, sample rate, and channel-count details in Settings. |
+| `networkAudioDestinations[].lastSeen` | `NetworkAudioDestinationSnapshot` | Implemented | Displayed in each Settings network-audio destination row. |
+| `networkAudioReceiverSelection` | `EmbeddedServer` | Implemented | Settings displays selected destination, destination count, token state, endpoint readiness, LAN output readiness, and blocked reasons. |
+| `remoteGeneration` | `HostStateSnapshot` | Not exposed by `EmbeddedServer` | `SpeakSwiftlyServer` 11.0.0 includes this in `HostStateSnapshot`, but the public `EmbeddedServer` observable does not publish or apply it, so SayBar does not add a side channel in this direct-ownership pass. |
+| `recentErrors` | `EmbeddedServer` | Implemented | Menu uses the newest error message as high-priority status detail; Settings lists retained errors with source, code, timestamp, and message. |
+| `recentErrors[].occurredAt` | `RecentErrorSnapshot` | Implemented | Displayed in each Settings error row. |
 | `recentErrors[].source` | `RecentErrorSnapshot` | Implemented | Displayed as the Settings error row headline. |
-| `recentErrors[].code` | `RecentErrorSnapshot` | Not surfaced | Available for error diagnostics, but SayBar does not display error codes yet. |
+| `recentErrors[].code` | `RecentErrorSnapshot` | Implemented | Displayed in each Settings error row. |
 | `recentErrors[].message` | `RecentErrorSnapshot` | Implemented | Displayed in menu status detail and Settings error row detail. |
 | `listVoiceProfiles()` | `EmbeddedServer` | Not used | Redundant for current UI because SwiftUI reads the observable `voiceProfiles` property directly. |
 | `refreshVoiceProfiles()` | `EmbeddedServer` | Implemented | Called after startup and when the menu opens with an empty profile cache. |
@@ -140,29 +152,32 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `resumePlayback()` | `EmbeddedServer` | Implemented | Playback control resumes paused playback. |
 | `clearPlaybackQueue()` | `EmbeddedServer` | Not used | Available for a future playback queue clear action. |
 | `cancelPlaybackRequest(_:)` | `EmbeddedServer` | Not used | Available for future request-level playback cancellation. |
-| `ActiveRequestSnapshot.id` | Queue and playback snapshots | Implemented, partial | Displayed for the active playback request in menu detail; not listed for generation queues yet. |
-| `ActiveRequestSnapshot.op` | Queue and playback snapshots | Not surfaced | Available for request diagnostics, but SayBar does not show request operations yet. |
-| `ActiveRequestSnapshot.profileName` | Queue and playback snapshots | Not surfaced | Available for request diagnostics, but SayBar does not show per-request profile names yet. |
-| `QueuedRequestSnapshot.id` | Queue snapshots | Not surfaced | Available for request diagnostics and cancellation UI, but SayBar does not list queued requests yet. |
-| `QueuedRequestSnapshot.op` | Queue snapshots | Not surfaced | Available for request diagnostics, but SayBar does not show queued request operations yet. |
-| `QueuedRequestSnapshot.profileName` | Queue snapshots | Not surfaced | Available for request diagnostics, but SayBar does not show queued request profile names yet. |
-| `QueuedRequestSnapshot.queuePosition` | Queue snapshots | Not surfaced | Available for request diagnostics, but SayBar does not show queue positions yet. |
+| `ActiveRequestSnapshot.id` | Queue and playback snapshots | Implemented | Displayed in menu playback detail when active and in Settings queue diagnostics for active queue rows. |
+| `ActiveRequestSnapshot.op` | Queue and playback snapshots | Implemented | Displayed in Settings active request rows. |
+| `ActiveRequestSnapshot.profileName` | Queue and playback snapshots | Implemented | Displayed in Settings active request rows with a `None` fallback. |
+| `QueuedRequestSnapshot.id` | Queue snapshots | Implemented | Displayed in Settings queued request rows. |
+| `QueuedRequestSnapshot.op` | Queue snapshots | Implemented | Displayed in Settings queued request rows. |
+| `QueuedRequestSnapshot.profileName` | Queue snapshots | Implemented | Displayed in Settings queued request rows with a `None` fallback. |
+| `QueuedRequestSnapshot.queuePosition` | Queue snapshots | Implemented | Displayed in Settings queued request rows. |
 | `HostStateSnapshot` | Control action returns | Consumed indirectly | Backend switch and model load/unload actions apply refreshed host state inside `EmbeddedServer`; SayBar reads the updated observable properties afterward. |
 | `HostStateSnapshot.overview` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer` after backend/model actions; SayBar observes `server.overview`. |
-| `HostStateSnapshot.runtimeRefresh` | `HostStateSnapshot` | Consumed indirectly, not surfaced | Applied by `EmbeddedServer`; SayBar does not display refresh details yet. |
+| `HostStateSnapshot.runtimeRefresh` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays refresh diagnostics. |
 | `HostStateSnapshot.generationQueue` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; SayBar observes queue counts. |
 | `HostStateSnapshot.playbackQueue` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings observes playback queue count. |
 | `HostStateSnapshot.playback` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; SayBar observes playback state. |
-| `HostStateSnapshot.runtimeBackendTransition` | `HostStateSnapshot` | Consumed indirectly, not surfaced | Applied by `EmbeddedServer`; SayBar does not display backend transition details yet. |
-| `HostStateSnapshot.currentGenerationJobs` | `HostStateSnapshot` | Consumed indirectly, not surfaced | Applied by `EmbeddedServer`; SayBar does not display job progress yet. |
-| `HostStateSnapshot.runtimeConfiguration` | `HostStateSnapshot` | Consumed indirectly, partial | Applied by `EmbeddedServer`; SayBar reads the active backend value. |
-| `HostStateSnapshot.transports` | `HostStateSnapshot` | Consumed indirectly, partial | Applied by `EmbeddedServer`; Settings displays transport diagnostics. |
-| `HostStateSnapshot.recentErrors` | `HostStateSnapshot` | Consumed indirectly, partial | Applied by `EmbeddedServer`; menu and Settings display retained error messages. |
+| `HostStateSnapshot.runtimeBackendTransition` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays backend transition diagnostics. |
+| `HostStateSnapshot.currentGenerationJobs` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays active generation job diagnostics. |
+| `HostStateSnapshot.runtimeConfiguration` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays active, next-start, persisted, and restart-impact configuration diagnostics. |
+| `HostStateSnapshot.remoteGeneration` | `HostStateSnapshot` | Not consumed | The v11 `HostStateSnapshot` has this field, but `EmbeddedServer.applyHostStateSnapshot(_:)` does not publish it on `EmbeddedServer`; SayBar intentionally leaves it unsurfaced until the embedded library exposes it directly. |
+| `HostStateSnapshot.transports` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays transport diagnostics. |
+| `HostStateSnapshot.networkAudioDestinations` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays visible LAN audio receiver diagnostics. |
+| `HostStateSnapshot.networkAudioReceiverSelection` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays LAN audio receiver selection diagnostics. |
+| `HostStateSnapshot.recentErrors` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; menu and Settings display retained error messages. |
 
 ## Coverage Summary
 
-SayBar covers the core embedded-session baseline: app-owned lifecycle, observable status, queue counts, playback state, transport diagnostics, recent errors, voice profile refresh and selection, speech backend switching, resident model load/unload, playback pause/resume, and clipboard-to-speech submission.
+SayBar covers the core embedded-session baseline: app-owned lifecycle, observable status, queue counts and request rows, playback state and buffering diagnostics, runtime refresh and backend-transition diagnostics, runtime configuration including ducking fields, transport diagnostics, network audio receiver diagnostics, recent errors, voice profile refresh and selection, speech backend switching, resident model load/unload, playback pause/resume, and clipboard-to-speech submission.
 
-The main embedded-session gaps are deeper operator controls and diagnostics: request-level queue views, playback queue clear/cancel actions, playback event details, backend transition progress, generation job progress, refresh timing, profile metadata, buffering details, and full runtime configuration inspection.
+The main embedded-session gaps are operator controls and diagnostics that are still either intentionally out of scope or not exposed through the direct `EmbeddedServer` observable: playback queue clear/cancel actions, full playback event details, generation-job submitted/start timestamps, profile metadata beyond profile names, and remote-generation status. `remoteGeneration` exists on `HostStateSnapshot` in `SpeakSwiftlyServer` 11.0.0, but SayBar cannot read it without bypassing the app-facing `EmbeddedServer` model.
 
-The standalone install and retained-log helpers are intentionally not implemented in SayBar yet. In `SpeakSwiftlyServer` 11.0.0, those helpers still live outside the embedded library contract SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.
+The standalone install and retained-log helpers are intentionally not implemented in this SayBar pass. In `SpeakSwiftlyServer` 11.0.0, those helpers still live outside the embedded library contract SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.

@@ -265,6 +265,7 @@ private extension SayBarRuntimeE2ETests {
             jsonBody: [
                 "text": text,
                 "request_context": [
+                    "reqPurpose": "speech",
                     "source": "HTTP via SayBar Runtime E2E",
                     "attributes": [
                         "saybar.e2e.surface": "http",
@@ -295,6 +296,7 @@ private extension SayBarRuntimeE2ETests {
             arguments: [
                 "text": text,
                 "request_context": [
+                    "reqPurpose": "speech",
                     "source": "MCP via SayBar Runtime E2E",
                     "attributes": [
                         "saybar.e2e.surface": "mcp",
