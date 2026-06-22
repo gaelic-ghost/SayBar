@@ -23,12 +23,14 @@ struct SayBarApp: App {
 
 	private let launchesEmbeddedRuntime: Bool
 	private let settingsDisplayStateOverride: SettingsDisplayState?
+	private let initialMenuSurface: MenuBarDisplaySupport.Surface
 	private static let logger = Logger(subsystem: "com.galewilliams.SayBar", category: "app")
 
 	init() {
 		let launchArguments = ProcessInfo.processInfo.arguments
 		let launchesEmbeddedRuntime = SayBarAppEnvironment.launchesEmbeddedRuntime(for: launchArguments)
 		let settingsDisplayStateOverride = SayBarAppEnvironment.settingsDisplayStateOverride(for: launchArguments)
+		let initialMenuSurface = SayBarAppEnvironment.initialMenuSurface(for: launchArguments)
 		let server = EmbeddedServer(
 			options: .init(
 				port: 7339,
@@ -39,6 +41,7 @@ struct SayBarApp: App {
 
 		self.launchesEmbeddedRuntime = launchesEmbeddedRuntime
 		self.settingsDisplayStateOverride = settingsDisplayStateOverride
+		self.initialMenuSurface = initialMenuSurface
 		_server = State(initialValue: server)
 		SayBarTerminationCoordinator.shared.configure(
 			server: server,
@@ -66,6 +69,7 @@ struct SayBarApp: App {
 			MenuBarExtraWindow(
 				server: server,
 				launchesEmbeddedRuntime: launchesEmbeddedRuntime,
+				initialSurface: initialMenuSurface,
 			)
 		} label: {
 			Label("SayBar", systemImage: "waveform.and.mic")
@@ -174,6 +178,22 @@ enum SayBarAppEnvironment {
 		}
 
 		return SettingsDisplayState.uiTestPopulatedFixture(buildVersion: "UI Test Fixture")
+	}
+
+	static func initialMenuSurface(for launchArguments: [String]) -> MenuBarDisplaySupport.Surface {
+		let prefix = "--saybar-ui-initial-menu-surface="
+		guard let argument = launchArguments.first(where: { $0.hasPrefix(prefix) }) else {
+			return .primary
+		}
+
+		switch argument.dropFirst(prefix.count) {
+			case "queues":
+				return .queues
+			case "quick-config":
+				return .quickConfig
+			default:
+				return .primary
+		}
 	}
 
 	static func runtimeProfileRootURL(fileManager: FileManager = .default) -> URL? {

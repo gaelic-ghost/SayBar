@@ -173,6 +173,45 @@ final class SayBarUITests: XCTestCase {
 	}
 
 	@MainActor
+	func testMenuQueuesSurfaceExposesGenerationAndPlaybackIdentifiers() throws {
+		let app = makeApp(additionalLaunchArguments: ["--saybar-ui-initial-menu-surface=queues"])
+		launchAndWait(app)
+
+		XCTContext.runActivity(named: "Open menu extra on queue surface") { _ in
+			openMenuExtra(app)
+		}
+
+		XCTContext.runActivity(named: "Verify queue surface") { _ in
+			assertElementExists("saybar-menu-surface-queues", in: app)
+			assertElementExists("saybar-generation-queue", in: app)
+			assertElementExists("saybar-generation-queue-summary", in: app)
+			assertElementExists("saybar-generation-queue-slots", in: app)
+			assertElementExists("saybar-playback-queue", in: app)
+			assertElementExists("saybar-playback-queue-summary", in: app)
+			assertElementExists("saybar-playback-queue-slots", in: app)
+			assertTextExists("Generation: 0 active, 0 queued / 24", in: app)
+			assertTextExists("Playback: 0 active, 0 queued / 12", in: app)
+		}
+	}
+
+	@MainActor
+	func testMenuQuickConfigSurfaceExposesPickers() throws {
+		let app = makeApp(additionalLaunchArguments: ["--saybar-ui-initial-menu-surface=quick-config"])
+		launchAndWait(app)
+
+		XCTContext.runActivity(named: "Open menu extra on quick-config surface") { _ in
+			openMenuExtra(app)
+		}
+
+		XCTContext.runActivity(named: "Verify quick-config surface") { _ in
+			assertElementExists("saybar-menu-surface-quick-config", in: app)
+			assertElementExists("saybar-menu-picker-row", in: app)
+			assertElementExists("saybar-voice-profile-picker", in: app)
+			assertElementExists("saybar-speech-backend-picker", in: app)
+		}
+	}
+
+	@MainActor
 	func testSettingsOpensFromMenuExtraAndExposesStableIdentifiers() throws {
 		let app = makeApp()
 		launchAndWait(app)

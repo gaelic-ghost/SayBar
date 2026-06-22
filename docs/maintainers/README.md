@@ -13,7 +13,7 @@ Use these docs in this order:
 4. [test-coverage-expansion-plan.md](test-coverage-expansion-plan.md)
    This is the staged plan for expanding foundation, implemented embedded-session, and later UI coverage.
 5. [runtime-on-e2e-test-plan.md](runtime-on-e2e-test-plan.md)
-   This is the proposed opt-in runtime-on E2E lane for manual Debug validation against real audio.
+   This is the opt-in runtime-on E2E lane for manual Debug validation against real audio.
 6. [accessibility-and-ui-automation-notes.md](accessibility-and-ui-automation-notes.md)
    This is the current reference note for menu bar accessibility inspection, XCUITest behavior, and menu-bar presentation constraints.
 7. [xcodegen-migration-plan.md](xcodegen-migration-plan.md)

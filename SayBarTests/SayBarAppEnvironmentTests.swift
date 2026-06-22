@@ -38,6 +38,32 @@ final class SayBarAppEnvironmentTests: XCTestCase {
 		XCTAssertEqual(fixture.recentErrors.first?.source, "Fixture Runtime")
 	}
 
+	func testInitialMenuSurfaceDefaultsToPrimary() {
+		XCTAssertEqual(
+			SayBarAppEnvironment.initialMenuSurface(for: []),
+			.primary,
+			"SayBar should open the primary menu surface for normal launches.",
+		)
+	}
+
+	func testInitialMenuSurfaceUsesUITestLaunchArgument() {
+		XCTAssertEqual(
+			SayBarAppEnvironment.initialMenuSurface(for: ["--saybar-ui-initial-menu-surface=queues"]),
+			.queues,
+			"SayBar should expose deterministic queue-surface launch state for menu UI tests.",
+		)
+		XCTAssertEqual(
+			SayBarAppEnvironment.initialMenuSurface(for: ["--saybar-ui-initial-menu-surface=quick-config"]),
+			.quickConfig,
+			"SayBar should expose deterministic quick-config launch state for menu UI tests.",
+		)
+		XCTAssertEqual(
+			SayBarAppEnvironment.initialMenuSurface(for: ["--saybar-ui-initial-menu-surface=unknown"]),
+			.primary,
+			"SayBar should fall back to the primary menu surface for unknown UI-test surface names.",
+		)
+	}
+
 	func testRuntimeProfileRootURLUsesApplicationSupportDirectory() throws {
 		let fileManager = FileManager.default
 		let applicationSupportURL = try XCTUnwrap(

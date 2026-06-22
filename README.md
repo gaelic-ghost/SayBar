@@ -99,7 +99,7 @@ The maintainer docs are split intentionally:
 - [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) records the current app architecture around one app-owned `EmbeddedServer`.
 - [docs/maintainers/embedded-session-api-coverage.md](docs/maintainers/embedded-session-api-coverage.md) records the complete embedded session API coverage matrix.
 - [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md) records the staged test coverage plan.
-- [docs/maintainers/runtime-on-e2e-test-plan.md](docs/maintainers/runtime-on-e2e-test-plan.md) records the proposed opt-in runtime-on audible E2E lane.
+- [docs/maintainers/runtime-on-e2e-test-plan.md](docs/maintainers/runtime-on-e2e-test-plan.md) records the opt-in runtime-on audible E2E lane.
 - [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
 - [docs/maintainers/xcodegen-migration-plan.md](docs/maintainers/xcodegen-migration-plan.md) records the XcodeGen-owned project shape and xcconfig-owned shared build settings contract.
 
@@ -135,6 +135,9 @@ Keep heavy build and test commands serialized on this machine. Do not run concur
 The runtime-on audible E2E lane is intentionally separate from normal validation. It starts SayBar with the embedded runtime on, unloads resident models from the LaunchAgent-backed localhost service, plays one short request through each checked surface, and reloads the LaunchAgent service models at the end:
 
 ```sh
+SAYBAR_RUNTIME_E2E=1 \
+SAYBAR_RUNTIME_E2E_ALLOW_AUDIO=1 \
+SAYBAR_RUNTIME_E2E_MCP_URL=http://127.0.0.1:7337/mcp \
 xcodebuild -project SayBar.xcodeproj -scheme SayBar -testPlan SayBarRuntimeE2E test
 ```
 

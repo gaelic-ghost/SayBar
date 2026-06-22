@@ -36,7 +36,7 @@ Current test coverage is intentionally narrow:
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
 - `SettingsDisplayStateMappingTests` covers v11 Settings display mapping for runtime ducking fields, transport enabled/advertised-address/stream-count fields, network audio receiver selection, network audio destination details, and recent-error code/time metadata
-- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, menu quick-action reachability, opening Settings from the menu extra with embedded runtime startup skipped, and fixture-backed Settings app, runtime, transport, network-audio, and recent-error values
+- `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, menu quick-action reachability, deterministic queue and quick-config menu-surface reachability, opening Settings from the menu extra with embedded runtime startup skipped, and fixture-backed Settings app, runtime, transport, network-audio, and recent-error values
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded runtime startup skipped
 
 The current UI tests deliberately avoid booting the full embedded runtime on every app-shell test run. Foundation display tests stay in `SayBarTests` so status wording and summary formatting can be verified without launching the app shell or the embedded runtime. Runtime-on audible validation is intentionally separate from this default coverage pass; see [runtime-on-e2e-test-plan.md](runtime-on-e2e-test-plan.md).
@@ -129,7 +129,7 @@ Planned coverage:
 - Transport section renders empty and populated transport states, including v11 enabled, advertised-address, and active-stream diagnostics: done for fixture-backed populated diagnostics
 - Network Audio section renders receiver selection diagnostics and visible destination rows: done for fixture-backed populated diagnostics
 - Recent errors section renders empty and populated error states, including v11 code and timestamp metadata: done for fixture-backed populated diagnostics
-- menu surface exposes stable accessibility identifiers for the primary status and controls, with queue and quick-config surfaces separated behind horizontal menu navigation: done for the current menu shell
+- menu surface exposes stable accessibility identifiers for the primary status and controls, with queue and quick-config surfaces separated behind horizontal menu navigation: done for the current menu shell and deterministic initial-surface UI coverage
 - menu quick actions remain available without layout regressions: done for runtime-startup-skipped UI reachability
 
 Implementation notes:

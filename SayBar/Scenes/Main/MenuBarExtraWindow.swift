@@ -30,13 +30,23 @@ struct MenuBarExtraWindow: View {
     private var isRunningModelAction = false
 
     @State
-    private var selectedSurface: MenuBarDisplaySupport.Surface = .primary
+    private var selectedSurface: MenuBarDisplaySupport.Surface
 
     @State
     private var surfaceTransitionEdge: Edge = .trailing
 
     let server: EmbeddedServer
     let launchesEmbeddedRuntime: Bool
+
+    init(
+        server: EmbeddedServer,
+        launchesEmbeddedRuntime: Bool,
+        initialSurface: MenuBarDisplaySupport.Surface = .primary
+    ) {
+        self.server = server
+        self.launchesEmbeddedRuntime = launchesEmbeddedRuntime
+        _selectedSurface = State(initialValue: initialSurface)
+    }
 
     private var status: MenuBarStatus {
         MenuBarStatus(
@@ -156,12 +166,14 @@ private extension MenuBarExtraWindow {
 
             QueueCountComponent(
                 summary: queueSummary,
-                label: "Generation"
+                label: "Generation",
+                accessibilityIDPrefix: "generation"
             )
 
             QueueCountComponent(
                 summary: playbackQueueSummary,
-                label: "Playback"
+                label: "Playback",
+                accessibilityIDPrefix: "playback"
             )
 
             QueueRequestListComponent(

@@ -31,22 +31,23 @@ struct MenuHeaderComponent: View {
 struct QueueCountComponent: View {
     let summary: MenuBarDisplaySupport.QueueSummary
     let label: String
+    let accessibilityIDPrefix: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("\(label): \(summary.activeCount) active, \(summary.queuedCount) queued / \(summary.capacity)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
-                .accessibilityIdentifier("saybar-generation-queue-summary")
+                .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-queue-summary")
             HStack(alignment: .center, spacing: 3) {
                 ForEach(0..<summary.capacity, id: \.self) { index in
                     QueueSlotShape(state: slotState(at: index))
                 }
             }
-            .accessibilityIdentifier("saybar-generation-queue-slots")
+            .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-queue-slots")
         }
         .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("saybar-generation-queue")
+        .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-queue")
     }
 
     private func slotState(at index: Int) -> QueueSlotShape.State {
