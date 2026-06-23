@@ -74,7 +74,7 @@ Treat the current SayBar automation problem as a system-presentation boundary fi
 For the current repo state, the honest validation split is:
 
 - unit tests cover app-local display and action decisions without launching the runtime
-- UI tests cover launch, termination, relaunch, menu reachability, queue and quick-config surface reachability, Settings reachability, and fixture-backed Settings values with embedded runtime startup skipped
+- UI tests cover launch, termination, relaunch, menu reachability, queue and quick-config surface reachability, Settings reachability, the Settings Queues tab, and fixture-backed Settings values with embedded runtime startup skipped
 - runtime-on audible validation should stay opt-in and isolated from the default UI suite
 
 ## Runtime And Sandbox Findings

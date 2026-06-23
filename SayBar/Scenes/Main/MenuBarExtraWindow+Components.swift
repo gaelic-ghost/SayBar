@@ -32,16 +32,24 @@ struct QueueCountComponent: View {
     let summary: MenuBarDisplaySupport.QueueSummary
     let label: String
     let accessibilityIDPrefix: String
+    var slotWidth: CGFloat = 8
+    var slotHeight: CGFloat = 18
+    var slotSpacing: CGFloat = 3
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("\(label): \(summary.activeCount) active, \(summary.queuedCount) queued / \(summary.capacity)")
-                .font(.caption)
+                .font(.caption2)
                 .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-queue-summary")
-            HStack(alignment: .center, spacing: 3) {
+            HStack(alignment: .center, spacing: slotSpacing) {
                 ForEach(0..<summary.capacity, id: \.self) { index in
-                    QueueSlotShape(state: slotState(at: index))
+                    QueueSlotShape(
+                        state: slotState(at: index),
+                        width: slotWidth,
+                        height: slotHeight
+                    )
                 }
             }
             .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-queue-slots")
@@ -58,6 +66,93 @@ struct QueueCountComponent: View {
             return .queued
         }
         return .empty
+    }
+}
+
+struct QueuePanelComponent: View {
+    let title: String
+    let systemImage: String
+    let summary: MenuBarDisplaySupport.QueueSummary
+    let accessibilityIDPrefix: String
+    let activeRequests: [ActiveRequestSnapshot]
+    let queuedRequests: [QueuedRequestSnapshot]
+    let clearAction: (() -> Void)?
+    let cancelActiveAction: (() -> Void)?
+    let isClearDisabled: Bool
+    let isCancelActiveDisabled: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label(title, systemImage: systemImage)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            QueueCountComponent(
+                summary: summary,
+                label: title,
+                accessibilityIDPrefix: accessibilityIDPrefix,
+                slotWidth: 4,
+                slotHeight: 14,
+                slotSpacing: 1.5
+            )
+
+            if clearAction != nil || cancelActiveAction != nil {
+                HStack(spacing: 6) {
+                    if let cancelActiveAction {
+                        Button(action: cancelActiveAction) {
+                            Image(systemName: "xmark.circle")
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(isCancelActiveDisabled)
+                        .help("Cancel active playback request")
+                        .accessibilityLabel("Cancel Active Playback Request")
+                        .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-cancel-active-request")
+                    }
+
+                    if let clearAction {
+                        Button(role: .destructive, action: clearAction) {
+                            Image(systemName: "trash")
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(isClearDisabled)
+                        .help("Clear queued playback requests")
+                        .accessibilityLabel("Clear Playback Queue")
+                        .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-clear-queue")
+                    }
+                }
+            }
+
+            QueueRequestListComponent(
+                title: "Requests",
+                activeRequests: activeRequests,
+                queuedRequests: queuedRequests
+            )
+        }
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-queue-panel")
+    }
+}
+
+struct QueueHandoffComponent: View {
+    let requestID: String
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "arrow.triangle.2.circlepath")
+                .imageScale(.small)
+            Text("Generation to playback")
+                .font(.caption.weight(.semibold))
+            Text(requestID)
+                .font(.caption2.monospaced())
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+        }
+        .padding(.vertical, 5)
+        .padding(.horizontal, 8)
+        .background(Color.accentColor.opacity(0.12), in: Capsule())
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("saybar-queue-handoff")
     }
 }
 
@@ -133,6 +228,8 @@ private struct QueueSlotShape: View {
     }
 
     let state: State
+    let width: CGFloat
+    let height: CGFloat
 
     var body: some View {
         Rectangle()
@@ -141,7 +238,7 @@ private struct QueueSlotShape: View {
                 Rectangle()
                     .stroke(strokeColor, lineWidth: 1)
             }
-            .frame(width: 8, height: 18)
+            .frame(width: width, height: height)
             .accessibilityHidden(true)
     }
 

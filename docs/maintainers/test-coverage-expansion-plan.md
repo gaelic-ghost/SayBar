@@ -129,7 +129,8 @@ Planned coverage:
 - Transport section renders empty and populated transport states, including v11 enabled, advertised-address, and active-stream diagnostics: done for fixture-backed populated diagnostics
 - Network Audio section renders receiver selection diagnostics and visible destination rows: done for fixture-backed populated diagnostics
 - Recent errors section renders empty and populated error states, including v11 code and timestamp metadata: done for fixture-backed populated diagnostics
-- menu surface exposes stable accessibility identifiers for the primary status and controls, with queue and quick-config surfaces separated behind horizontal menu navigation: done for the current menu shell and deterministic initial-surface UI coverage
+- menu surface exposes stable accessibility identifiers for the primary status and controls, with split queue and quick-config surfaces separated behind horizontal menu navigation: done for the current menu shell and deterministic initial-surface UI coverage
+- Settings Queues tab exposes split generation/playback panels, fixture-backed request rows, and playback queue controls: done for fixture-backed UI coverage and runtime-startup-skipped reachability
 - menu quick actions remain available without layout regressions: done for runtime-startup-skipped UI reachability
 
 Implementation notes:

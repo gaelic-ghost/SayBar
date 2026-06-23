@@ -150,8 +150,8 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `unloadModels()` | `EmbeddedServer` | Implemented | Resident-model power control unloads runtime models when models are loaded. |
 | `pausePlayback()` | `EmbeddedServer` | Implemented | Playback control pauses active playback. |
 | `resumePlayback()` | `EmbeddedServer` | Implemented | Playback control resumes paused playback. |
-| `clearPlaybackQueue()` | `EmbeddedServer` | Not used | Available for a future playback queue clear action. |
-| `cancelPlaybackRequest(_:)` | `EmbeddedServer` | Not used | Available for future request-level playback cancellation. |
+| `clearPlaybackQueue()` | `EmbeddedServer` | Implemented | Menu and Settings playback queue clear buttons use a native destructive confirmation before calling the direct embedded action. |
+| `cancelPlaybackRequest(_:)` | `EmbeddedServer` | Implemented | Menu and Settings playback request controls cancel visible active or selected playback requests through the direct embedded action. |
 | `ActiveRequestSnapshot.id` | Queue and playback snapshots | Implemented | Displayed in menu playback detail when active and in Settings queue diagnostics for active queue rows. |
 | `ActiveRequestSnapshot.op` | Queue and playback snapshots | Implemented | Displayed in Settings active request rows. |
 | `ActiveRequestSnapshot.profileName` | Queue and playback snapshots | Implemented | Displayed in Settings active request rows with a `None` fallback. |
@@ -176,8 +176,8 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 
 ## Coverage Summary
 
-SayBar covers the core embedded-session baseline: app-owned lifecycle, observable status, queue counts and request rows, playback state and buffering diagnostics, runtime refresh and backend-transition diagnostics, runtime configuration including ducking fields, transport diagnostics, network audio receiver diagnostics, recent errors, voice profile refresh and selection, speech backend switching, resident model load/unload, playback pause/resume, and clipboard-to-speech submission.
+SayBar covers the core embedded-session baseline: app-owned lifecycle, observable status, queue counts and request rows, playback state and buffering diagnostics, runtime refresh and backend-transition diagnostics, runtime configuration including ducking fields, transport diagnostics, network audio receiver diagnostics, recent errors, voice profile refresh and selection, speech backend switching, resident model load/unload, playback pause/resume, playback queue clear/cancel controls, and clipboard-to-speech submission.
 
-The main embedded-session gaps are operator controls and diagnostics that are still either intentionally out of scope or not exposed through the direct `EmbeddedServer` observable: playback queue clear/cancel actions, full playback event details, generation-job submitted/start timestamps, profile metadata beyond profile names, and remote-generation status. `remoteGeneration` exists on `HostStateSnapshot` in `SpeakSwiftlyServer` 11.0.0, but SayBar cannot read it without bypassing the app-facing `EmbeddedServer` model.
+The main embedded-session gaps are operator controls and diagnostics that are still either intentionally out of scope or not exposed through the direct `EmbeddedServer` observable: generation queue clear/cancel actions, full playback event details, generation-job submitted/start timestamps, profile metadata beyond profile names, and remote-generation status. `remoteGeneration` exists on `HostStateSnapshot` in `SpeakSwiftlyServer` 11.0.0, but SayBar cannot read it without bypassing the app-facing `EmbeddedServer` model. Generation queue controls are tracked upstream in `SpeakSwiftlyServer#126` so SayBar can keep using direct embedded ownership instead of adding local HTTP or MCP side channels.
 
 The standalone install and retained-log helpers are intentionally not implemented in this SayBar pass. In `SpeakSwiftlyServer` 11.0.0, those helpers still live outside the embedded library contract SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.

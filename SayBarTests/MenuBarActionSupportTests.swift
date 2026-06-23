@@ -130,4 +130,60 @@ final class MenuBarActionSupportTests: XCTestCase {
         XCTAssertEqual(queuedTexts, ["Speak this, please."])
         XCTAssertEqual(queuedContexts, [MenuBarActionSupport.clipboardSpeechRequestContext()])
     }
+
+    func testClearPlaybackQueueSkipsWhenNoQueuedRequestsAreVisible() async throws {
+        var clearCallCount = 0
+        let result = try await MenuBarActionSupport.clearPlaybackQueue(
+            queuedCount: 0,
+            clearPlaybackQueue: {
+                clearCallCount += 1
+                return 3
+            }
+        )
+
+        XCTAssertEqual(result, .skipped)
+        XCTAssertEqual(clearCallCount, 0)
+    }
+
+    func testClearPlaybackQueueCallsServerWhenQueuedRequestsAreVisible() async throws {
+        var clearCallCount = 0
+        let result = try await MenuBarActionSupport.clearPlaybackQueue(
+            queuedCount: 2,
+            clearPlaybackQueue: {
+                clearCallCount += 1
+                return 2
+            }
+        )
+
+        XCTAssertEqual(result, .cleared(2))
+        XCTAssertEqual(clearCallCount, 1)
+    }
+
+    func testCancelPlaybackRequestSkipsEmptyRequestID() async throws {
+        var canceledIDs: [String] = []
+        let result = try await MenuBarActionSupport.cancelPlaybackRequest(
+            requestID: "",
+            cancelPlaybackRequest: { requestID in
+                canceledIDs.append(requestID)
+                return requestID
+            }
+        )
+
+        XCTAssertEqual(result, .skipped)
+        XCTAssertTrue(canceledIDs.isEmpty)
+    }
+
+    func testCancelPlaybackRequestCallsServerWithRequestID() async throws {
+        var canceledIDs: [String] = []
+        let result = try await MenuBarActionSupport.cancelPlaybackRequest(
+            requestID: "request-123",
+            cancelPlaybackRequest: { requestID in
+                canceledIDs.append(requestID)
+                return "canceled-\(requestID)"
+            }
+        )
+
+        XCTAssertEqual(result, .canceled("canceled-request-123"))
+        XCTAssertEqual(canceledIDs, ["request-123"])
+    }
 }

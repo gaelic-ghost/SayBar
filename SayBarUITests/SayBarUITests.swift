@@ -184,11 +184,15 @@ final class SayBarUITests: XCTestCase {
 		XCTContext.runActivity(named: "Verify queue surface") { _ in
 			assertElementExists("saybar-menu-surface-queues", in: app)
 			assertElementExists("saybar-generation-queue", in: app)
+			assertElementExists("saybar-generation-queue-panel", in: app)
 			assertElementExists("saybar-generation-queue-summary", in: app)
 			assertElementExists("saybar-generation-queue-slots", in: app)
 			assertElementExists("saybar-playback-queue", in: app)
+			assertElementExists("saybar-playback-queue-panel", in: app)
 			assertElementExists("saybar-playback-queue-summary", in: app)
 			assertElementExists("saybar-playback-queue-slots", in: app)
+			assertElementExists("saybar-playback-cancel-active-request", in: app)
+			assertElementExists("saybar-playback-clear-queue", in: app)
 			assertTextExists("Generation: 0 active, 0 queued / 24", in: app)
 			assertTextExists("Playback: 0 active, 0 queued / 12", in: app)
 		}
@@ -238,10 +242,18 @@ final class SayBarUITests: XCTestCase {
 		XCTContext.runActivity(named: "Verify Settings diagnostics tab") { _ in
 			app.descendants(matching: .any)["Diagnostics"].click()
 			assertElementExists("saybar-settings-runtime-details-section", in: app)
-			assertElementExists("saybar-settings-queues-section", in: app)
 			assertElementExists("saybar-settings-transports-section", in: app)
 			assertElementExists("saybar-settings-network-audio-section", in: app)
 			assertElementExists("saybar-settings-recent-errors-section", in: app)
+		}
+
+		XCTContext.runActivity(named: "Verify Settings queues tab") { _ in
+			app.descendants(matching: .any)["Queues"].click()
+			assertElementExists("saybar-settings-queues-tab", in: app)
+			assertElementExists("saybar-settings-queues-tab-content", in: app)
+			assertElementExists("saybar-settings-queue-generation", in: app)
+			assertElementExists("saybar-settings-queue-playback", in: app)
+			assertElementExists("saybar-settings-playback-clear-queue", in: app)
 		}
 	}
 
@@ -285,7 +297,6 @@ final class SayBarUITests: XCTestCase {
 			assertElementExists("saybar-settings-runtime-details-section", in: app)
 			assertElementExists("saybar-settings-playback-details-section", in: app)
 			assertElementExists("saybar-settings-configuration-details-section", in: app)
-			assertElementExists("saybar-settings-queue-fixture-generation", in: app)
 			assertElementExists("saybar-settings-generation-job-fixture-job", in: app)
 			assertElementExists("saybar-settings-transport-row-HTTP", in: app)
 			assertElementExists("saybar-settings-network-audio-section", in: app)
@@ -301,6 +312,14 @@ final class SayBarUITests: XCTestCase {
 			assertTextExists("Fixture Runtime", in: app)
 			assertTextExists("fixture_warning at 2026-06-06T12:01:00Z", in: app)
 			assertTextExists("Fixture warning for Settings diagnostics.", in: app)
+		}
+
+		XCTContext.runActivity(named: "Verify populated queue tab") { _ in
+			app.descendants(matching: .any)["Queues"].click()
+			assertElementExists("saybar-settings-queue-fixture-generation", in: app)
+			assertElementExists("saybar-settings-queue-fixture-playback", in: app)
+			assertElementExists("saybar-settings-request-row-fixture-generation-active", in: app)
+			assertElementExists("saybar-settings-request-row-fixture-generation-queued", in: app)
 		}
 	}
 }
