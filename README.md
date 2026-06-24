@@ -85,6 +85,7 @@ xcodegen generate --spec project.yml
 The current project includes these Xcode targets:
 
 - `SayBar`
+- `SayBarSafariExtension`
 - `SayBarTests`
 - `SayBarUITests`
 
@@ -101,6 +102,7 @@ The maintainer docs are split intentionally:
 - [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md) records the staged test coverage plan.
 - [docs/maintainers/runtime-on-e2e-test-plan.md](docs/maintainers/runtime-on-e2e-test-plan.md) records the opt-in runtime-on audible E2E lane.
 - [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
+- [docs/maintainers/browser-extension-integration-plan.md](docs/maintainers/browser-extension-integration-plan.md) records the WebExtension-first browser text capture plan.
 - [docs/maintainers/xcodegen-migration-plan.md](docs/maintainers/xcodegen-migration-plan.md) records the XcodeGen-owned project shape and xcconfig-owned shared build settings contract.
 
 Primary project configuration:
@@ -151,7 +153,9 @@ scripts/repo-maintenance/validate-all.sh
 
 ```text
 .
+├── BrowserExtension/     # Shared WebExtension resources for browser page-text capture
 ├── SayBar/               # App source and assets
+├── SayBarSafariExtension/# Safari Web Extension wrapper target
 ├── SayBarTests/          # Unit-style app tests
 ├── SayBarUITests/        # XCUITest coverage for launch and app shell behavior
 ├── Config/               # Shared Xcode build settings
