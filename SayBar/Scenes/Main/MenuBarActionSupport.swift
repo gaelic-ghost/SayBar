@@ -26,6 +26,12 @@ enum MenuBarActionSupport {
         case queued
     }
 
+    enum QueueActionResult: Equatable {
+        case skipped
+        case cleared(Int)
+        case canceled(String)
+    }
+
     nonisolated static func residentModelCommand(workerStage: String) -> ResidentModelCommand {
         workerStage == "resident_models_unloaded" ? .reload : .unload
     }
@@ -102,5 +108,31 @@ enum MenuBarActionSupport {
 
         try await queueLiveSpeech(pastedText, clipboardSpeechRequestContext())
         return .queued
+    }
+
+    @MainActor
+    static func clearPlaybackQueue(
+        queuedCount: Int,
+        clearPlaybackQueue: () async throws -> Int
+    ) async throws -> QueueActionResult {
+        guard queuedCount > 0 else {
+            return .skipped
+        }
+
+        let clearedCount = try await clearPlaybackQueue()
+        return .cleared(clearedCount)
+    }
+
+    @MainActor
+    static func cancelPlaybackRequest(
+        requestID: String?,
+        cancelPlaybackRequest: (String) async throws -> String
+    ) async throws -> QueueActionResult {
+        guard let requestID, !requestID.isEmpty else {
+            return .skipped
+        }
+
+        let canceledRequestID = try await cancelPlaybackRequest(requestID)
+        return .canceled(canceledRequestID)
     }
 }

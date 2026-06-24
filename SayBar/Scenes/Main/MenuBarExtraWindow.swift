@@ -30,13 +30,29 @@ struct MenuBarExtraWindow: View {
     private var isRunningModelAction = false
 
     @State
-    private var selectedSurface: MenuBarDisplaySupport.Surface = .primary
+    private var isRunningQueueAction = false
+
+    @State
+    private var pendingQueueConfirmation: QueueConfirmation?
+
+    @State
+    private var selectedSurface: MenuBarDisplaySupport.Surface
 
     @State
     private var surfaceTransitionEdge: Edge = .trailing
 
     let server: EmbeddedServer
     let launchesEmbeddedRuntime: Bool
+
+    init(
+        server: EmbeddedServer,
+        launchesEmbeddedRuntime: Bool,
+        initialSurface: MenuBarDisplaySupport.Surface = .primary
+    ) {
+        self.server = server
+        self.launchesEmbeddedRuntime = launchesEmbeddedRuntime
+        _selectedSurface = State(initialValue: initialSurface)
+    }
 
     private var status: MenuBarStatus {
         MenuBarStatus(
@@ -115,6 +131,10 @@ struct MenuBarExtraWindow: View {
 }
 
 private extension MenuBarExtraWindow {
+    enum QueueConfirmation {
+        case clearPlaybackQueue
+    }
+
     @ViewBuilder
     var surfaceView: some View {
         switch selectedSurface {
@@ -154,30 +174,57 @@ private extension MenuBarExtraWindow {
         VStack(alignment: .leading, spacing: 12) {
             MenuPageHeaderComponent(title: "Queues", systemImage: "list.bullet.rectangle")
 
-            QueueCountComponent(
-                summary: queueSummary,
-                label: "Generation"
-            )
+            if let handoffRequestID = queueHandoffRequestID {
+                HStack {
+                    Spacer(minLength: 0)
+                    QueueHandoffComponent(requestID: handoffRequestID)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                    Spacer(minLength: 0)
+                }
+            }
 
-            QueueCountComponent(
-                summary: playbackQueueSummary,
-                label: "Playback"
-            )
+            HStack(alignment: .top, spacing: 10) {
+                QueuePanelComponent(
+                    title: "Generation",
+                    systemImage: "waveform",
+                    summary: queueSummary,
+                    accessibilityIDPrefix: "generation",
+                    activeRequests: server.generationQueue.activeRequests,
+                    queuedRequests: server.generationQueue.queuedRequests,
+                    clearAction: nil,
+                    cancelActiveAction: nil,
+                    isClearDisabled: true,
+                    isCancelActiveDisabled: true
+                )
 
-            QueueRequestListComponent(
-                title: "Generation Requests",
-                activeRequests: server.generationQueue.activeRequests,
-                queuedRequests: server.generationQueue.queuedRequests
-            )
-
-            QueueRequestListComponent(
-                title: "Playback Requests",
-                activeRequests: server.playbackQueue.activeRequests,
-                queuedRequests: server.playbackQueue.queuedRequests
-            )
+                QueuePanelComponent(
+                    title: "Playback",
+                    systemImage: "speaker.wave.2",
+                    summary: playbackQueueSummary,
+                    accessibilityIDPrefix: "playback",
+                    activeRequests: server.playbackQueue.activeRequests,
+                    queuedRequests: server.playbackQueue.queuedRequests,
+                    clearAction: requestPlaybackQueueClearConfirmation,
+                    cancelActiveAction: cancelActivePlaybackRequest,
+                    isClearDisabled: isRunningQueueAction || server.playbackQueue.queuedCount <= 0,
+                    isCancelActiveDisabled: isRunningQueueAction || activePlaybackRequestID == nil
+                )
+            }
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier(MenuBarDisplaySupport.Surface.queues.accessibilityIdentifier)
+        .confirmationDialog(
+            "Clear Playback Queue?",
+            isPresented: playbackQueueClearConfirmationBinding,
+            titleVisibility: .visible
+        ) {
+            Button("Clear Playback Queue", role: .destructive) {
+                clearPlaybackQueue()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Queued playback requests will be removed. Active playback is not canceled.")
+        }
     }
 
     var quickConfigSurface: some View {
@@ -206,6 +253,28 @@ private extension MenuBarExtraWindow {
         .asymmetric(
             insertion: .move(edge: surfaceTransitionEdge).combined(with: .opacity),
             removal: .move(edge: surfaceTransitionEdge == .leading ? .trailing : .leading).combined(with: .opacity)
+        )
+    }
+
+    var queueHandoffRequestID: String? {
+        let activePlaybackRequestIDs = Set(server.playbackQueue.activeRequests.map(\.id))
+        return server.generationQueue.activeRequests.first { request in
+            activePlaybackRequestIDs.contains(request.id)
+        }?.id
+    }
+
+    var activePlaybackRequestID: String? {
+        server.playbackQueue.activeRequests.first?.id ?? server.playback.activeRequest?.id
+    }
+
+    var playbackQueueClearConfirmationBinding: Binding<Bool> {
+        Binding(
+            get: { pendingQueueConfirmation == .clearPlaybackQueue },
+            set: { isPresented in
+                if !isPresented {
+                    pendingQueueConfirmation = nil
+                }
+            }
         )
     }
 
@@ -294,6 +363,72 @@ private extension MenuBarExtraWindow {
                     }
                 case .submitClipboardSpeech:
                     await submitClipboardSpeech()
+            }
+        }
+    }
+
+    @MainActor
+    func requestPlaybackQueueClearConfirmation() {
+        pendingQueueConfirmation = .clearPlaybackQueue
+    }
+
+    @MainActor
+    func clearPlaybackQueue() {
+        pendingQueueConfirmation = nil
+        Task { @MainActor in
+            isRunningQueueAction = true
+            defer { isRunningQueueAction = false }
+
+            do {
+                let result = try await MenuBarActionSupport.clearPlaybackQueue(
+                    queuedCount: server.playbackQueue.queuedCount,
+                    clearPlaybackQueue: {
+                        try await server.clearPlaybackQueue()
+                    }
+                )
+                switch result {
+                    case .cleared(let clearedCount):
+                        Self.logger.notice("SayBar cleared \(clearedCount, privacy: .public) queued playback request(s).")
+                    case .skipped:
+                        Self.logger.notice("SayBar skipped clearing the playback queue because no queued playback requests were visible.")
+                    case .canceled:
+                        break
+                }
+            } catch {
+                handleActionError(
+                    error,
+                    fallbackMessage: "SayBar could not clear the queued playback requests."
+                )
+            }
+        }
+    }
+
+    @MainActor
+    func cancelActivePlaybackRequest() {
+        Task { @MainActor in
+            isRunningQueueAction = true
+            defer { isRunningQueueAction = false }
+
+            do {
+                let result = try await MenuBarActionSupport.cancelPlaybackRequest(
+                    requestID: activePlaybackRequestID,
+                    cancelPlaybackRequest: { requestID in
+                        try await server.cancelPlaybackRequest(requestID)
+                    }
+                )
+                switch result {
+                    case .canceled(let requestID):
+                        Self.logger.notice("SayBar canceled active playback request '\(requestID, privacy: .public)'.")
+                    case .skipped:
+                        Self.logger.notice("SayBar skipped canceling active playback because no active playback request was visible.")
+                    case .cleared:
+                        break
+                }
+            } catch {
+                handleActionError(
+                    error,
+                    fallbackMessage: "SayBar could not cancel the active playback request."
+                )
             }
         }
     }

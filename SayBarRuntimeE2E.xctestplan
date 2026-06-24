@@ -9,20 +9,6 @@
     }
   ],
   "defaultOptions" : {
-    "environmentVariableEntries" : [
-      {
-        "key" : "SAYBAR_RUNTIME_E2E",
-        "value" : "1"
-      },
-      {
-        "key" : "SAYBAR_RUNTIME_E2E_ALLOW_AUDIO",
-        "value" : "1"
-      },
-      {
-        "key" : "SAYBAR_RUNTIME_E2E_MCP_URL",
-        "value" : "http://127.0.0.1:7337/mcp"
-      }
-    ],
     "performanceAntipatternCheckerEnabled" : true,
     "targetForVariableExpansion" : {
       "containerPath" : "container:SayBar.xcodeproj",

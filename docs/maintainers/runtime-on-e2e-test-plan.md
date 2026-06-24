@@ -10,7 +10,7 @@ This lane is intentionally separate from the default `SayBar` test plan. It is a
 
 Runtime-on E2E tests must not run from CI, `scripts/repo-maintenance/validate-all.sh`, or the default `SayBar.xctestplan`.
 
-They should require explicit local opt-in, for example:
+They require explicit local opt-in from the command environment:
 
 - `SAYBAR_RUNTIME_E2E=1`
 - `SAYBAR_RUNTIME_E2E_ALLOW_AUDIO=1`
@@ -40,6 +40,9 @@ The first implementation lives outside the default test plan and is only active 
 Run the lane manually with:
 
 ```sh
+SAYBAR_RUNTIME_E2E=1 \
+SAYBAR_RUNTIME_E2E_ALLOW_AUDIO=1 \
+SAYBAR_RUNTIME_E2E_MCP_URL=http://127.0.0.1:7337/mcp \
 xcodebuild -project SayBar.xcodeproj -scheme SayBar -testPlan SayBarRuntimeE2E test
 ```
 

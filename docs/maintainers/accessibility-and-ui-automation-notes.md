@@ -53,6 +53,7 @@ The current checked-in tests validate these shell-level behaviors with `--saybar
 - the menu bar extra can be opened
 - the primary menu shell exposes stable status and control identifiers
 - the menu quick-action controls remain reachable without starting the embedded runtime
+- the queue and quick-config menu surfaces can be opened deterministically for UI tests without relying on horizontal gesture automation
 - Settings opens from the menu extra
 - Settings can render fixture-backed populated app, runtime, diagnostics, transport, and recent-error values
 
@@ -64,6 +65,8 @@ Earlier interactive inspection showed that the `.menuBarExtraStyle(.window)` con
 
 The remaining boundary is scope, not basic reachability: the default UI suite still avoids starting the embedded runtime, does not click runtime-mutating menu controls, and does not perform audible end-to-end speech. Those checks belong in an explicit runtime-on lane.
 
+The suite uses `--saybar-ui-initial-menu-surface=queues` and `--saybar-ui-initial-menu-surface=quick-config` for deterministic menu-surface coverage. Gesture navigation can still be reviewed manually or with a future focused automation pass if the `MenuBarExtra` accessibility surface becomes reliable enough for routine swipe-driven validation.
+
 ## Current Recommendation
 
 Treat the current SayBar automation problem as a system-presentation boundary first, not as missing metadata on the content view.
@@ -71,7 +74,7 @@ Treat the current SayBar automation problem as a system-presentation boundary fi
 For the current repo state, the honest validation split is:
 
 - unit tests cover app-local display and action decisions without launching the runtime
-- UI tests cover launch, termination, relaunch, menu reachability, Settings reachability, and fixture-backed Settings values with embedded runtime startup skipped
+- UI tests cover launch, termination, relaunch, menu reachability, queue and quick-config surface reachability, Settings reachability, the Settings Queues tab, and fixture-backed Settings values with embedded runtime startup skipped
 - runtime-on audible validation should stay opt-in and isolated from the default UI suite
 
 ## Runtime And Sandbox Findings

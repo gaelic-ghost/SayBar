@@ -66,12 +66,12 @@ That local state is deliberately UI-local. It is not a second source of truth fo
 The current compact menu layout is split into three horizontal surfaces:
 
 - primary: status plus the power, playback or clipboard speech, and settings controls
-- queues: generation and playback queue counts plus active and queued request rows
+- queues: side-by-side generation and playback panels with queue counts, active and queued request rows, playback clear/cancel controls, and a transient handoff indicator when a request is visible in both queues
 - quick config: voice profile and speech backend pickers
 
 The menu surface switcher is a local AppKit-backed gesture monitor. It listens for horizontal scroll-wheel gestures while the pointer is inside the menu window and updates only the selected SwiftUI surface. It does not own runtime state or route server actions.
 
-Settings keeps the deeper diagnostics out of the menu bar. The primary Settings tab shows app and high-level runtime state; the diagnostics tab renders runtime details, playback details, configuration details, queue request rows, active generation jobs, transport rows, network audio receiver state, and recent errors. `SettingsDisplayState` is only a display mapping from `EmbeddedServer` snapshots into row values; it is not a second server-state model.
+Settings keeps the deeper diagnostics out of the menu bar. The primary Settings tab shows app and high-level runtime state; the queues tab renders side-by-side generation and playback request detail with playback queue controls; the diagnostics tab renders runtime details, playback details, configuration details, active generation jobs, transport rows, network audio receiver state, and recent errors. `SettingsDisplayState` is only a display mapping from `EmbeddedServer` snapshots into row values; it is not a second server-state model.
 
 ## Clipboard Speech
 

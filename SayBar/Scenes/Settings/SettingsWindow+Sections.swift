@@ -80,48 +80,149 @@ struct SettingsDetailRowsSection: View {
     }
 }
 
-struct SettingsQueueDiagnosticsSection: View {
+struct SettingsQueuesTabContent: View {
     let queues: [SettingsDisplayState.QueueDiagnostics]
+    let clearPlaybackQueue: (() -> Void)?
+    let cancelPlaybackRequest: ((String) -> Void)?
+    let isRunningQueueAction: Bool
 
     var body: some View {
-        Section("Queues") {
+        ScrollView {
             if queues.isEmpty {
                 Text("No queue diagnostics are published yet.")
                     .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
                     .accessibilityIdentifier("saybar-settings-empty-queues")
             } else {
-                ForEach(queues) { queue in
-                    VStack(alignment: .leading, spacing: 6) {
-                        LabeledContent(queue.title, value: queue.summary)
-                            .accessibilityIdentifier("saybar-settings-queue-\(queue.id)")
-
-                        ForEach(queue.activeRequests) { request in
-                            SettingsRequestRow(request: request)
-                        }
-
-                        ForEach(queue.queuedRequests) { request in
-                            SettingsRequestRow(request: request)
-                        }
+                HStack(alignment: .top, spacing: 16) {
+                    ForEach(queues) { queue in
+                        SettingsQueuePanel(
+                            queue: queue,
+                            clearPlaybackQueue: clearPlaybackQueue,
+                            cancelPlaybackRequest: cancelPlaybackRequest,
+                            isRunningQueueAction: isRunningQueueAction
+                        )
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
-                    .padding(.vertical, 2)
                 }
+                .padding()
             }
         }
         .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("saybar-settings-queues-section")
+        .accessibilityIdentifier("saybar-settings-queues-tab-content")
+    }
+}
+
+private struct SettingsQueuePanel: View {
+    let queue: SettingsDisplayState.QueueDiagnostics
+    let clearPlaybackQueue: (() -> Void)?
+    let cancelPlaybackRequest: ((String) -> Void)?
+    let isRunningQueueAction: Bool
+
+    private var isPlaybackQueue: Bool {
+        queue.title == "Playback"
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .firstTextBaseline) {
+                Label(queue.title, systemImage: isPlaybackQueue ? "speaker.wave.2" : "waveform")
+                    .font(.headline)
+                Spacer()
+                Text(queue.summary)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            if isPlaybackQueue, let clearPlaybackQueue {
+                Button(role: .destructive, action: clearPlaybackQueue) {
+                    Label("Clear Queue", systemImage: "trash")
+                }
+                .disabled(isRunningQueueAction || queue.queuedRequests.isEmpty)
+                .accessibilityIdentifier("saybar-settings-playback-clear-queue")
+            }
+
+            SettingsRequestRowsGroup(
+                title: "Active",
+                rows: queue.activeRequests,
+                cancelPlaybackRequest: isPlaybackQueue ? cancelPlaybackRequest : nil,
+                isRunningQueueAction: isRunningQueueAction
+            )
+
+            SettingsRequestRowsGroup(
+                title: "Queued",
+                rows: queue.queuedRequests,
+                cancelPlaybackRequest: isPlaybackQueue ? cancelPlaybackRequest : nil,
+                isRunningQueueAction: isRunningQueueAction
+            )
+        }
+        .padding(14)
+        .background(Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 8))
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("saybar-settings-queue-\(queue.id)")
+    }
+}
+
+private struct SettingsRequestRowsGroup: View {
+    let title: String
+    let rows: [SettingsDisplayState.RequestRow]
+    let cancelPlaybackRequest: ((String) -> Void)?
+    let isRunningQueueAction: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            if rows.isEmpty {
+                Text("Idle")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(rows) { request in
+                    SettingsRequestRow(
+                        request: request,
+                        cancelPlaybackRequest: cancelPlaybackRequest,
+                        isRunningQueueAction: isRunningQueueAction
+                    )
+                }
+            }
+        }
     }
 }
 
 private struct SettingsRequestRow: View {
     let request: SettingsDisplayState.RequestRow
+    let cancelPlaybackRequest: ((String) -> Void)?
+    let isRunningQueueAction: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text("\(request.state) \(request.operation)")
-                .font(.caption.weight(.semibold))
-            Text("\(request.profileName) - \(request.id)")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(request.state) \(request.operation)")
+                    .font(.caption.weight(.semibold))
+                Text("\(request.profileName) - \(request.id)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+
+            Spacer(minLength: 8)
+
+            if let cancelPlaybackRequest {
+                Button(role: .destructive) {
+                    cancelPlaybackRequest(request.id)
+                } label: {
+                    Image(systemName: "trash")
+                }
+                .buttonStyle(.borderless)
+                .disabled(isRunningQueueAction)
+                .help("Cancel playback request")
+                .accessibilityLabel("Cancel Playback Request")
+                .accessibilityIdentifier("saybar-settings-cancel-playback-request-\(request.id)")
+            }
         }
         .accessibilityIdentifier("saybar-settings-request-row-\(request.id)")
     }
