@@ -15,10 +15,11 @@ The first browser-facing job is to capture readable page text from a user-select
 ## Current Skeleton
 
 - `BrowserExtension/Core/manifest.json` declares the portable extension shell.
-- `BrowserExtension/Core/content/extract-page-text.js` extracts visible article/main/body text with a bounded character limit.
+- `BrowserExtension/Core/content/extract-page-text.js` extracts visible article/main/body text and a bounded HTML fragment.
 - `BrowserExtension/Core/popup/` provides the first manual capture action.
-- `BrowserExtension/Core/background.js` receives captured page-text payloads and keeps the native handoff marked as pending.
+- `BrowserExtension/Core/background.js` receives captured page-text payloads and sends them through Safari native messaging when available.
 - `SayBarSafariExtension/` wraps the WebExtension resources in a Safari Web Extension app-extension target.
+- `SayBarSafariExtension/` converts captured HTML to Markdown-oriented speech text with SwiftSoup, logs a debug summary without the full body, and queues `/speech/live` through SayBar's embedded runtime transport.
 
 ## Message Contract
 
@@ -31,6 +32,8 @@ The shared WebExtension core currently uses one message:
     "title": "Example Page",
     "url": "https://example.com/article",
     "text": "Readable page text...",
+    "html": "<article>Readable page HTML...</article>",
+    "captureMode": "article",
     "capturedAt": "2026-06-24T00:00:00.000Z"
   }
 }
@@ -38,12 +41,15 @@ The shared WebExtension core currently uses one message:
 
 Treat page text and URLs as sensitive. Do not persist captures in browser storage, app groups, logs, or diagnostics unless a user-facing feature explicitly needs retained history.
 
+The native queue request intentionally lets `SpeakSwiftlyServer` apply `reqPurpose: .speech` from the `/speech/live` route. The browser-provided request context should stay lean: `source`, page-title `topic`, and only relevant browser-origin attributes such as surface, browser name, URL, capture mode, and capture timestamp.
+
 ## Browser Adapter Notes
 
 Safari:
 
 - Package the shared WebExtension core in `SayBarSafariExtension`.
-- Use Safari Web Extension messaging or app-group storage only when the SayBar handoff needs it.
+- Use Safari Web Extension native messaging for the first user-initiated capture handoff.
+- Use App Groups only when a later feature needs shared retained state between the containing app and extension.
 - Validate that Safari sees the extension, the user enabled it, and the website permission is granted before debugging capture behavior.
 
 Chrome:
@@ -59,7 +65,6 @@ Firefox and Zen:
 
 ## Open Decisions
 
-- Whether browser captures should queue directly as live speech or open an editable preview in SayBar first.
-- Whether to use native messaging, app-group handoff, a localhost endpoint, or a custom URL command for each browser family.
+- Whether Chrome, Firefox, and Zen should use native messaging hosts, a localhost endpoint, or another browser-family-specific app handoff once Safari is working.
 - Whether to request broad host permissions or stay with user-initiated `activeTab` capture.
 - Whether page text should be chunked in the extension, in SayBar, or in `SpeakSwiftlyServer`.

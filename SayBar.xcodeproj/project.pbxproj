@@ -10,6 +10,7 @@
 		0CC8D31314AEADA3B11D02B9 /* SayBarAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */; };
 		2643835B53D7CF89F754CF2E /* HorizontalSwipeGestureMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5A9355726EEA9708B4A869 /* HorizontalSwipeGestureMonitor.swift */; };
 		2C65CA13958113A742AB398A /* SettingsWindow+Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */; };
+		376B8FA1B8152B7003939411 /* BrowserCaptureFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C544962F9BB1D6C7F89A20A /* BrowserCaptureFormatter.swift */; };
 		392D7A55B77BF73AF7DA2254 /* SettingsDisplayStateMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */; };
 		493B54E7FE05508F5BD9F1C8 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = CE43B9360E4C55BC357F9450 /* background.js */; };
 		5110A7F466D1BCA680D1A1EE /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E98C0A434C5674679B4B084 /* SafariWebExtensionHandler.swift */; };
@@ -26,13 +27,16 @@
 		8D29D8F333289519CB74BB43 /* SettingsDisplayState+UITestFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E086E525EE1E3A92F49AF /* SettingsDisplayState+UITestFixtures.swift */; };
 		A025113F40FA2D01ECA9D941 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = DC733CD76221FED9AFEB9F87 /* popup */; };
 		A1D951DB67F71099E1B9271F /* SayBarSafariExtension.appex in Embed Dependencies */ = {isa = PBXBuildFile; fileRef = DFDFFCE487E4025EB5B0FB6D /* SayBarSafariExtension.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B029BDD090BD4B5B8984AAE0 /* BrowserCaptureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3296A0BF70AC1E42C33968B7 /* BrowserCaptureRequest.swift */; };
 		B22F19DD838B498866E12BB8 /* MenuBarExtraWindow+Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A633A240A2EE5D2D78C9B4 /* MenuBarExtraWindow+Components.swift */; };
 		B3C8B01C1E80957266D4FD9E /* SayBarAppLifecycleSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */; };
+		B551EB34178373CBBEF9A198 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 49D912DC543BB8CF774E4DE5 /* SwiftSoup */; };
 		BD98FC6A500C7F0DCBB0EAE8 /* SayBarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */; };
 		C06C6735B4E107E70C83B1AF /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = A6AD9AB7EE7AC2812101EFA1 /* manifest.json */; };
 		C3B9F6B5A47FF2E6035E81A1 /* SayBarAppLifecycleSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868D28DF9F9A69E698033D62 /* SayBarAppLifecycleSupport.swift */; };
 		C3DE9FB92D8EC0CFAAE9F604 /* MenuBarActionSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECCFF1DD2575C344113319C /* MenuBarActionSupportTests.swift */; };
 		C41A7BF01EDBF05F3A0007F7 /* SettingsDisplayState+EmbeddedServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */; };
+		C5E6B633DD75E7B8E2BCF669 /* BrowserSpeechQueueClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2134C5A49C13CA51BC1CCF7F /* BrowserSpeechQueueClient.swift */; };
 		CECC7F8BABD73C590C046F90 /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9BE7EFCE45D399F41CE74 /* SettingsWindow.swift */; };
 		D851C7F4624D9CC3B63291A9 /* RuntimeE2ETransportSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA015810E51C5C8D76E32C30 /* RuntimeE2ETransportSupport.swift */; };
 		E85A77D29BC649874032582A /* MenuBarActionSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6200908471B65403AF0CE3B /* MenuBarActionSupport.swift */; };
@@ -89,15 +93,18 @@
 		18F5CA7508A342DCB058947E /* 10-preflight.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "10-preflight.sh"; sourceTree = "<group>"; };
 		1B1CF3ACACDAFD74317CC368 /* 40-github-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "40-github-release.sh"; sourceTree = "<group>"; };
 		1BF93212401B3C4CC3AE667D /* ROADMAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ROADMAP.md; sourceTree = "<group>"; };
+		1C544962F9BB1D6C7F89A20A /* BrowserCaptureFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserCaptureFormatter.swift; sourceTree = "<group>"; };
 		1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplayStateMappingTests.swift; sourceTree = "<group>"; };
 		1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+EmbeddedServer.swift"; sourceTree = "<group>"; };
 		1E85CBAB58316ED2A8E77321 /* validation.env */ = {isa = PBXFileReference; path = validation.env; sourceTree = "<group>"; };
+		2134C5A49C13CA51BC1CCF7F /* BrowserSpeechQueueClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSpeechQueueClient.swift; sourceTree = "<group>"; };
 		23FC3AF954582D8798C4999B /* validate-all.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "validate-all.sh"; sourceTree = "<group>"; };
 		29FB79CBDF99F6A0829F25B3 /* SayBar.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SayBar.xcconfig; sourceTree = "<group>"; };
 		2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2D2EFDFBB30E81698FBFF7BB /* SayBarRuntimeE2E.xctestplan */ = {isa = PBXFileReference; path = SayBarRuntimeE2E.xctestplan; sourceTree = "<group>"; };
 		2E98C0A434C5674679B4B084 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
 		31CFA5680C755DB169A5652B /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = popup.css; sourceTree = "<group>"; };
+		3296A0BF70AC1E42C33968B7 /* BrowserCaptureRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserCaptureRequest.swift; sourceTree = "<group>"; };
 		4906274983CD9FF0B7CC4EBF /* 30-ci-wrapper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "30-ci-wrapper.sh"; sourceTree = "<group>"; };
 		4B53AFCBBCE5F851DE6D2686 /* pre-commit.sample */ = {isa = PBXFileReference; path = "pre-commit.sample"; sourceTree = "<group>"; };
 		4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsWindow+Sections.swift"; sourceTree = "<group>"; };
@@ -107,7 +114,6 @@
 		6F9C0D09719FFB67D136E9DD /* release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = release.sh; sourceTree = "<group>"; };
 		72EA0FEC159718BABB7BDA99 /* profile.env */ = {isa = PBXFileReference; path = profile.env; sourceTree = "<group>"; };
 		761584D346B07710EF15A175 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		7717B96B83670D39DAE70EAD /* FIXME.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXME.md; sourceTree = "<group>"; };
 		78B747C47E8A1A5B622BD18B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A5E086E525EE1E3A92F49AF /* SettingsDisplayState+UITestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+UITestFixtures.swift"; sourceTree = "<group>"; };
 		7B6179EE330D059A53C9EBCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -132,7 +138,6 @@
 		B99033085B0831E19ABEEC7C /* sync-shared.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "sync-shared.sh"; sourceTree = "<group>"; };
 		BBD4947A8A74563B7C25FA0B /* release.env */ = {isa = PBXFileReference; path = release.env; sourceTree = "<group>"; };
 		BED9D9A808A9853B17BD9BF3 /* SettingsDisplaySupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplaySupportTests.swift; sourceTree = "<group>"; };
-		C0AFA67D4642BC85F256A8BA /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		C53796FDE508AC1A05090D33 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C5995A0F7E65A08A862A4460 /* adr-0001-keep-direct-embeddedserver-baseline.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "adr-0001-keep-direct-embeddedserver-baseline.md"; sourceTree = "<group>"; };
 		C9CC156F693DC88B53C55227 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
@@ -167,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7230B2D4A41FC56592010181 /* SafariServices.framework in Frameworks */,
+				B551EB34178373CBBEF9A198 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +292,9 @@
 		5EE94DB182666AE63C367CD1 /* SayBarSafariExtension */ = {
 			isa = PBXGroup;
 			children = (
+				1C544962F9BB1D6C7F89A20A /* BrowserCaptureFormatter.swift */,
+				3296A0BF70AC1E42C33968B7 /* BrowserCaptureRequest.swift */,
+				2134C5A49C13CA51BC1CCF7F /* BrowserSpeechQueueClient.swift */,
 				7B6179EE330D059A53C9EBCB /* Info.plist */,
 				2E98C0A434C5674679B4B084 /* SafariWebExtensionHandler.swift */,
 			);
@@ -403,14 +412,12 @@
 				CC34681ECD7511287163FF81 /* scripts */,
 				DD89FA2A9984DB2966A354A8 /* AGENTS.md */,
 				C53796FDE508AC1A05090D33 /* CONTRIBUTING.md */,
-				7717B96B83670D39DAE70EAD /* FIXME.md */,
 				0977E32559C575860A91285C /* LICENSE */,
 				156F18D1AB9F17DF9231FA48 /* NOTICE */,
 				761584D346B07710EF15A175 /* README.md */,
 				1BF93212401B3C4CC3AE667D /* ROADMAP.md */,
 				8C3632B659B94D17E7C7C7FA /* SayBar.xctestplan */,
 				2D2EFDFBB30E81698FBFF7BB /* SayBarRuntimeE2E.xctestplan */,
-				C0AFA67D4642BC85F256A8BA /* TODO.md */,
 				7EF240BA9ACA2A5BA324764D /* Frameworks */,
 				BED3C5464D566A1352FD9766 /* Products */,
 			);
@@ -532,6 +539,7 @@
 			);
 			name = SayBarSafariExtension;
 			packageProductDependencies = (
+				49D912DC543BB8CF774E4DE5 /* SwiftSoup */,
 			);
 			productName = SayBarSafariExtension;
 			productReference = DFDFFCE487E4025EB5B0FB6D /* SayBarSafariExtension.appex */;
@@ -576,6 +584,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
+				421A350DC817380AEE28FD55 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BED3C5464D566A1352FD9766 /* Products */;
@@ -628,6 +637,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				376B8FA1B8152B7003939411 /* BrowserCaptureFormatter.swift in Sources */,
+				B029BDD090BD4B5B8984AAE0 /* BrowserCaptureRequest.swift in Sources */,
+				C5E6B633DD75E7B8E2BCF669 /* BrowserSpeechQueueClient.swift in Sources */,
 				5110A7F466D1BCA680D1A1EE /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -720,6 +732,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SayBarSafariExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -746,6 +759,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SayBarSafariExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1105,6 +1119,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		421A350DC817380AEE28FD55 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.13.4;
+			};
+		};
 		F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gaelic-ghost/SpeakSwiftlyServer";
@@ -1116,6 +1138,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		49D912DC543BB8CF774E4DE5 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 421A350DC817380AEE28FD55 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
 		E94BE94116B1C9BEC45DAB0B /* SpeakSwiftlyServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;

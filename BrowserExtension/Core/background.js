@@ -2,6 +2,7 @@ const messageTypes = Object.freeze({
   pageTextCaptured: "saybar.pageTextCaptured"
 });
 
+const nativeApplicationID = "application.id";
 const extensionAPI = globalThis.browser || globalThis.chrome;
 
 let lastCapture = null;
@@ -15,8 +16,25 @@ function normalizeCapture(payload) {
     title: typeof payload.title === "string" ? payload.title : "",
     url: typeof payload.url === "string" ? payload.url : "",
     text: typeof payload.text === "string" ? payload.text : "",
+    html: typeof payload.html === "string" ? payload.html : "",
+    captureMode: typeof payload.captureMode === "string" ? payload.captureMode : "page",
     capturedAt: typeof payload.capturedAt === "string" ? payload.capturedAt : new Date().toISOString()
   };
+}
+
+async function handOffCaptureToNative(capture) {
+  if (typeof extensionAPI.runtime.sendNativeMessage !== "function") {
+    return {
+      ok: true,
+      nativeHandoff: "unavailable",
+      characterCount: capture.text.length
+    };
+  }
+
+  return await extensionAPI.runtime.sendNativeMessage(nativeApplicationID, {
+    type: messageTypes.pageTextCaptured,
+    payload: capture
+  });
 }
 
 extensionAPI.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -24,19 +42,20 @@ extensionAPI.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return false;
   }
 
-  try {
-    lastCapture = normalizeCapture(message.payload);
-    sendResponse({
-      ok: true,
-      nativeHandoff: "pending",
-      characterCount: lastCapture.text.length
+  Promise.resolve()
+    .then(async () => {
+      lastCapture = normalizeCapture(message.payload);
+      return await handOffCaptureToNative(lastCapture);
+    })
+    .then((response) => {
+      sendResponse(response);
+    })
+    .catch((error) => {
+      sendResponse({
+        ok: false,
+        error: error instanceof Error ? error.message : "SayBar browser extension could not hand the page-text capture to the native extension."
+      });
     });
-  } catch (error) {
-    sendResponse({
-      ok: false,
-      error: error instanceof Error ? error.message : "SayBar browser extension could not normalize the page-text capture payload."
-    });
-  }
 
   return true;
 });

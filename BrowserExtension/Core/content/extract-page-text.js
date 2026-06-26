@@ -1,5 +1,6 @@
 (function installSayBarPageTextExtractor(globalObject) {
   const maximumCharacterCount = 50000;
+  const maximumHTMLCharacterCount = 300000;
 
   function candidateRoot() {
     return document.querySelector("article")
@@ -56,11 +57,14 @@
   globalObject.saybarExtractPageText = function saybarExtractPageText() {
     const root = candidateRoot();
     const text = root ? visibleTextFrom(root) : "";
+    const html = root && root.outerHTML ? root.outerHTML.slice(0, maximumHTMLCharacterCount) : "";
 
     return {
       title: document.title || "",
       url: location.href,
       text,
+      html,
+      captureMode: root ? root.tagName.toLowerCase() : "page",
       capturedAt: new Date().toISOString()
     };
   };

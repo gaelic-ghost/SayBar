@@ -51,7 +51,11 @@ async function capturePageText() {
     throw new Error(response && response.error ? response.error : "SayBar could not queue the captured page text.");
   }
 
-  setStatus(`Captured ${response.characterCount} characters. Native SayBar handoff is pending.`);
+  if (response.requestID) {
+    setStatus(`Queued ${response.characterCount} characters for speech.`);
+  } else {
+    setStatus(`Captured ${response.characterCount} characters. Native SayBar handoff is ${response.nativeHandoff}.`);
+  }
 }
 
 captureButton.addEventListener("click", () => {
