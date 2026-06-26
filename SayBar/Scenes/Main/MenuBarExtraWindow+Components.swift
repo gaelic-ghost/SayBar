@@ -52,6 +52,8 @@ struct QueueCountComponent: View {
                     )
                 }
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(label) queue slots")
             .accessibilityIdentifier("saybar-\(accessibilityIDPrefix)-queue-slots")
         }
         .accessibilityElement(children: .contain)
@@ -372,6 +374,7 @@ struct MenuQuickConfigSurfaceComponent: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             MenuPageHeaderComponent(title: "Quick Config", systemImage: "slider.horizontal.3")
+                .accessibilityIdentifier(MenuBarDisplaySupport.Surface.quickConfig.accessibilityIdentifier)
 
             MenuPickerComponent(
                 selectedVoiceProfileName: $selectedVoiceProfileName,
@@ -383,6 +386,6 @@ struct MenuQuickConfigSurfaceComponent: View {
             )
         }
         .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("saybar-quick-config-surface")
+        .accessibilityIdentifier(MenuBarDisplaySupport.Surface.quickConfig.accessibilityIdentifier)
     }
 }

@@ -158,7 +158,6 @@ private extension SettingsWindow {
             Label("Queues", systemImage: "list.bullet.rectangle")
         }
         .tag(SettingsTab.queues)
-        .accessibilityIdentifier("saybar-settings-queues-tab")
     }
 
     func diagnosticsTab(_ displayState: SettingsDisplayState) -> some View {

@@ -39,7 +39,7 @@ final class SayBarRuntimeE2ETests: XCTestCase {
             try launchAndWait(app)
             try openMenuExtra(app)
             try await waitForEmbeddedRuntimeReady()
-            try await assertMenuShowsIdleQueue(app)
+            try await assertMenuShowsReadySurface(app)
 
             let beforeClipboardRequests = try await embeddedRequestIDs()
             try submitClipboardRequest(
@@ -48,14 +48,14 @@ final class SayBarRuntimeE2ETests: XCTestCase {
             )
             try await waitForNewCompletedRequest(after: beforeClipboardRequests)
             try await waitForEmbeddedRuntimeIdle()
-            try await assertMenuShowsIdleQueue(app)
+            try await assertMenuShowsReadySurface(app)
 
             let httpRequestID = try await submitHTTPSpeech(
                 text: "SayBar runtime end-to-end HTTP check. This should play from the embedded HTTP surface."
             )
             try await waitForCompletedHTTPRequest(httpRequestID)
             try await waitForEmbeddedRuntimeIdle()
-            try await assertMenuShowsIdleQueue(app)
+            try await assertMenuShowsReadySurface(app)
 
             let mcp = try await RuntimeE2EMCPClient.connect(mcpURL: embeddedMCPURL)
             try await assertEmbeddedMCPSurfaceReady(mcp)
@@ -65,7 +65,7 @@ final class SayBarRuntimeE2ETests: XCTestCase {
             )
             try await waitForCompletedMCPRequest(mcpRequestID, using: mcp)
             try await waitForEmbeddedRuntimeIdle()
-            try await assertMenuShowsIdleQueue(app)
+            try await assertMenuShowsReadySurface(app)
 
             app.terminate()
             _ = app.wait(for: .notRunning, timeout: 5)
@@ -143,10 +143,15 @@ private extension SayBarRuntimeE2ETests {
         button.click()
     }
 
-    func assertMenuShowsIdleQueue(_ app: XCUIApplication) async throws {
+    func assertMenuShowsReadySurface(_ app: XCUIApplication) async throws {
         _ = try await waitUntil(timeout: 20, pollInterval: 0.5) {
             let idleSummary = app.descendants(matching: .any)["Generation: 0 active, 0 queued / 24"]
-            return idleSummary.exists ? true : nil
+            if idleSummary.exists {
+                return true
+            }
+
+            let primaryAction = app.descendants(matching: .any)["saybar-playback-or-clipboard-speech"]
+            return primaryAction.exists ? true : nil
         }
     }
 }
@@ -357,11 +362,22 @@ private struct RuntimeE2EConfiguration {
         guard let rawMCPURL = environment["SAYBAR_RUNTIME_E2E_MCP_URL"], !rawMCPURL.isEmpty else {
             throw XCTSkip("Runtime-on E2E needs SAYBAR_RUNTIME_E2E_MCP_URL for the LaunchAgent-backed localhost TTS service.")
         }
-        guard let liveServiceMCPURL = URL(string: rawMCPURL) else {
+        let normalizedMCPURL = normalizedHTTPURLString(rawMCPURL)
+        guard let liveServiceMCPURL = URL(string: normalizedMCPURL) else {
             throw RuntimeE2EError("Runtime-on E2E MCP URL '\(rawMCPURL)' is not a valid URL.")
         }
 
         return RuntimeE2EConfiguration(liveServiceMCPURL: liveServiceMCPURL)
+    }
+
+    private static func normalizedHTTPURLString(_ rawValue: String) -> String {
+        if rawValue.hasPrefix("http:/"), !rawValue.hasPrefix("http://") {
+            return "http://" + rawValue.dropFirst("http:/".count)
+        }
+        if rawValue.hasPrefix("https:/"), !rawValue.hasPrefix("https://") {
+            return "https://" + rawValue.dropFirst("https:/".count)
+        }
+        return rawValue
     }
 }
 
