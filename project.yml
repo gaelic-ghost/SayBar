@@ -22,12 +22,11 @@ fileGroups:
   - AGENTS.md
   - Config
   - CONTRIBUTING.md
-  - FIXME.md
   - LICENSE
   - NOTICE
   - README.md
   - ROADMAP.md
-  - TODO.md
+  - BrowserExtension
   - docs
   - scripts
   - SayBar.xctestplan
@@ -37,6 +36,9 @@ packages:
   SpeakSwiftlyServer:
     url: https://github.com/gaelic-ghost/SpeakSwiftlyServer
     from: 11.0.0
+  SwiftSoup:
+    url: https://github.com/scinfu/SwiftSoup.git
+    from: 2.13.4
 
 targets:
   SayBar:
@@ -45,6 +47,11 @@ targets:
     sources:
       - path: SayBar
     dependencies:
+      - target: SayBarSafariExtension
+        embed: true
+        codeSign: true
+        copy:
+          destination: plugins
       - package: SpeakSwiftlyServer
     settings:
       base:
@@ -89,6 +96,46 @@ targets:
         STRING_CATALOG_GENERATE_SYMBOLS: YES
         SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
         SWIFT_EMIT_LOC_STRINGS: YES
+        SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+
+  SayBarSafariExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: SayBarSafariExtension
+      - path: BrowserExtension/Core/manifest.json
+        buildPhase: resources
+      - path: BrowserExtension/Core/background.js
+        buildPhase: resources
+      - path: BrowserExtension/Core/content
+        type: folder
+        buildPhase: resources
+      - path: BrowserExtension/Core/popup
+        type: folder
+        buildPhase: resources
+    dependencies:
+      - sdk: SafariServices.framework
+      - package: SwiftSoup
+        product: SwiftSoup
+    settings:
+      base:
+        APPLICATION_EXTENSION_API_ONLY: YES
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        ENABLE_APP_SANDBOX: YES
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_OUTGOING_NETWORK_CONNECTIONS: YES
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: SayBarSafariExtension/Info.plist
+        LD_RUNPATH_SEARCH_PATHS:
+          - $(inherited)
+          - "@executable_path/../Frameworks"
+          - "@executable_path/../../../../Frameworks"
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.galewilliams.SayBar.SafariExtension
+        PRODUCT_NAME: SayBarSafariExtension
+        STRING_CATALOG_GENERATE_SYMBOLS: NO
+        SWIFT_EMIT_LOC_STRINGS: NO
         SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
 
   SayBarTests:

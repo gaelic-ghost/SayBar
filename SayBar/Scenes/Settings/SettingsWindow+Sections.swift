@@ -87,30 +87,42 @@ struct SettingsQueuesTabContent: View {
     let isRunningQueueAction: Bool
 
     var body: some View {
-        ScrollView {
-            if queues.isEmpty {
-                Text("No queue diagnostics are published yet.")
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                    .accessibilityIdentifier("saybar-settings-empty-queues")
-            } else {
-                HStack(alignment: .top, spacing: 16) {
-                    ForEach(queues) { queue in
-                        SettingsQueuePanel(
-                            queue: queue,
-                            clearPlaybackQueue: clearPlaybackQueue,
-                            cancelPlaybackRequest: cancelPlaybackRequest,
-                            isRunningQueueAction: isRunningQueueAction
-                        )
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Queues")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom, 4)
+                .accessibilityIdentifier("saybar-settings-queues-tab")
+
+            ScrollView {
+                if queues.isEmpty {
+                    Text("No queue diagnostics are published yet.")
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .accessibilityIdentifier("saybar-settings-empty-queues")
+                } else {
+                    HStack(alignment: .top, spacing: 16) {
+                        ForEach(queues) { queue in
+                            SettingsQueuePanel(
+                                queue: queue,
+                                clearPlaybackQueue: clearPlaybackQueue,
+                                cancelPlaybackRequest: cancelPlaybackRequest,
+                                isRunningQueueAction: isRunningQueueAction
+                            )
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                        }
                     }
+                    .padding()
                 }
-                .padding()
             }
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("saybar-settings-queues-tab-content")
         }
         .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("saybar-settings-queues-tab-content")
+        .accessibilityIdentifier("saybar-settings-queues-tab")
     }
 }
 

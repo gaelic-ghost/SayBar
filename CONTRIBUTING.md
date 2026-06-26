@@ -80,4 +80,4 @@ Surface uncertainty early when a change may widen beyond this repo, alter the di
 
 ## License and Contribution Terms
 
-Contributions are provided under the project license in `LICENSE`.
+Contributions are provided to the project under the proprietary terms in `LICENSE` unless Gale explicitly agrees to different written terms before the contribution is accepted.

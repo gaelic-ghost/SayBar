@@ -10,32 +10,50 @@
 		0CC8D31314AEADA3B11D02B9 /* SayBarAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */; };
 		2643835B53D7CF89F754CF2E /* HorizontalSwipeGestureMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5A9355726EEA9708B4A869 /* HorizontalSwipeGestureMonitor.swift */; };
 		2C65CA13958113A742AB398A /* SettingsWindow+Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */; };
+		376B8FA1B8152B7003939411 /* BrowserCaptureFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C544962F9BB1D6C7F89A20A /* BrowserCaptureFormatter.swift */; };
 		392D7A55B77BF73AF7DA2254 /* SettingsDisplayStateMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */; };
+		493B54E7FE05508F5BD9F1C8 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = CE43B9360E4C55BC357F9450 /* background.js */; };
+		5110A7F466D1BCA680D1A1EE /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E98C0A434C5674679B4B084 /* SafariWebExtensionHandler.swift */; };
 		5265EF00BB348BFAD73B8E6A /* SayBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D142FFE066724E872959B3DB /* SayBarApp.swift */; };
 		573493F20314BF6310E5569D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78B747C47E8A1A5B622BD18B /* Assets.xcassets */; };
 		613C2524994FA38F646999D8 /* SpeakSwiftlyServer in Frameworks */ = {isa = PBXBuildFile; productRef = E94BE94116B1C9BEC45DAB0B /* SpeakSwiftlyServer */; };
 		6BCFE6CDB8C7214D1C2C8CF0 /* MenuBarDisplaySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5CB6B52B784D1F074664FF /* MenuBarDisplaySupport.swift */; };
 		6C641CF4E8CB1CF15280B9D8 /* SettingsDisplayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63D5B195EC9533CC81BEB3F /* SettingsDisplayState.swift */; };
+		7230B2D4A41FC56592010181 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CC156F693DC88B53C55227 /* SafariServices.framework */; };
 		728866F6BBE4A5A21B2DAA42 /* SettingsDisplaySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147DD66E44686D207300B6AC /* SettingsDisplaySupport.swift */; };
 		7DE9DBB8C8176D66BC237DEA /* MenuBarExtraWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D861D2C217E3EB835F69BE8 /* MenuBarExtraWindow.swift */; };
 		8261255D32460D6EF3AE7AE8 /* SayBarAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE532B693453B727B9BDB04 /* SayBarAppDelegate.swift */; };
 		857BB92B3F749509E1BC1086 /* SayBarRuntimeE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973C718B4CF8E176EBFAD7A /* SayBarRuntimeE2ETests.swift */; };
 		8D29D8F333289519CB74BB43 /* SettingsDisplayState+UITestFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E086E525EE1E3A92F49AF /* SettingsDisplayState+UITestFixtures.swift */; };
+		A025113F40FA2D01ECA9D941 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = DC733CD76221FED9AFEB9F87 /* popup */; };
+		A1D951DB67F71099E1B9271F /* SayBarSafariExtension.appex in Embed Dependencies */ = {isa = PBXBuildFile; fileRef = DFDFFCE487E4025EB5B0FB6D /* SayBarSafariExtension.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B029BDD090BD4B5B8984AAE0 /* BrowserCaptureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3296A0BF70AC1E42C33968B7 /* BrowserCaptureRequest.swift */; };
 		B22F19DD838B498866E12BB8 /* MenuBarExtraWindow+Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A633A240A2EE5D2D78C9B4 /* MenuBarExtraWindow+Components.swift */; };
 		B3C8B01C1E80957266D4FD9E /* SayBarAppLifecycleSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */; };
+		B551EB34178373CBBEF9A198 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 49D912DC543BB8CF774E4DE5 /* SwiftSoup */; };
 		BD98FC6A500C7F0DCBB0EAE8 /* SayBarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */; };
+		C06C6735B4E107E70C83B1AF /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = A6AD9AB7EE7AC2812101EFA1 /* manifest.json */; };
 		C3B9F6B5A47FF2E6035E81A1 /* SayBarAppLifecycleSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868D28DF9F9A69E698033D62 /* SayBarAppLifecycleSupport.swift */; };
 		C3DE9FB92D8EC0CFAAE9F604 /* MenuBarActionSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECCFF1DD2575C344113319C /* MenuBarActionSupportTests.swift */; };
 		C41A7BF01EDBF05F3A0007F7 /* SettingsDisplayState+EmbeddedServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */; };
+		C5E6B633DD75E7B8E2BCF669 /* BrowserSpeechQueueClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2134C5A49C13CA51BC1CCF7F /* BrowserSpeechQueueClient.swift */; };
 		CECC7F8BABD73C590C046F90 /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9BE7EFCE45D399F41CE74 /* SettingsWindow.swift */; };
 		D851C7F4624D9CC3B63291A9 /* RuntimeE2ETransportSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA015810E51C5C8D76E32C30 /* RuntimeE2ETransportSupport.swift */; };
 		E85A77D29BC649874032582A /* MenuBarActionSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6200908471B65403AF0CE3B /* MenuBarActionSupport.swift */; };
 		E9FA60ED42E488E836892E7A /* SayBarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E46753ABB475A171D35521 /* SayBarUITests.swift */; };
 		F200B2DA257CC21E6D94DF5D /* MenuBarDisplaySupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC145007B22D7747DC06BA00 /* MenuBarDisplaySupportTests.swift */; };
+		F5340627E4B2B2445FAD22A8 /* content in Resources */ = {isa = PBXBuildFile; fileRef = D4112B18B4151B0C2D7C41D6 /* content */; };
 		F7DDCCA2887CFB9D786A2EF8 /* SettingsDisplaySupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED9D9A808A9853B17BD9BF3 /* SettingsDisplaySupportTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		404C8F8E1948A0AEA93D549E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CF1D10B4F24F41928B4B735B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF39957D0917A62D8460185C;
+			remoteInfo = SayBarSafariExtension;
+		};
 		90F06B501E19A3012E70F6EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CF1D10B4F24F41928B4B735B /* Project object */;
@@ -52,6 +70,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4AEE922DBEE780FF4E9FCF95 /* Embed Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A1D951DB67F71099E1B9271F /* SayBarSafariExtension.appex in Embed Dependencies */,
+			);
+			name = "Embed Dependencies";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0149B80779C8169D09B317E6 /* 40-xcode-test-plan.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "40-xcode-test-plan.sh"; sourceTree = "<group>"; };
 		0977E32559C575860A91285C /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
@@ -61,13 +93,18 @@
 		18F5CA7508A342DCB058947E /* 10-preflight.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "10-preflight.sh"; sourceTree = "<group>"; };
 		1B1CF3ACACDAFD74317CC368 /* 40-github-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "40-github-release.sh"; sourceTree = "<group>"; };
 		1BF93212401B3C4CC3AE667D /* ROADMAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ROADMAP.md; sourceTree = "<group>"; };
+		1C544962F9BB1D6C7F89A20A /* BrowserCaptureFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserCaptureFormatter.swift; sourceTree = "<group>"; };
 		1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplayStateMappingTests.swift; sourceTree = "<group>"; };
 		1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+EmbeddedServer.swift"; sourceTree = "<group>"; };
 		1E85CBAB58316ED2A8E77321 /* validation.env */ = {isa = PBXFileReference; path = validation.env; sourceTree = "<group>"; };
+		2134C5A49C13CA51BC1CCF7F /* BrowserSpeechQueueClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSpeechQueueClient.swift; sourceTree = "<group>"; };
 		23FC3AF954582D8798C4999B /* validate-all.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "validate-all.sh"; sourceTree = "<group>"; };
 		29FB79CBDF99F6A0829F25B3 /* SayBar.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SayBar.xcconfig; sourceTree = "<group>"; };
 		2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2D2EFDFBB30E81698FBFF7BB /* SayBarRuntimeE2E.xctestplan */ = {isa = PBXFileReference; path = SayBarRuntimeE2E.xctestplan; sourceTree = "<group>"; };
+		2E98C0A434C5674679B4B084 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		31CFA5680C755DB169A5652B /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = popup.css; sourceTree = "<group>"; };
+		3296A0BF70AC1E42C33968B7 /* BrowserCaptureRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserCaptureRequest.swift; sourceTree = "<group>"; };
 		4906274983CD9FF0B7CC4EBF /* 30-ci-wrapper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "30-ci-wrapper.sh"; sourceTree = "<group>"; };
 		4B53AFCBBCE5F851DE6D2686 /* pre-commit.sample */ = {isa = PBXFileReference; path = "pre-commit.sample"; sourceTree = "<group>"; };
 		4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsWindow+Sections.swift"; sourceTree = "<group>"; };
@@ -77,9 +114,9 @@
 		6F9C0D09719FFB67D136E9DD /* release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = release.sh; sourceTree = "<group>"; };
 		72EA0FEC159718BABB7BDA99 /* profile.env */ = {isa = PBXFileReference; path = profile.env; sourceTree = "<group>"; };
 		761584D346B07710EF15A175 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		7717B96B83670D39DAE70EAD /* FIXME.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXME.md; sourceTree = "<group>"; };
 		78B747C47E8A1A5B622BD18B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A5E086E525EE1E3A92F49AF /* SettingsDisplayState+UITestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+UITestFixtures.swift"; sourceTree = "<group>"; };
+		7B6179EE330D059A53C9EBCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		81602F7B73C9AC44D8CECC18 /* SayBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		868D28DF9F9A69E698033D62 /* SayBarAppLifecycleSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppLifecycleSupport.swift; sourceTree = "<group>"; };
 		8C3632B659B94D17E7C7C7FA /* SayBar.xctestplan */ = {isa = PBXFileReference; path = SayBar.xctestplan; sourceTree = "<group>"; };
@@ -91,27 +128,36 @@
 		971419B7E5ABEC11782AAB30 /* 30-push-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "30-push-release.sh"; sourceTree = "<group>"; };
 		9ECCFF1DD2575C344113319C /* MenuBarActionSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarActionSupportTests.swift; sourceTree = "<group>"; };
 		A64BF97C0CE4D2BD276B3CCC /* 20-tag-release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "20-tag-release.sh"; sourceTree = "<group>"; };
+		A6AD9AB7EE7AC2812101EFA1 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 		ADB076388A85B9316DFA0A19 /* 50-xcodegen-generated-project.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "50-xcodegen-generated-project.sh"; sourceTree = "<group>"; };
 		AFB6469DDD9632DAC8858A43 /* 10-toolkit-layout.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "10-toolkit-layout.sh"; sourceTree = "<group>"; };
 		B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppEnvironmentTests.swift; sourceTree = "<group>"; };
+		B4ABC0FB9B2674B5EBB46EB7 /* extract-page-text.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "extract-page-text.js"; sourceTree = "<group>"; };
 		B95475D246FB3A1647E684CB /* test-coverage-expansion-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "test-coverage-expansion-plan.md"; sourceTree = "<group>"; };
 		B973C718B4CF8E176EBFAD7A /* SayBarRuntimeE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarRuntimeE2ETests.swift; sourceTree = "<group>"; };
 		B99033085B0831E19ABEEC7C /* sync-shared.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "sync-shared.sh"; sourceTree = "<group>"; };
 		BBD4947A8A74563B7C25FA0B /* release.env */ = {isa = PBXFileReference; path = release.env; sourceTree = "<group>"; };
 		BED9D9A808A9853B17BD9BF3 /* SettingsDisplaySupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplaySupportTests.swift; sourceTree = "<group>"; };
-		C0AFA67D4642BC85F256A8BA /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		C53796FDE508AC1A05090D33 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C5995A0F7E65A08A862A4460 /* adr-0001-keep-direct-embeddedserver-baseline.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "adr-0001-keep-direct-embeddedserver-baseline.md"; sourceTree = "<group>"; };
+		C9CC156F693DC88B53C55227 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		CE43B9360E4C55BC357F9450 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
 		CE5CB6B52B784D1F074664FF /* MenuBarDisplaySupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDisplaySupport.swift; sourceTree = "<group>"; };
 		CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppLifecycleSupportTests.swift; sourceTree = "<group>"; };
 		CF2AD5D1F53EE6B5D8BCED23 /* SayBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SayBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D142FFE066724E872959B3DB /* SayBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarApp.swift; sourceTree = "<group>"; };
 		D37BD44E07428E8AA1CD396D /* SayBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D38BC9A381C31BBBC736A6EC /* accessibility-and-ui-automation-notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "accessibility-and-ui-automation-notes.md"; sourceTree = "<group>"; };
+		D4112B18B4151B0C2D7C41D6 /* content */ = {isa = PBXFileReference; lastKnownFileType = folder; name = content; path = BrowserExtension/Core/content; sourceTree = SOURCE_ROOT; };
 		DA015810E51C5C8D76E32C30 /* RuntimeE2ETransportSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeE2ETransportSupport.swift; sourceTree = "<group>"; };
 		DC145007B22D7747DC06BA00 /* MenuBarDisplaySupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDisplaySupportTests.swift; sourceTree = "<group>"; };
+		DC733CD76221FED9AFEB9F87 /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = BrowserExtension/Core/popup; sourceTree = SOURCE_ROOT; };
 		DD89FA2A9984DB2966A354A8 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
+		DDCCB747C2D06D4590E209CA /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
+		DFDFFCE487E4025EB5B0FB6D /* SayBarSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SayBarSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5372A2EA5EF428440228DF1 /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
 		E6200908471B65403AF0CE3B /* MenuBarActionSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarActionSupport.swift; sourceTree = "<group>"; };
+		F104D9E89968D5087F47F9F3 /* browser-extension-integration-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "browser-extension-integration-plan.md"; sourceTree = "<group>"; };
 		F130AC199FECE7DF376713C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F63D5B195EC9533CC81BEB3F /* SettingsDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplayState.swift; sourceTree = "<group>"; };
 		FB8C7B872CAFA29FA0BD5F71 /* embedded-server-ui-architecture.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "embedded-server-ui-architecture.md"; sourceTree = "<group>"; };
@@ -121,6 +167,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0DE26B1E83DD38FE64C9FBBD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7230B2D4A41FC56592010181 /* SafariServices.framework in Frameworks */,
+				B551EB34178373CBBEF9A198 /* SwiftSoup in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E0080EAC75AE3DF2A41953AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,6 +205,7 @@
 			children = (
 				D38BC9A381C31BBBC736A6EC /* accessibility-and-ui-automation-notes.md */,
 				C5995A0F7E65A08A862A4460 /* adr-0001-keep-direct-embeddedserver-baseline.md */,
+				F104D9E89968D5087F47F9F3 /* browser-extension-integration-plan.md */,
 				FB8C7B872CAFA29FA0BD5F71 /* embedded-server-ui-architecture.md */,
 				FD9365D4757FBF8BBFB9B2FF /* embedded-session-api-coverage.md */,
 				F130AC199FECE7DF376713C7 /* README.md */,
@@ -209,6 +265,14 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		45EA090E3B1AAAB8B991D10A /* BrowserExtension */ = {
+			isa = PBXGroup;
+			children = (
+				7526148FA48F1B4A3B7C3AF2 /* Core */,
+			);
+			path = BrowserExtension;
+			sourceTree = "<group>";
+		};
 		50A5D88C26B2E6705CBA56F1 /* syncing */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,6 +289,18 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		5EE94DB182666AE63C367CD1 /* SayBarSafariExtension */ = {
+			isa = PBXGroup;
+			children = (
+				1C544962F9BB1D6C7F89A20A /* BrowserCaptureFormatter.swift */,
+				3296A0BF70AC1E42C33968B7 /* BrowserCaptureRequest.swift */,
+				2134C5A49C13CA51BC1CCF7F /* BrowserSpeechQueueClient.swift */,
+				7B6179EE330D059A53C9EBCB /* Info.plist */,
+				2E98C0A434C5674679B4B084 /* SafariWebExtensionHandler.swift */,
+			);
+			path = SayBarSafariExtension;
+			sourceTree = "<group>";
+		};
 		61E69BA37506BE434D9AAB91 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +308,19 @@
 				09192E3F12AC58B40AAB26F7 /* Settings */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		7526148FA48F1B4A3B7C3AF2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				845AC3A57DED136197A42D9A /* content */,
+				D21AFAA00ECF8E01505C1041 /* popup */,
+				CE43B9360E4C55BC357F9450 /* background.js */,
+				D4112B18B4151B0C2D7C41D6 /* content */,
+				A6AD9AB7EE7AC2812101EFA1 /* manifest.json */,
+				DC733CD76221FED9AFEB9F87 /* popup */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		7CFB87B06D3F2C443D2AC968 /* validations */ = {
@@ -244,6 +333,22 @@
 				ADB076388A85B9316DFA0A19 /* 50-xcodegen-generated-project.sh */,
 			);
 			path = validations;
+			sourceTree = "<group>";
+		};
+		7EF240BA9ACA2A5BA324764D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9CC156F693DC88B53C55227 /* SafariServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		845AC3A57DED136197A42D9A /* content */ = {
+			isa = PBXGroup;
+			children = (
+				B4ABC0FB9B2674B5EBB46EB7 /* extract-page-text.js */,
+			);
+			path = content;
 			sourceTree = "<group>";
 		};
 		8664912978740516763AA366 /* config */ = {
@@ -287,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				CF2AD5D1F53EE6B5D8BCED23 /* SayBar.app */,
+				DFDFFCE487E4025EB5B0FB6D /* SayBarSafariExtension.appex */,
 				D37BD44E07428E8AA1CD396D /* SayBarTests.xctest */,
 				81602F7B73C9AC44D8CECC18 /* SayBarUITests.xctest */,
 			);
@@ -296,22 +402,23 @@
 		C5C228C92CB11DFF9DB86BDA = {
 			isa = PBXGroup;
 			children = (
+				45EA090E3B1AAAB8B991D10A /* BrowserExtension */,
 				5AA39F232FD076B840340A03 /* Config */,
 				3D9092A5058B063D448E6C1B /* docs */,
 				CADDE8C34E38B0FBC48FB022 /* SayBar */,
+				5EE94DB182666AE63C367CD1 /* SayBarSafariExtension */,
 				21C88787E4018222D1A8C9D2 /* SayBarTests */,
 				8664CC20B3064A274F04DE3B /* SayBarUITests */,
 				CC34681ECD7511287163FF81 /* scripts */,
 				DD89FA2A9984DB2966A354A8 /* AGENTS.md */,
 				C53796FDE508AC1A05090D33 /* CONTRIBUTING.md */,
-				7717B96B83670D39DAE70EAD /* FIXME.md */,
 				0977E32559C575860A91285C /* LICENSE */,
 				156F18D1AB9F17DF9231FA48 /* NOTICE */,
 				761584D346B07710EF15A175 /* README.md */,
 				1BF93212401B3C4CC3AE667D /* ROADMAP.md */,
 				8C3632B659B94D17E7C7C7FA /* SayBar.xctestplan */,
 				2D2EFDFBB30E81698FBFF7BB /* SayBarRuntimeE2E.xctestplan */,
-				C0AFA67D4642BC85F256A8BA /* TODO.md */,
+				7EF240BA9ACA2A5BA324764D /* Frameworks */,
 				BED3C5464D566A1352FD9766 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -336,6 +443,16 @@
 			path = scripts;
 			sourceTree = "<group>";
 		};
+		D21AFAA00ECF8E01505C1041 /* popup */ = {
+			isa = PBXGroup;
+			children = (
+				31CFA5680C755DB169A5652B /* popup.css */,
+				DDCCB747C2D06D4590E209CA /* popup.html */,
+				E5372A2EA5EF428440228DF1 /* popup.js */,
+			);
+			path = popup;
+			sourceTree = "<group>";
+		};
 		F8B5674E73887316842D0347 /* release */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,10 +474,12 @@
 				7CDC1A32C3BF42E547A6187C /* Sources */,
 				154330DA17C8B4BC71B0F80C /* Resources */,
 				E0080EAC75AE3DF2A41953AA /* Frameworks */,
+				4AEE922DBEE780FF4E9FCF95 /* Embed Dependencies */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				428378D25AA0B78744B17F47 /* PBXTargetDependency */,
 			);
 			name = SayBar;
 			packageProductDependencies = (
@@ -406,6 +525,26 @@
 			productReference = D37BD44E07428E8AA1CD396D /* SayBarTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		EF39957D0917A62D8460185C /* SayBarSafariExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CCBB92C914AB21327F41FDC /* Build configuration list for PBXNativeTarget "SayBarSafariExtension" */;
+			buildPhases = (
+				4207BEB8C2259A0C191480B1 /* Sources */,
+				102928E2EF85A3E9435672E1 /* Resources */,
+				0DE26B1E83DD38FE64C9FBBD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SayBarSafariExtension;
+			packageProductDependencies = (
+				49D912DC543BB8CF774E4DE5 /* SwiftSoup */,
+			);
+			productName = SayBarSafariExtension;
+			productReference = DFDFFCE487E4025EB5B0FB6D /* SayBarSafariExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -428,6 +567,10 @@
 						DevelopmentTeam = BC73766F69;
 						ProvisioningStyle = Automatic;
 					};
+					EF39957D0917A62D8460185C = {
+						DevelopmentTeam = BC73766F69;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = C9D5607C96187DFBC54751C9 /* Build configuration list for PBXProject "SayBar" */;
@@ -441,6 +584,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */,
+				421A350DC817380AEE28FD55 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BED3C5464D566A1352FD9766 /* Products */;
@@ -448,6 +592,7 @@
 			projectRoot = "";
 			targets = (
 				0FBFC31AC6D9B63C769BD8B5 /* SayBar */,
+				EF39957D0917A62D8460185C /* SayBarSafariExtension */,
 				DB37B3A502689E74F057D09D /* SayBarTests */,
 				A154A146C1006A6D4316030C /* SayBarUITests */,
 			);
@@ -455,6 +600,17 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		102928E2EF85A3E9435672E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				493B54E7FE05508F5BD9F1C8 /* background.js in Resources */,
+				F5340627E4B2B2445FAD22A8 /* content in Resources */,
+				C06C6735B4E107E70C83B1AF /* manifest.json in Resources */,
+				A025113F40FA2D01ECA9D941 /* popup in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		154330DA17C8B4BC71B0F80C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -474,6 +630,17 @@
 				857BB92B3F749509E1BC1086 /* SayBarRuntimeE2ETests.swift in Sources */,
 				E9FA60ED42E488E836892E7A /* SayBarUITests.swift in Sources */,
 				BD98FC6A500C7F0DCBB0EAE8 /* SayBarUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4207BEB8C2259A0C191480B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				376B8FA1B8152B7003939411 /* BrowserCaptureFormatter.swift in Sources */,
+				B029BDD090BD4B5B8984AAE0 /* BrowserCaptureRequest.swift in Sources */,
+				C5E6B633DD75E7B8E2BCF669 /* BrowserSpeechQueueClient.swift in Sources */,
+				5110A7F466D1BCA680D1A1EE /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +686,11 @@
 			target = 0FBFC31AC6D9B63C769BD8B5 /* SayBar */;
 			targetProxy = B7592AEA8CEA103DDEF1C68A /* PBXContainerItemProxy */;
 		};
+		428378D25AA0B78744B17F47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF39957D0917A62D8460185C /* SayBarSafariExtension */;
+			targetProxy = 404C8F8E1948A0AEA93D549E /* PBXContainerItemProxy */;
+		};
 		ED74DB1EDAE68DEA043A1DEB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0FBFC31AC6D9B63C769BD8B5 /* SayBar */;
@@ -548,6 +720,60 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SayBar.app/Contents/MacOS/SayBar";
+			};
+			name = Release;
+		};
+		543384CA6019C16B52087C5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SayBarSafariExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar.SafariExtension;
+				PRODUCT_NAME = SayBarSafariExtension;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+			};
+			name = Debug;
+		};
+		5BF90CD3AB3709E80227F332 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SayBarSafariExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galewilliams.SayBar.SafariExtension;
+				PRODUCT_NAME = SayBarSafariExtension;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 			};
 			name = Release;
 		};
@@ -854,6 +1080,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		4CCBB92C914AB21327F41FDC /* Build configuration list for PBXNativeTarget "SayBarSafariExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				543384CA6019C16B52087C5B /* Debug */,
+				5BF90CD3AB3709E80227F332 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		6502FBFFE903214C4B42F46C /* Build configuration list for PBXNativeTarget "SayBarTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -884,6 +1119,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		421A350DC817380AEE28FD55 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.13.4;
+			};
+		};
 		F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gaelic-ghost/SpeakSwiftlyServer";
@@ -895,6 +1138,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		49D912DC543BB8CF774E4DE5 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 421A350DC817380AEE28FD55 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
 		E94BE94116B1C9BEC45DAB0B /* SpeakSwiftlyServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F81CC2CE05FC62ED38B947E8 /* XCRemoteSwiftPackageReference "SpeakSwiftlyServer" */;

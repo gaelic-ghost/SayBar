@@ -1,32 +1,56 @@
 # ROADMAP
 
+## Table of Contents
+
+- [Vision](#vision)
+- [Product Principles](#product-principles)
+- [Milestone Progress](#milestone-progress)
+- [Milestone 1: App Shell Foundation And Service-Hosting Boundaries](#milestone-1-app-shell-foundation-and-service-hosting-boundaries)
+- [Milestone 2: Status-Driven Menu Bar Experience](#milestone-2-status-driven-menu-bar-experience)
+- [Milestone 3: Settings, Diagnostics, And Operator Workflow](#milestone-3-settings-diagnostics-and-operator-workflow)
+- [Milestone 4: Release And Monorepo Integration Discipline](#milestone-4-release-and-monorepo-integration-discipline)
+- [Milestone 5: Foundation And Embedded-Session Test Coverage](#milestone-5-foundation-and-embedded-session-test-coverage)
+- [Milestone 6: Project Generation And Build Settings Hygiene](#milestone-6-project-generation-and-build-settings-hygiene)
+- [Milestone 7: Browser Page Capture](#milestone-7-browser-page-capture)
+- [Milestone 8: System Speech Entry Points](#milestone-8-system-speech-entry-points)
+- [Small Tickets](#small-tickets)
+- [Backlog Candidates](#backlog-candidates)
+- [History](#history)
+
 ## Vision
 
-- Build SayBar into a reliable macOS menu bar control surface for speech service lifecycle, status, diagnostics, and settings without re-implementing server responsibilities inside the app repo.
+- Build SayBar into a reliable macOS menu bar control surface for speech service lifecycle, status, diagnostics, browser capture, and settings without re-implementing server responsibilities inside the app repo.
 
-## Product principles
+## Product Principles
 
 - [ ] Keep the app lightweight, always-available, and easy to understand at a glance.
 - [ ] Keep service ownership boundaries honest between SayBar and its sibling service repositories.
 - [ ] Prefer clear status and operator diagnostics over decorative interface work.
 - [ ] Preserve release discipline between the standalone app repo and any future monorepo submodule adoption.
+- [ ] Keep browser capture explicit, user-initiated, and privacy-aware.
 
 ## Milestone Progress
 
-- [x] M1. App shell foundation and service-hosting boundaries
-- [x] M2. Status-driven menu bar experience
-- [ ] M3. Settings, diagnostics, and operator workflow
-- [ ] M4. Release and monorepo integration discipline
-- [ ] M5. Foundation and embedded-session test coverage
-- [x] M6. Project generation and build settings hygiene
+- Milestone 1: App Shell Foundation And Service-Hosting Boundaries - Completed
+- Milestone 2: Status-Driven Menu Bar Experience - Completed
+- Milestone 3: Settings, Diagnostics, And Operator Workflow - In Progress
+- Milestone 4: Release And Monorepo Integration Discipline - Planned
+- Milestone 5: Foundation And Embedded-Session Test Coverage - In Progress
+- Milestone 6: Project Generation And Build Settings Hygiene - Completed
+- Milestone 7: Browser Page Capture - In Progress
+- Milestone 8: System Speech Entry Points - Planned
 
-## M1. App shell foundation and service-hosting boundaries
+## Milestone 1: App Shell Foundation And Service-Hosting Boundaries
+
+### Status
+
+Completed
 
 ### Scope
 
-- Stabilize the standalone macOS app shell.
-- Replace scaffold UI with real app-owned state and service hooks.
-- Document the app's development and integration boundaries clearly.
+- [x] Stabilize the standalone macOS app shell.
+- [x] Replace scaffold UI with real app-owned state and service hooks.
+- [x] Document the app's development and integration boundaries clearly.
 
 ### Tickets
 
@@ -36,17 +60,21 @@
 - [x] Replace scaffold text in the menu bar and settings views with app-owned UI structure.
 - [x] Introduce the first real service supervision path from the app shell into sibling services.
 
-### Exit criteria
+### Exit Criteria
 
 - [x] The app surfaces real status instead of scaffold text.
 - [x] The first hosted-service integration path is documented and implemented without duplicate service logic in the app repo.
 - [x] The standalone repo docs accurately describe the app's role and current state.
 
-## M2. Status-driven menu bar experience
+## Milestone 2: Status-Driven Menu Bar Experience
+
+### Status
+
+Completed
 
 ### Scope
 
-- Build the quick-action and status surface that Gale can rely on from the menu bar.
+- [x] Build the quick-action and status surface that Gale can rely on from the menu bar.
 
 ### Tickets
 
@@ -55,17 +83,21 @@
 - [x] Add quick actions for the most common operator workflows.
 - [x] Add human-friendly error and warning strings for failed or degraded states.
 
-### Exit criteria
+### Exit Criteria
 
 - [x] Gale can tell the current service state with minimal interaction.
 - [x] The menu bar surface supports the core day-to-day control flow without opening Settings.
 
-## M3. Settings, diagnostics, and operator workflow
+## Milestone 3: Settings, Diagnostics, And Operator Workflow
+
+### Status
+
+In Progress
 
 ### Scope
 
-- Move deeper configuration and diagnostics into the Settings experience.
-- Keep the embedded runtime operator surface grounded while hardening the accepted direct-`EmbeddedServer` product model.
+- [ ] Move deeper configuration and diagnostics into the Settings experience.
+- [ ] Keep the embedded runtime operator surface grounded while hardening the accepted direct-`EmbeddedServer` product model.
 
 ### Tickets
 
@@ -78,7 +110,7 @@
 - [x] Choose and document the long-term direct-embedding product baseline for App Store-compatible delivery.
 - [ ] Verify launch, relaunch, and quit behavior for background work.
 
-### Exit criteria
+### Exit Criteria
 
 - [x] Settings owns deeper configuration and diagnostics cleanly.
 - [x] Operator-facing failures are specific, readable, and actionable.
@@ -86,18 +118,15 @@
 - [x] The app's product-baseline process-ownership model is explicit.
 - [ ] App lifecycle behavior is explicit across launch and shutdown.
 
-### Notes
+## Milestone 4: Release And Monorepo Integration Discipline
 
-- The accepted architecture decision is recorded in [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md).
-- Launch, terminate, and relaunch behavior is now explicit in app code and covered by launch-only UI tests with embedded autostart disabled. A fuller runtime-on verification pass remains open work.
-- The next coverage sequence is recorded in [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md).
-- Future attached-session or bundled-helper exploration remains a separate product decision, not an implied follow-up to the current roadmap.
+### Status
 
-## M4. Release and monorepo integration discipline
+Planned
 
 ### Scope
 
-- Keep standalone releases and future `speak-to-user` integration predictable.
+- [ ] Keep standalone releases and future `speak-to-user` integration predictable.
 
 ### Tickets
 
@@ -106,16 +135,20 @@
 - [ ] Land monorepo pointer bumps and umbrella-doc updates through pull requests.
 - [ ] Keep umbrella docs explicit about whether SayBar is still sibling-hosted or vendored as a submodule.
 
-### Exit criteria
+### Exit Criteria
 
 - [ ] Standalone app releases remain the source of truth.
 - [ ] Monorepo integration work follows an isolated worktree and PR-based flow.
 
-## M5. Foundation and embedded-session test coverage
+## Milestone 5: Foundation And Embedded-Session Test Coverage
+
+### Status
+
+In Progress
 
 ### Scope
 
-- Expand test coverage in the order that keeps SayBar easiest to reason about: foundation tests first, implemented embedded-session behavior next, UI implementation streamlining before deeper Settings and UI automation coverage.
+- [ ] Expand test coverage in the order that keeps SayBar easiest to reason about: foundation tests first, implemented embedded-session behavior next, UI implementation streamlining before deeper Settings and UI automation coverage.
 
 ### Tickets
 
@@ -127,18 +160,22 @@
 - [ ] Verify menu surface navigation with hands-on two-finger backward and forward swipe gestures over the menu bar window.
 - [ ] Add Settings and menu bar UI coverage after the view implementations are simpler and more testable.
 
-### Exit criteria
+### Exit Criteria
 
 - [ ] `xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar` reports the checked-in `SayBar` test plan.
 - [ ] `xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar` is the documented baseline test command.
 - [x] Implemented embedded-session behavior has focused coverage without adding a second app-owned runtime model.
 - [ ] UI coverage starts from a streamlined, stable menu and Settings implementation.
 
-## M6. Project generation and build settings hygiene
+## Milestone 6: Project Generation And Build Settings Hygiene
+
+### Status
+
+Completed
 
 ### Scope
 
-- Move project shape and shared build settings toward plain-text sources of truth without disrupting the current Xcode app workflow.
+- [x] Move project shape and shared build settings toward plain-text sources of truth without disrupting the current Xcode app workflow.
 
 ### Tickets
 
@@ -148,9 +185,78 @@
 - [x] Regenerate `SayBar.xcodeproj` from XcodeGen and review the generated diff against the current project contract.
 - [x] Add repo-maintenance validation that detects generated-project drift.
 
-### Exit criteria
+### Exit Criteria
 
 - [x] Project shape is reviewable in `project.yml`.
 - [x] Shared build settings are reviewable in checked-in xcconfig files.
 - [x] The generated Xcode project builds and unit-style tests pass through the documented `SayBar` scheme.
 - [x] Repo-maintenance validation catches stale generated project output.
+
+## Milestone 7: Browser Page Capture
+
+### Status
+
+In Progress
+
+### Scope
+
+- [ ] Add user-initiated browser page capture that turns readable page structure into speech input and queues it through SayBar without adding a second runtime owner.
+
+### Tickets
+
+- [x] Add a shared WebExtension core and Safari Web Extension wrapper target.
+- [x] Add SwiftSoup as an explicit SayBar dependency for native browser-capture formatting.
+- [x] Convert captured browser HTML into Markdown-oriented speech text before queueing.
+- [x] Send Safari WebExtension native messages through the Safari extension handler.
+- [x] Queue formatted browser capture text through SayBar's embedded runtime transport with lean request context.
+- [ ] Add Chrome, Firefox, and Zen packaging adapters after the shared capture contract is stable.
+
+### Exit Criteria
+
+- [ ] Safari can capture the active page text by explicit user action and queue it for live speech.
+- [ ] Browser capture request context uses only relevant source, topic, and browser-origin attributes.
+- [ ] Page text and URLs are not logged as full request bodies.
+- [ ] Cross-browser adapter decisions are documented without adding browser-specific duplicate capture logic.
+
+## Milestone 8: System Speech Entry Points
+
+### Status
+
+Planned
+
+### Scope
+
+- [ ] Add first-party macOS entry points for sending selected or provided text into SayBar without forcing every workflow through the menu bar or browser extension.
+
+### Tickets
+
+- [ ] Implement a macOS system Service for speaking selected text from Services-aware apps.
+- [ ] Implement App Intents for Shortcuts, Spotlight, and system automation entry points that should queue speech through the same app-owned request path.
+- [ ] Implement a custom URL scheme for explicit local handoff links that can queue speech or open the relevant SayBar surface without adding a second runtime owner.
+- [ ] Route all new system entry points through the same speech-request normalization and lean request-context rules used by clipboard and browser capture.
+- [ ] Add focused tests for request context, validation, empty-input handling, and user-visible failure wording for each entry point.
+
+### Exit Criteria
+
+- [ ] Services, App Intents, and URL scheme handoffs can queue speech through SayBar's existing embedded runtime path.
+- [ ] Each entry point has clear request context that identifies its originating surface without irrelevant metadata.
+- [ ] Empty, malformed, or unsupported requests fail with human-readable app-facing errors.
+- [ ] New entry points do not introduce compatibility shims, duplicate runtime owners, or browser-adapter-specific code paths.
+
+## Small Tickets
+
+- [ ] Add a non-audible embedded lifecycle verification pass for launch and graceful `land()` shutdown if `SpeakSwiftlyServer` exposes a stable lightweight test runtime mode. Source: `TODO.md`.
+- [ ] Keep the `.menuBarExtraStyle(.window)` UI-test boundary under review and keep deeper menu-surface traversal on deterministic launch state until gesture automation is reliable enough for routine validation. Source: `FIXME.md`.
+
+## Backlog Candidates
+
+- [ ] Revisit whether SayBar should adopt `SpeakSwiftlyServer` standalone-install and retained-log helper APIs when the product intentionally grows an app-managed standalone-server mode. Source: `TODO.md`.
+- [ ] Consider App Groups for browser-extension/app handoff later if native messaging plus the embedded runtime transport stops fitting the product boundary.
+
+## History
+
+- 2026-06-26: Migrated the legacy roadmap, TODO, and FIXME surfaces into the canonical checklist roadmap structure.
+- 2026-06-26: Added browser page capture as an in-progress milestone for the Safari Web Extension branch.
+- 2026-06-26: Added Safari native-message queueing with SwiftSoup-backed Markdown formatting and lean browser-origin request context.
+- 2026-06-26: Added planned system speech entry points for macOS Services, App Intents, and a custom URL scheme.
+- Earlier roadmap history lives in the Git history before the canonical roadmap migration.

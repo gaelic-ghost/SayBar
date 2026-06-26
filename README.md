@@ -69,39 +69,16 @@ Current lifecycle behavior is explicit in code now:
 
 Use Xcode-aware workflows for app changes and keep the standalone `SayBar` repository as the source of truth for app development. For monorepo work in `../speak-to-user`, treat that checkout as a clean protected base and do SayBar-related feature work in a separate worktree rather than directly in the base checkout.
 
-### Setup
+Detailed setup, validation, review, and contribution expectations live in [CONTRIBUTING.md](CONTRIBUTING.md). Architecture, test planning, accessibility notes, browser-extension planning, and XcodeGen ownership live in the [maintainer docs index](docs/maintainers/README.md).
 
-1. Open [SayBar.xcodeproj](SayBar.xcodeproj) in Xcode.
-2. Select the `SayBar` scheme.
-3. Let Xcode resolve Swift package dependencies the first time you open the project.
-4. Run the app on macOS from Xcode.
-
-When project shape, target membership, package dependencies, or shared build settings change, edit [project.yml](project.yml) or [Config/SayBar.xcconfig](Config/SayBar.xcconfig), then regenerate before opening Xcode:
-
-```sh
-xcodegen generate --spec project.yml
-```
-
-The current project includes these Xcode targets:
+The current Xcode target surface is:
 
 - `SayBar`
+- `SayBarSafariExtension`
 - `SayBarTests`
 - `SayBarUITests`
 
-The current package dependency surface in this repo is centered on `SpeakSwiftlyServer`.
-
-### Workflow
-
-The maintainer docs are split intentionally:
-
-- [docs/maintainers/README.md](docs/maintainers/README.md) is the maintainer-doc index and recommended reading order.
-- [docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md](docs/maintainers/adr-0001-keep-direct-embeddedserver-baseline.md) records the accepted direct-`EmbeddedServer` product baseline.
-- [docs/maintainers/embedded-server-ui-architecture.md](docs/maintainers/embedded-server-ui-architecture.md) records the current app architecture around one app-owned `EmbeddedServer`.
-- [docs/maintainers/embedded-session-api-coverage.md](docs/maintainers/embedded-session-api-coverage.md) records the complete embedded session API coverage matrix.
-- [docs/maintainers/test-coverage-expansion-plan.md](docs/maintainers/test-coverage-expansion-plan.md) records the staged test coverage plan.
-- [docs/maintainers/runtime-on-e2e-test-plan.md](docs/maintainers/runtime-on-e2e-test-plan.md) records the opt-in runtime-on audible E2E lane.
-- [docs/maintainers/accessibility-and-ui-automation-notes.md](docs/maintainers/accessibility-and-ui-automation-notes.md) captures the current accessibility and UI-automation state for the menu bar app.
-- [docs/maintainers/xcodegen-migration-plan.md](docs/maintainers/xcodegen-migration-plan.md) records the XcodeGen-owned project shape and xcconfig-owned shared build settings contract.
+The current package dependency surface in this repo is centered on `SpeakSwiftlyServer`, with `SwiftSoup` used directly by the Safari extension target for browser-capture HTML formatting.
 
 Primary project configuration:
 
@@ -111,6 +88,7 @@ Primary project configuration:
 - App deployment target: macOS `15.6`
 - Test targets: `SayBarTests`, `SayBarUITests`
 - Embedded server package: [`SpeakSwiftlyServer`](https://github.com/gaelic-ghost/SpeakSwiftlyServer) `11.0.0`
+- Browser capture formatter package: [`SwiftSoup`](https://github.com/scinfu/SwiftSoup) `2.13.4`
 - Resolved speech runtime package: [`SpeakSwiftly`](https://github.com/gaelic-ghost/SpeakSwiftly) `11.0.0`
 - Resolved text normalization package: [`TextForSpeech`](https://github.com/gaelic-ghost/TextForSpeech) `0.23.0`
 
@@ -118,40 +96,13 @@ The project also exposes package-managed schemes for the server package, but app
 
 Project generation is XcodeGen-backed. Treat [project.yml](project.yml) as the source of truth for targets, schemes, package dependencies, and file membership. Treat [Config/SayBar.xcconfig](Config/SayBar.xcconfig) as the source of truth for shared build settings. `SayBar.xcodeproj` remains checked in as generated output so Xcode opens normally, and generated `.pbxproj` diffs must still be reviewed as critical project state.
 
-### Validation
-
-For app work, prefer a scheme-based Xcode validation pass:
-
-```sh
-xcodebuild -list -project SayBar.xcodeproj
-xcodebuild -showTestPlans -project SayBar.xcodeproj -scheme SayBar
-xcodegen generate --spec project.yml
-xcodebuild -project SayBar.xcodeproj -scheme SayBar build
-xcodebuild -project SayBar.xcodeproj -scheme SayBar test -testPlan SayBar
-```
-
-Keep heavy build and test commands serialized on this machine. Do not run concurrent Xcode or SwiftPM validation flows.
-
-The runtime-on audible E2E lane is intentionally separate from normal validation. It starts SayBar with the embedded runtime on, unloads resident models from the LaunchAgent-backed localhost service, plays one short request through each checked surface, and reloads the LaunchAgent service models at the end:
-
-```sh
-SAYBAR_RUNTIME_E2E=1 \
-SAYBAR_RUNTIME_E2E_ALLOW_AUDIO=1 \
-SAYBAR_RUNTIME_E2E_MCP_URL=http://127.0.0.1:7337/mcp \
-xcodebuild -project SayBar.xcodeproj -scheme SayBar -testPlan SayBarRuntimeE2E test
-```
-
-Use the repo-maintenance entrypoint for guidance, toolkit, and release-surface checks:
-
-```sh
-scripts/repo-maintenance/validate-all.sh
-```
-
 ## Repo Structure
 
 ```text
 .
+├── BrowserExtension/     # Shared WebExtension resources for browser page-text capture
 ├── SayBar/               # App source and assets
+├── SayBarSafariExtension/# Safari Web Extension wrapper target
 ├── SayBarTests/          # Unit-style app tests
 ├── SayBarUITests/        # XCUITest coverage for launch and app shell behavior
 ├── Config/               # Shared Xcode build settings
@@ -170,4 +121,4 @@ Use [ROADMAP.md](ROADMAP.md) and GitHub releases to track notable shipped change
 
 ## License
 
-SayBar is licensed under the terms in [LICENSE](LICENSE).
+SayBar is proprietary software. All rights are reserved; see [LICENSE](LICENSE).

@@ -173,6 +173,7 @@ private extension MenuBarExtraWindow {
     var queuesSurface: some View {
         VStack(alignment: .leading, spacing: 12) {
             MenuPageHeaderComponent(title: "Queues", systemImage: "list.bullet.rectangle")
+                .accessibilityIdentifier(MenuBarDisplaySupport.Surface.queues.accessibilityIdentifier)
 
             if let handoffRequestID = queueHandoffRequestID {
                 HStack {
