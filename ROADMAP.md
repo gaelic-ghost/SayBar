@@ -12,6 +12,7 @@
 - [Milestone 5: Foundation And Embedded-Session Test Coverage](#milestone-5-foundation-and-embedded-session-test-coverage)
 - [Milestone 6: Project Generation And Build Settings Hygiene](#milestone-6-project-generation-and-build-settings-hygiene)
 - [Milestone 7: Browser Page Capture](#milestone-7-browser-page-capture)
+- [Milestone 8: System Speech Entry Points](#milestone-8-system-speech-entry-points)
 - [Small Tickets](#small-tickets)
 - [Backlog Candidates](#backlog-candidates)
 - [History](#history)
@@ -37,6 +38,7 @@
 - Milestone 5: Foundation And Embedded-Session Test Coverage - In Progress
 - Milestone 6: Project Generation And Build Settings Hygiene - Completed
 - Milestone 7: Browser Page Capture - In Progress
+- Milestone 8: System Speech Entry Points - Planned
 
 ## Milestone 1: App Shell Foundation And Service-Hosting Boundaries
 
@@ -216,6 +218,31 @@ In Progress
 - [ ] Page text and URLs are not logged as full request bodies.
 - [ ] Cross-browser adapter decisions are documented without adding browser-specific duplicate capture logic.
 
+## Milestone 8: System Speech Entry Points
+
+### Status
+
+Planned
+
+### Scope
+
+- [ ] Add first-party macOS entry points for sending selected or provided text into SayBar without forcing every workflow through the menu bar or browser extension.
+
+### Tickets
+
+- [ ] Implement a macOS system Service for speaking selected text from Services-aware apps.
+- [ ] Implement App Intents for Shortcuts, Spotlight, and system automation entry points that should queue speech through the same app-owned request path.
+- [ ] Implement a custom URL scheme for explicit local handoff links that can queue speech or open the relevant SayBar surface without adding a second runtime owner.
+- [ ] Route all new system entry points through the same speech-request normalization and lean request-context rules used by clipboard and browser capture.
+- [ ] Add focused tests for request context, validation, empty-input handling, and user-visible failure wording for each entry point.
+
+### Exit Criteria
+
+- [ ] Services, App Intents, and URL scheme handoffs can queue speech through SayBar's existing embedded runtime path.
+- [ ] Each entry point has clear request context that identifies its originating surface without irrelevant metadata.
+- [ ] Empty, malformed, or unsupported requests fail with human-readable app-facing errors.
+- [ ] New entry points do not introduce compatibility shims, duplicate runtime owners, or browser-adapter-specific code paths.
+
 ## Small Tickets
 
 - [ ] Add a non-audible embedded lifecycle verification pass for launch and graceful `land()` shutdown if `SpeakSwiftlyServer` exposes a stable lightweight test runtime mode. Source: `TODO.md`.
@@ -231,4 +258,5 @@ In Progress
 - 2026-06-26: Migrated the legacy roadmap, TODO, and FIXME surfaces into the canonical checklist roadmap structure.
 - 2026-06-26: Added browser page capture as an in-progress milestone for the Safari Web Extension branch.
 - 2026-06-26: Added Safari native-message queueing with SwiftSoup-backed Markdown formatting and lean browser-origin request context.
+- 2026-06-26: Added planned system speech entry points for macOS Services, App Intents, and a custom URL scheme.
 - Earlier roadmap history lives in the Git history before the canonical roadmap migration.
