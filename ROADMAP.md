@@ -213,6 +213,7 @@ In Progress
 - [x] Add a shared WebExtension loopback fallback that queues non-Safari browser captures through the existing embedded `/speech/live` route.
 - [x] File the upstream `SpeakSwiftlyServer` browser-capture route request for native Markdown formatting parity.
 - [x] Add Chrome, Firefox, and Zen packaging adapters after the shared capture contract is stable.
+- [x] Add repo-maintenance validation for generated browser adapter manifests and permission scope.
 
 ### Exit Criteria
 
@@ -270,4 +271,5 @@ Planned
 - 2026-06-28: Added the shared WebExtension loopback fallback for non-Safari browser captures through the existing embedded speech route.
 - 2026-06-28: Filed SpeakSwiftlyServer issue #127 for a first-class browser-capture route that can provide native Markdown formatting parity without adding a second SayBar-owned HTTP listener.
 - 2026-06-28: Added Chrome, Firefox, and Zen manifest override adapters plus a local packaging command for generated browser bundles.
+- 2026-06-28: Added repo-maintenance validation for generated browser adapter manifests, loopback host permissions, and Firefox-family Gecko IDs.
 - Earlier roadmap history lives in the Git history before the canonical roadmap migration.

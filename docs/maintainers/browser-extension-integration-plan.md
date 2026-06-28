@@ -123,6 +123,8 @@ node scripts/browser-extension/package-adapters.mjs
 
 The command writes generated adapter bundles to `Build/BrowserExtensionAdapters/`. Those bundles are local validation artifacts, not checked-in source.
 
+`scripts/repo-maintenance/validate-all.sh` runs the same packaging command and verifies that generated adapter manifests keep the narrow loopback permission shape, remove the Safari-only native messaging permission, and preserve Firefox-family Gecko IDs.
+
 ## Open Decisions
 
 - Whether Chrome, Firefox, and Zen can all use the same localhost `/speech/live` permission shape without broad host permissions after live browser validation.

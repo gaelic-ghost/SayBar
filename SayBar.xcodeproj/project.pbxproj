@@ -86,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		0149B80779C8169D09B317E6 /* 40-xcode-test-plan.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "40-xcode-test-plan.sh"; sourceTree = "<group>"; };
+		0268BF26DE4647B80600651C /* manifest.overrides.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.overrides.json; sourceTree = "<group>"; };
 		0977E32559C575860A91285C /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
 		1463A32F7392B7870BC3BBFB /* 20-agents-guidance.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "20-agents-guidance.sh"; sourceTree = "<group>"; };
 		147DD66E44686D207300B6AC /* SettingsDisplaySupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplaySupport.swift; sourceTree = "<group>"; };
@@ -112,6 +113,7 @@
 		67B9BE7EFCE45D399F41CE74 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
 		6A39FBE064B96B50A43B68E8 /* xcodegen-migration-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "xcodegen-migration-plan.md"; sourceTree = "<group>"; };
 		6F9C0D09719FFB67D136E9DD /* release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = release.sh; sourceTree = "<group>"; };
+		703910C585E127F3EE057167 /* manifest.overrides.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.overrides.json; sourceTree = "<group>"; };
 		72EA0FEC159718BABB7BDA99 /* profile.env */ = {isa = PBXFileReference; path = profile.env; sourceTree = "<group>"; };
 		761584D346B07710EF15A175 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78B747C47E8A1A5B622BD18B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		CE5CB6B52B784D1F074664FF /* MenuBarDisplaySupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDisplaySupport.swift; sourceTree = "<group>"; };
 		CF09410BB839B99FB45BBDB3 /* SayBarAppLifecycleSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppLifecycleSupportTests.swift; sourceTree = "<group>"; };
 		CF2AD5D1F53EE6B5D8BCED23 /* SayBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SayBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFFBCC3BD717EEDD9125BA42 /* 60-browser-extension-adapters.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "60-browser-extension-adapters.sh"; sourceTree = "<group>"; };
 		D142FFE066724E872959B3DB /* SayBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarApp.swift; sourceTree = "<group>"; };
 		D37BD44E07428E8AA1CD396D /* SayBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SayBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D38BC9A381C31BBBC736A6EC /* accessibility-and-ui-automation-notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "accessibility-and-ui-automation-notes.md"; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 		DFDFFCE487E4025EB5B0FB6D /* SayBarSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SayBarSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5372A2EA5EF428440228DF1 /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
 		E6200908471B65403AF0CE3B /* MenuBarActionSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarActionSupport.swift; sourceTree = "<group>"; };
+		EAFBB9D9E87822038224145C /* package-adapters.mjs */ = {isa = PBXFileReference; path = "package-adapters.mjs"; sourceTree = "<group>"; };
+		F02AF5E10600F56FCDFEBA6C /* manifest.overrides.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.overrides.json; sourceTree = "<group>"; };
 		F104D9E89968D5087F47F9F3 /* browser-extension-integration-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "browser-extension-integration-plan.md"; sourceTree = "<group>"; };
 		F130AC199FECE7DF376713C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F63D5B195EC9533CC81BEB3F /* SettingsDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplayState.swift; sourceTree = "<group>"; };
@@ -198,6 +203,16 @@
 				4D4DC788A22B9791D2F8FDB1 /* SettingsWindow+Sections.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		0B385E2E6295B430939FF78C /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				A1CB74EF48D9EFE8A27E93B3 /* Chrome */,
+				52E1F70A44E987D7A6F7E530 /* Firefox */,
+				2975349DD75F0E07458628C2 /* Zen */,
+			);
+			path = Adapters;
 			sourceTree = "<group>";
 		};
 		0C46AFF7D9FABECDF787FE5F /* maintainers */ = {
@@ -249,6 +264,22 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		2975349DD75F0E07458628C2 /* Zen */ = {
+			isa = PBXGroup;
+			children = (
+				F02AF5E10600F56FCDFEBA6C /* manifest.overrides.json */,
+			);
+			path = Zen;
+			sourceTree = "<group>";
+		};
+		3D874830E03DB8DAF25B345A /* browser-extension */ = {
+			isa = PBXGroup;
+			children = (
+				EAFBB9D9E87822038224145C /* package-adapters.mjs */,
+			);
+			path = "browser-extension";
+			sourceTree = "<group>";
+		};
 		3D9092A5058B063D448E6C1B /* docs */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +299,7 @@
 		45EA090E3B1AAAB8B991D10A /* BrowserExtension */ = {
 			isa = PBXGroup;
 			children = (
+				0B385E2E6295B430939FF78C /* Adapters */,
 				7526148FA48F1B4A3B7C3AF2 /* Core */,
 			);
 			path = BrowserExtension;
@@ -279,6 +311,14 @@
 				66A0FD19DF96FA6F110B8A70 /* README.md */,
 			);
 			path = syncing;
+			sourceTree = "<group>";
+		};
+		52E1F70A44E987D7A6F7E530 /* Firefox */ = {
+			isa = PBXGroup;
+			children = (
+				703910C585E127F3EE057167 /* manifest.overrides.json */,
+			);
+			path = Firefox;
 			sourceTree = "<group>";
 		};
 		5AA39F232FD076B840340A03 /* Config */ = {
@@ -331,6 +371,7 @@
 				4906274983CD9FF0B7CC4EBF /* 30-ci-wrapper.sh */,
 				0149B80779C8169D09B317E6 /* 40-xcode-test-plan.sh */,
 				ADB076388A85B9316DFA0A19 /* 50-xcodegen-generated-project.sh */,
+				CFFBCC3BD717EEDD9125BA42 /* 60-browser-extension-adapters.sh */,
 			);
 			path = validations;
 			sourceTree = "<group>";
@@ -370,6 +411,14 @@
 				2BF0C1220A20748BA0F755D9 /* SayBarUITestsLaunchTests.swift */,
 			);
 			path = SayBarUITests;
+			sourceTree = "<group>";
+		};
+		A1CB74EF48D9EFE8A27E93B3 /* Chrome */ = {
+			isa = PBXGroup;
+			children = (
+				0268BF26DE4647B80600651C /* manifest.overrides.json */,
+			);
+			path = Chrome;
 			sourceTree = "<group>";
 		};
 		AEC2F0FD0D1A89DFD4EF6E46 /* repo-maintenance */ = {
@@ -438,6 +487,7 @@
 		CC34681ECD7511287163FF81 /* scripts */ = {
 			isa = PBXGroup;
 			children = (
+				3D874830E03DB8DAF25B345A /* browser-extension */,
 				AEC2F0FD0D1A89DFD4EF6E46 /* repo-maintenance */,
 			);
 			path = scripts;
