@@ -218,8 +218,8 @@ In Progress
 ### Exit Criteria
 
 - [ ] Safari can capture the active page text by explicit user action and queue it for live speech.
-- [ ] Browser capture request context uses only relevant source, topic, and browser-origin attributes.
-- [ ] Page text and URLs are not logged as full request bodies.
+- [x] Browser capture request context uses only relevant source, topic, and browser-origin attributes.
+- [x] Page text and URLs are not logged as full request bodies.
 - [x] Cross-browser adapter decisions are documented without adding browser-specific duplicate capture logic.
 
 ## Milestone 8: System Speech Entry Points
@@ -272,4 +272,5 @@ Planned
 - 2026-06-28: Filed SpeakSwiftlyServer issue #127 for a first-class browser-capture route that can provide native Markdown formatting parity without adding a second SayBar-owned HTTP listener.
 - 2026-06-28: Added Chrome, Firefox, and Zen manifest override adapters plus a local packaging command for generated browser bundles.
 - 2026-06-28: Added repo-maintenance validation for generated browser adapter manifests, loopback host permissions, and Firefox-family Gecko IDs.
+- 2026-06-28: Verified browser-capture request context and logging privacy criteria with Safari formatter/request tests, loopback background tests, and Safari extension log review.
 - Earlier roadmap history lives in the Git history before the canonical roadmap migration.
