@@ -114,7 +114,7 @@ SayBar App:
 ## Open Decisions
 
 - Whether Chrome, Firefox, and Zen can all use the same localhost `/speech/live` permission shape without broad host permissions.
-- Whether non-Safari browser captures need a first-class embedded browser-capture route for native Markdown formatting parity with Safari.
+- Whether non-Safari browser captures need the first-class embedded browser-capture route tracked in SpeakSwiftlyServer issue #127 for native Markdown formatting parity with Safari.
 - Whether page text should be chunked in the extension, in SayBar, or in `SpeakSwiftlyServer`.
 
 ## Reference Docs
