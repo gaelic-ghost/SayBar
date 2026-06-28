@@ -17,10 +17,11 @@ The first browser-facing job is to capture readable page text from a user-select
 - `BrowserExtension/Core/manifest.json` declares the portable extension shell.
 - `BrowserExtension/Core/content/extract-page-text.js` extracts visible article/main/body text and a bounded HTML fragment.
 - `BrowserExtension/Core/popup/` provides the first manual capture action.
-- `BrowserExtension/Core/background.js` receives captured page-text payloads and sends them through Safari native messaging when available.
+- `BrowserExtension/Core/background.js` receives captured page-text payloads, sends them through Safari native messaging when available, and falls back to the existing embedded `/speech/live` loopback route for non-Safari adapters.
 - `SayBarSafariExtension/` wraps the WebExtension resources in a Safari Web Extension app-extension target.
 - `SayBarSafariExtension/` converts captured HTML to Markdown-oriented speech text with SwiftSoup, logs a debug summary without the full body, and queues `/speech/live` through SayBar's embedded runtime transport.
 - The shared WebExtension core declares `nativeMessaging` because Safari uses `browser.runtime.sendNativeMessage` to reach the containing app extension.
+- The shared WebExtension core declares a narrow loopback host permission for `http://127.0.0.1:7339/*` so Chrome and Firefox-family adapters can queue user-initiated captures through the existing embedded runtime route without installing native messaging host manifests.
 
 ## Message Contract
 
@@ -56,7 +57,7 @@ Safari:
 Chrome:
 
 - Use the shared Manifest V3 extension core.
-- Prefer a sandbox-compliant loopback handoff before adopting a Chrome native messaging host. The browser adapter should package the shared capture UI and post explicit user-initiated captures to a narrow SayBar-owned localhost capture endpoint once SayBar exposes one.
+- Prefer the sandbox-compliant loopback handoff before adopting a Chrome native messaging host. The browser adapter should package the shared capture UI and post explicit user-initiated captures to SayBar's existing embedded `/speech/live` endpoint.
 - Keep Chrome native messaging host registration as a fallback only. It requires a host manifest in Chrome's `NativeMessagingHosts` search path, an executable host path, and extension-origin allowlisting, so it should be approval-gated before SayBar writes installer-managed files outside the app container.
 - Use Chrome Web Store distribution for the browser adapter when the shared extension contract is stable enough for public updates.
 
@@ -73,12 +74,12 @@ Firefox and Zen:
 Use this sequence for non-Safari adapters:
 
 1. Keep the shared capture contract browser-agnostic: title, URL, visible text, bounded HTML, capture mode, and capture timestamp.
-2. Add a SayBar-owned local browser-capture endpoint that accepts the shared capture payload, performs the same SwiftSoup-backed Markdown formatting used by Safari, and queues the request through the existing embedded runtime path.
-3. Package Chrome and Firefox-family adapters that call that localhost endpoint from explicit user action with the narrowest host permission that works.
+2. Package Chrome and Firefox-family adapters that call the existing localhost `/speech/live` endpoint from explicit user action with the narrowest host permission that works.
+3. Keep Safari on native messaging so the native extension can perform SwiftSoup-backed Markdown formatting before queueing.
 4. Add app UI that checks whether each adapter is installed and whether the local capture endpoint is reachable.
 5. Revisit native messaging hosts only if browser store rules, CORS behavior, or local-network permission prompts make the loopback route worse in practice.
 
-The loopback route is the default recommendation because it avoids app-side installation of browser-specific native host manifests, keeps SwiftSoup formatting inside SayBar, and uses the same embedded runtime owner. The tradeoff is that SayBar must expose a small capture-specific localhost surface with clear validation and no broad browser-control behavior.
+The loopback route is the default recommendation because it avoids app-side installation of browser-specific native host manifests and uses the same embedded runtime owner. The tradeoff is that non-Safari adapters currently queue the WebExtension-extracted readable text directly, while Safari gets SwiftSoup-backed Markdown formatting inside the native extension. If Chrome and Firefox-family adapters need the exact same native Markdown formatting, add an explicit upstream browser-capture route to `SpeakSwiftlyServer` or another approved app-facing embedded-server surface rather than creating a second SayBar-owned HTTP listener.
 
 ## Distribution And Updates
 
@@ -112,8 +113,8 @@ SayBar App:
 
 ## Open Decisions
 
-- Whether the local browser-capture endpoint should live in SayBar's app layer or in the embedded server package as an explicit app-facing route.
-- Whether Chrome, Firefox, and Zen can all use the same localhost endpoint permission shape without broad host permissions.
+- Whether Chrome, Firefox, and Zen can all use the same localhost `/speech/live` permission shape without broad host permissions.
+- Whether non-Safari browser captures need a first-class embedded browser-capture route for native Markdown formatting parity with Safari.
 - Whether page text should be chunked in the extension, in SayBar, or in `SpeakSwiftlyServer`.
 
 ## Reference Docs

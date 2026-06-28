@@ -210,6 +210,7 @@ In Progress
 - [x] Send Safari WebExtension native messages through the Safari extension handler.
 - [x] Queue formatted browser capture text through SayBar's embedded runtime transport with lean request context.
 - [x] Document the Chrome, Firefox, and Zen adapter recommendation with a sandbox-compliant loopback-first path and approval-gated native-host fallback.
+- [x] Add a shared WebExtension loopback fallback that queues non-Safari browser captures through the existing embedded `/speech/live` route.
 - [ ] Add Chrome, Firefox, and Zen packaging adapters after the shared capture contract is stable.
 
 ### Exit Criteria
@@ -265,4 +266,5 @@ Planned
 - 2026-06-26: Added planned system speech entry points for macOS Services, App Intents, and a custom URL scheme.
 - 2026-06-28: Added Finder, Mail, and shell or terminal integration exploration to the system speech entry-points milestone.
 - 2026-06-28: Documented the Chrome, Firefox, and Zen browser-adapter recommendation as loopback-first with native messaging hosts reserved as an approval-gated fallback.
+- 2026-06-28: Added the shared WebExtension loopback fallback for non-Safari browser captures through the existing embedded speech route.
 - Earlier roadmap history lives in the Git history before the canonical roadmap migration.
