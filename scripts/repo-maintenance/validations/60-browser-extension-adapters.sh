@@ -19,6 +19,7 @@ if ! command -v jq >/dev/null 2>&1; then
 fi
 
 node --check "$REPO_ROOT/scripts/browser-extension/package-adapters.mjs" >/dev/null
+node --check "$REPO_ROOT/scripts/browser-extension/inspect-safari-bundle.mjs" >/dev/null
 node --check "$REPO_ROOT/scripts/browser-extension/test-background.mjs" >/dev/null
 node --check "$REPO_ROOT/BrowserExtension/Core/background.js" >/dev/null
 node --check "$REPO_ROOT/BrowserExtension/Core/content/extract-page-text.js" >/dev/null

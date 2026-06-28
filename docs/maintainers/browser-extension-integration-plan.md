@@ -127,6 +127,16 @@ The command writes generated adapter bundles to `Build/BrowserExtensionAdapters/
 
 It also runs `scripts/browser-extension/test-background.mjs`, which verifies the shared background handoff builds the expected loopback `/speech/live` request context and falls back to loopback when native messaging is unavailable.
 
+## Safari Bundle Inspection
+
+After building the app, inspect the embedded Safari Web Extension resources with:
+
+```sh
+node scripts/browser-extension/inspect-safari-bundle.mjs Build/Products/Debug/SayBar.app
+```
+
+The inspector verifies that the built `SayBarSafariExtension.appex` contains the shared manifest, background worker, content script, and popup assets with the expected Safari permission shape.
+
 ## Open Decisions
 
 - Whether Chrome, Firefox, and Zen can all use the same localhost `/speech/live` permission shape without broad host permissions after live browser validation.

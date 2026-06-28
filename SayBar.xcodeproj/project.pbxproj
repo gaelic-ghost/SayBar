@@ -139,6 +139,7 @@
 		ADB076388A85B9316DFA0A19 /* 50-xcodegen-generated-project.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "50-xcodegen-generated-project.sh"; sourceTree = "<group>"; };
 		AFB6469DDD9632DAC8858A43 /* 10-toolkit-layout.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "10-toolkit-layout.sh"; sourceTree = "<group>"; };
 		B0EC0CAD679FA11F13A4EB58 /* SayBarAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarAppEnvironmentTests.swift; sourceTree = "<group>"; };
+		B364A26EAF79CEF9AE3FCAFC /* inspect-safari-bundle.mjs */ = {isa = PBXFileReference; path = "inspect-safari-bundle.mjs"; sourceTree = "<group>"; };
 		B4ABC0FB9B2674B5EBB46EB7 /* extract-page-text.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "extract-page-text.js"; sourceTree = "<group>"; };
 		B95475D246FB3A1647E684CB /* test-coverage-expansion-plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "test-coverage-expansion-plan.md"; sourceTree = "<group>"; };
 		B973C718B4CF8E176EBFAD7A /* SayBarRuntimeE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayBarRuntimeE2ETests.swift; sourceTree = "<group>"; };
@@ -290,6 +291,7 @@
 		3D874830E03DB8DAF25B345A /* browser-extension */ = {
 			isa = PBXGroup;
 			children = (
+				B364A26EAF79CEF9AE3FCAFC /* inspect-safari-bundle.mjs */,
 				EAFBB9D9E87822038224145C /* package-adapters.mjs */,
 				1F74C3DD3776A1E9CF0FFD28 /* test-background.mjs */,
 			);
