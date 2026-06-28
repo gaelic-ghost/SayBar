@@ -143,8 +143,12 @@ targets:
     platform: macOS
     sources:
       - path: SayBarTests
+      - path: SayBarSafariExtension/BrowserCaptureRequest.swift
+      - path: SayBarSafariExtension/BrowserCaptureFormatter.swift
     dependencies:
       - target: SayBar
+      - package: SwiftSoup
+        product: SwiftSoup
     settings:
       base:
         CODE_SIGN_STYLE: Automatic
