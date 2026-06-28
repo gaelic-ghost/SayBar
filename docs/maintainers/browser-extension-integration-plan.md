@@ -125,6 +125,8 @@ The command writes generated adapter bundles to `Build/BrowserExtensionAdapters/
 
 `scripts/repo-maintenance/validate-all.sh` runs the same packaging command and verifies that generated adapter manifests keep the narrow loopback permission shape, remove the Safari-only native messaging permission, and preserve Firefox-family Gecko IDs.
 
+It also runs `scripts/browser-extension/test-background.mjs`, which verifies the shared background handoff builds the expected loopback `/speech/live` request context and falls back to loopback when native messaging is unavailable.
+
 ## Open Decisions
 
 - Whether Chrome, Firefox, and Zen can all use the same localhost `/speech/live` permission shape without broad host permissions after live browser validation.

@@ -53,6 +53,7 @@ async function handOffCaptureToLoopback(capture) {
         topic: normalizedOptional(capture.title),
         attributes: {
           surface: "browser_extension",
+          "browser.name": "Browser",
           "browser.url": capture.url,
           "browser.capture_mode": capture.captureMode,
           "browser.captured_at": capture.capturedAt,
@@ -105,7 +106,7 @@ extensionAPI.runtime.onMessage.addListener((message, sender, sendResponse) => {
     .catch((error) => {
       sendResponse({
         ok: false,
-        error: error instanceof Error ? error.message : "SayBar browser extension could not hand the page-text capture to the native extension."
+        error: error instanceof Error ? error.message : "SayBar browser extension could not hand the page-text capture to SayBar."
       });
     });
 

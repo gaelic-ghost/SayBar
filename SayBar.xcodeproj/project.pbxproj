@@ -102,6 +102,7 @@
 		1DAA93E390A49B2718A5253C /* SettingsDisplayStateMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplayStateMappingTests.swift; sourceTree = "<group>"; };
 		1E2F1698ECAB7708E56A53E2 /* SettingsDisplayState+EmbeddedServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsDisplayState+EmbeddedServer.swift"; sourceTree = "<group>"; };
 		1E85CBAB58316ED2A8E77321 /* validation.env */ = {isa = PBXFileReference; path = validation.env; sourceTree = "<group>"; };
+		1F74C3DD3776A1E9CF0FFD28 /* test-background.mjs */ = {isa = PBXFileReference; path = "test-background.mjs"; sourceTree = "<group>"; };
 		2134C5A49C13CA51BC1CCF7F /* BrowserSpeechQueueClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSpeechQueueClient.swift; sourceTree = "<group>"; };
 		23FC3AF954582D8798C4999B /* validate-all.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "validate-all.sh"; sourceTree = "<group>"; };
 		29FB79CBDF99F6A0829F25B3 /* SayBar.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SayBar.xcconfig; sourceTree = "<group>"; };
@@ -290,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				EAFBB9D9E87822038224145C /* package-adapters.mjs */,
+				1F74C3DD3776A1E9CF0FFD28 /* test-background.mjs */,
 			);
 			path = "browser-extension";
 			sourceTree = "<group>";

@@ -54,7 +54,7 @@ async function capturePageText() {
   if (response.requestID) {
     setStatus(`Queued ${response.characterCount} characters for speech.`);
   } else {
-    throw new Error("SayBar captured the page text but did not receive a queue confirmation from the native app.");
+    throw new Error("SayBar captured the page text but did not receive a queue confirmation from SayBar.");
   }
 }
 
