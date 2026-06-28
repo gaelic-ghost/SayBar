@@ -20,6 +20,7 @@ The first browser-facing job is to capture readable page text from a user-select
 - `BrowserExtension/Core/background.js` receives captured page-text payloads and sends them through Safari native messaging when available.
 - `SayBarSafariExtension/` wraps the WebExtension resources in a Safari Web Extension app-extension target.
 - `SayBarSafariExtension/` converts captured HTML to Markdown-oriented speech text with SwiftSoup, logs a debug summary without the full body, and queues `/speech/live` through SayBar's embedded runtime transport.
+- The shared WebExtension core declares `nativeMessaging` because Safari uses `browser.runtime.sendNativeMessage` to reach the containing app extension.
 
 ## Message Contract
 
@@ -55,16 +56,70 @@ Safari:
 Chrome:
 
 - Use the shared Manifest V3 extension core.
-- Add Chrome packaging and native messaging host registration only when SayBar is ready to receive browser captures outside Safari.
+- Prefer a sandbox-compliant loopback handoff before adopting a Chrome native messaging host. The browser adapter should package the shared capture UI and post explicit user-initiated captures to a narrow SayBar-owned localhost capture endpoint once SayBar exposes one.
+- Keep Chrome native messaging host registration as a fallback only. It requires a host manifest in Chrome's `NativeMessagingHosts` search path, an executable host path, and extension-origin allowlisting, so it should be approval-gated before SayBar writes installer-managed files outside the app container.
+- Use Chrome Web Store distribution for the browser adapter when the shared extension contract is stable enough for public updates.
 
 Firefox and Zen:
 
 - Treat Zen as Firefox/WebExtensions-compatible until a real Zen-specific packaging or permission difference appears.
 - Add Firefox manifest overrides only where Firefox requires them.
-- Add native messaging host registration only when SayBar exposes a stable native capture endpoint.
+- Prefer the same sandbox-compliant loopback handoff as Chrome before adopting native messaging. Firefox native messaging also requires an installed native manifest with explicit allowed extension IDs, so it carries the same approval-gated installer cost.
+- Give Firefox-family builds a stable extension ID before any native-host fallback is attempted, because Firefox native manifests allow specific extension IDs rather than Chrome extension origins.
+- Treat Zen listing, sideloading, and update behavior as a verification item against the current Zen release before committing to a marketplace promise.
+
+## Recommended Cross-Browser Handoff
+
+Use this sequence for non-Safari adapters:
+
+1. Keep the shared capture contract browser-agnostic: title, URL, visible text, bounded HTML, capture mode, and capture timestamp.
+2. Add a SayBar-owned local browser-capture endpoint that accepts the shared capture payload, performs the same SwiftSoup-backed Markdown formatting used by Safari, and queues the request through the existing embedded runtime path.
+3. Package Chrome and Firefox-family adapters that call that localhost endpoint from explicit user action with the narrowest host permission that works.
+4. Add app UI that checks whether each adapter is installed and whether the local capture endpoint is reachable.
+5. Revisit native messaging hosts only if browser store rules, CORS behavior, or local-network permission prompts make the loopback route worse in practice.
+
+The loopback route is the default recommendation because it avoids app-side installation of browser-specific native host manifests, keeps SwiftSoup formatting inside SayBar, and uses the same embedded runtime owner. The tradeoff is that SayBar must expose a small capture-specific localhost surface with clear validation and no broad browser-control behavior.
+
+## Distribution And Updates
+
+Safari:
+
+- Ship the Safari Web Extension inside the SayBar macOS app bundle.
+- App updates should carry Safari extension updates.
+- SayBar should surface a checklist for opening Safari Settings, enabling the extension, and granting per-site permission.
+
+Chrome:
+
+- Publish the Chrome adapter through the Chrome Web Store once the loopback contract and extension listing copy are stable.
+- Let the Chrome Web Store own extension install and update delivery.
+- SayBar should deep-link to the listing and expose a local connection check instead of writing Chrome extension files directly.
+
+Firefox:
+
+- Publish the Firefox-family adapter through addons.mozilla.org when it is ready for normal users, because release and beta Firefox require signed add-ons.
+- Let AMO own listed extension updates when the adapter is public.
+- Keep self-distribution only for beta or limited-audience builds that still go through Mozilla signing.
+
+Zen:
+
+- Verify whether the current Zen release installs directly from AMO, supports self-distributed signed XPIs, or needs a Zen-specific listing path before promising in-app installation.
+- Treat Zen as a Firefox-family adapter until that verification finds a real difference.
+
+SayBar App:
+
+- Keep browser adapter install controls informational at first: listing links, connection checks, enabled-state troubleshooting, and clear failure messages.
+- Do not write Chrome, Firefox, or Zen native messaging host manifests from SayBar unless Gale explicitly approves that installer surface.
 
 ## Open Decisions
 
-- Whether Chrome, Firefox, and Zen should use native messaging hosts, a localhost endpoint, or another browser-family-specific app handoff once Safari is working.
-- Whether to request broad host permissions or stay with user-initiated `activeTab` capture.
+- Whether the local browser-capture endpoint should live in SayBar's app layer or in the embedded server package as an explicit app-facing route.
+- Whether Chrome, Firefox, and Zen can all use the same localhost endpoint permission shape without broad host permissions.
 - Whether page text should be chunked in the extension, in SayBar, or in `SpeakSwiftlyServer`.
+
+## Reference Docs
+
+- Apple: [Messaging a Web Extension's Native App](https://developer.apple.com/documentation/safariservices/messaging-a-web-extension-s-native-app)
+- Chrome: [Native messaging](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging)
+- Chrome: [Publish in the Chrome Web Store](https://developer.chrome.com/docs/webstore/publish)
+- Firefox: [Native manifests](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_manifests)
+- Firefox: [Signing and distribution overview](https://extensionworkshop.com/documentation/publish/signing-and-distribution-overview/)

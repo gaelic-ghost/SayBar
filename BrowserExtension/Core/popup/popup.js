@@ -54,7 +54,7 @@ async function capturePageText() {
   if (response.requestID) {
     setStatus(`Queued ${response.characterCount} characters for speech.`);
   } else {
-    setStatus(`Captured ${response.characterCount} characters. Native SayBar handoff is ${response.nativeHandoff}.`);
+    throw new Error("SayBar captured the page text but did not receive a queue confirmation from the native app.");
   }
 }
 

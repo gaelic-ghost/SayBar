@@ -2,7 +2,7 @@ const messageTypes = Object.freeze({
   pageTextCaptured: "saybar.pageTextCaptured"
 });
 
-const nativeApplicationID = "application.id";
+const nativeApplicationID = "com.galewilliams.SayBar";
 const extensionAPI = globalThis.browser || globalThis.chrome;
 
 let lastCapture = null;
@@ -24,11 +24,7 @@ function normalizeCapture(payload) {
 
 async function handOffCaptureToNative(capture) {
   if (typeof extensionAPI.runtime.sendNativeMessage !== "function") {
-    return {
-      ok: true,
-      nativeHandoff: "unavailable",
-      characterCount: capture.text.length
-    };
+    throw new Error("SayBar browser extension could not queue the page-text capture because native messaging is unavailable in this browser adapter.");
   }
 
   return await extensionAPI.runtime.sendNativeMessage(nativeApplicationID, {

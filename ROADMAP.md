@@ -209,6 +209,7 @@ In Progress
 - [x] Convert captured browser HTML into Markdown-oriented speech text before queueing.
 - [x] Send Safari WebExtension native messages through the Safari extension handler.
 - [x] Queue formatted browser capture text through SayBar's embedded runtime transport with lean request context.
+- [x] Document the Chrome, Firefox, and Zen adapter recommendation with a sandbox-compliant loopback-first path and approval-gated native-host fallback.
 - [ ] Add Chrome, Firefox, and Zen packaging adapters after the shared capture contract is stable.
 
 ### Exit Criteria
@@ -216,7 +217,7 @@ In Progress
 - [ ] Safari can capture the active page text by explicit user action and queue it for live speech.
 - [ ] Browser capture request context uses only relevant source, topic, and browser-origin attributes.
 - [ ] Page text and URLs are not logged as full request bodies.
-- [ ] Cross-browser adapter decisions are documented without adding browser-specific duplicate capture logic.
+- [x] Cross-browser adapter decisions are documented without adding browser-specific duplicate capture logic.
 
 ## Milestone 8: System Speech Entry Points
 
@@ -263,4 +264,5 @@ Planned
 - 2026-06-26: Added Safari native-message queueing with SwiftSoup-backed Markdown formatting and lean browser-origin request context.
 - 2026-06-26: Added planned system speech entry points for macOS Services, App Intents, and a custom URL scheme.
 - 2026-06-28: Added Finder, Mail, and shell or terminal integration exploration to the system speech entry-points milestone.
+- 2026-06-28: Documented the Chrome, Firefox, and Zen browser-adapter recommendation as loopback-first with native messaging hosts reserved as an approval-gated fallback.
 - Earlier roadmap history lives in the Git history before the canonical roadmap migration.
