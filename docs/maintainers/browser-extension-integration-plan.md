@@ -18,6 +18,8 @@ The first browser-facing job is to capture readable page text from a user-select
 - `BrowserExtension/Core/content/extract-page-text.js` extracts visible article/main/body text and a bounded HTML fragment.
 - `BrowserExtension/Core/popup/` provides the first manual capture action.
 - `BrowserExtension/Core/background.js` receives captured page-text payloads, sends them through Safari native messaging when available, and falls back to the existing embedded `/speech/live` loopback route for non-Safari adapters.
+- `BrowserExtension/Adapters/` contains browser-specific manifest overrides for Chrome, Firefox, and Zen.
+- `scripts/browser-extension/package-adapters.mjs` materializes reviewable adapter bundles under ignored `Build/BrowserExtensionAdapters/` by copying the shared core and applying only those manifest overrides.
 - `SayBarSafariExtension/` wraps the WebExtension resources in a Safari Web Extension app-extension target.
 - `SayBarSafariExtension/` converts captured HTML to Markdown-oriented speech text with SwiftSoup, logs a debug summary without the full body, and queues `/speech/live` through SayBar's embedded runtime transport.
 - The shared WebExtension core declares `nativeMessaging` because Safari uses `browser.runtime.sendNativeMessage` to reach the containing app extension.
@@ -57,6 +59,7 @@ Safari:
 Chrome:
 
 - Use the shared Manifest V3 extension core.
+- Package Chrome with `BrowserExtension/Adapters/Chrome/manifest.overrides.json`, which removes the Safari-only native messaging permission and relies on the loopback handoff.
 - Prefer the sandbox-compliant loopback handoff before adopting a Chrome native messaging host. The browser adapter should package the shared capture UI and post explicit user-initiated captures to SayBar's existing embedded `/speech/live` endpoint.
 - Keep Chrome native messaging host registration as a fallback only. It requires a host manifest in Chrome's `NativeMessagingHosts` search path, an executable host path, and extension-origin allowlisting, so it should be approval-gated before SayBar writes installer-managed files outside the app container.
 - Use Chrome Web Store distribution for the browser adapter when the shared extension contract is stable enough for public updates.
@@ -64,7 +67,8 @@ Chrome:
 Firefox and Zen:
 
 - Treat Zen as Firefox/WebExtensions-compatible until a real Zen-specific packaging or permission difference appears.
-- Add Firefox manifest overrides only where Firefox requires them.
+- Package Firefox with `BrowserExtension/Adapters/Firefox/manifest.overrides.json` and Zen with `BrowserExtension/Adapters/Zen/manifest.overrides.json`.
+- Keep Firefox-family manifest overrides limited to stable Gecko IDs and permission differences until browser validation proves another difference is required.
 - Prefer the same sandbox-compliant loopback handoff as Chrome before adopting native messaging. Firefox native messaging also requires an installed native manifest with explicit allowed extension IDs, so it carries the same approval-gated installer cost.
 - Give Firefox-family builds a stable extension ID before any native-host fallback is attempted, because Firefox native manifests allow specific extension IDs rather than Chrome extension origins.
 - Treat Zen listing, sideloading, and update behavior as a verification item against the current Zen release before committing to a marketplace promise.
@@ -111,9 +115,17 @@ SayBar App:
 - Keep browser adapter install controls informational at first: listing links, connection checks, enabled-state troubleshooting, and clear failure messages.
 - Do not write Chrome, Firefox, or Zen native messaging host manifests from SayBar unless Gale explicitly approves that installer surface.
 
+## Packaging Command
+
+```sh
+node scripts/browser-extension/package-adapters.mjs
+```
+
+The command writes generated adapter bundles to `Build/BrowserExtensionAdapters/`. Those bundles are local validation artifacts, not checked-in source.
+
 ## Open Decisions
 
-- Whether Chrome, Firefox, and Zen can all use the same localhost `/speech/live` permission shape without broad host permissions.
+- Whether Chrome, Firefox, and Zen can all use the same localhost `/speech/live` permission shape without broad host permissions after live browser validation.
 - Whether non-Safari browser captures need the first-class embedded browser-capture route tracked in SpeakSwiftlyServer issue #127 for native Markdown formatting parity with Safari.
 - Whether page text should be chunked in the extension, in SayBar, or in `SpeakSwiftlyServer`.
 
@@ -124,3 +136,4 @@ SayBar App:
 - Chrome: [Publish in the Chrome Web Store](https://developer.chrome.com/docs/webstore/publish)
 - Firefox: [Native manifests](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_manifests)
 - Firefox: [Signing and distribution overview](https://extensionworkshop.com/documentation/publish/signing-and-distribution-overview/)
+- Zen: [Desktop repository](https://github.com/zen-browser/desktop)

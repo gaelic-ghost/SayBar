@@ -1,0 +1,13 @@
+{
+  "name": "SayBar Page Speaker for Zen",
+  "description": "Capture readable website text and queue it through SayBar.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "page-speaker-zen@saybar.galewilliams.com"
+    }
+  }
+}

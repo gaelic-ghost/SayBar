@@ -1,0 +1,8 @@
+{
+  "name": "SayBar Page Speaker",
+  "description": "Capture readable website text and queue it through SayBar.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "SayBar Page Speaker",
+  "description": "Capture readable website text and queue it through SayBar.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "page-speaker@saybar.galewilliams.com"
+    }
+  }
+}

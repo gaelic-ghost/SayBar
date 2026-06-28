@@ -212,7 +212,7 @@ In Progress
 - [x] Document the Chrome, Firefox, and Zen adapter recommendation with a sandbox-compliant loopback-first path and approval-gated native-host fallback.
 - [x] Add a shared WebExtension loopback fallback that queues non-Safari browser captures through the existing embedded `/speech/live` route.
 - [x] File the upstream `SpeakSwiftlyServer` browser-capture route request for native Markdown formatting parity.
-- [ ] Add Chrome, Firefox, and Zen packaging adapters after the shared capture contract is stable.
+- [x] Add Chrome, Firefox, and Zen packaging adapters after the shared capture contract is stable.
 
 ### Exit Criteria
 
@@ -269,4 +269,5 @@ Planned
 - 2026-06-28: Documented the Chrome, Firefox, and Zen browser-adapter recommendation as loopback-first with native messaging hosts reserved as an approval-gated fallback.
 - 2026-06-28: Added the shared WebExtension loopback fallback for non-Safari browser captures through the existing embedded speech route.
 - 2026-06-28: Filed SpeakSwiftlyServer issue #127 for a first-class browser-capture route that can provide native Markdown formatting parity without adding a second SayBar-owned HTTP listener.
+- 2026-06-28: Added Chrome, Firefox, and Zen manifest override adapters plus a local packaging command for generated browser bundles.
 - Earlier roadmap history lives in the Git history before the canonical roadmap migration.
