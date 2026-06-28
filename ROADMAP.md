@@ -226,19 +226,22 @@ Planned
 
 ### Scope
 
-- [ ] Add first-party macOS entry points for sending selected or provided text into SayBar without forcing every workflow through the menu bar or browser extension.
+- [ ] Add first-party macOS and app-adjacent entry points for sending selected, provided, or file-backed text into SayBar without forcing every workflow through the menu bar or browser extension.
 
 ### Tickets
 
 - [ ] Implement a macOS system Service for speaking selected text from Services-aware apps.
 - [ ] Implement App Intents for Shortcuts, Spotlight, and system automation entry points that should queue speech through the same app-owned request path.
 - [ ] Implement a custom URL scheme for explicit local handoff links that can queue speech or open the relevant SayBar surface without adding a second runtime owner.
+- [ ] Explore and implement a Finder extension or plugin surface for queueing selected text files, document previews, or file-derived speech input through SayBar.
+- [ ] Explore and implement a Mail.app extension or plugin surface for queueing selected message content through SayBar with privacy-aware request context.
+- [ ] Explore shell and terminal integration options for queueing command output, file paths, stdin, or selected terminal text through SayBar without requiring a separate runtime owner.
 - [ ] Route all new system entry points through the same speech-request normalization and lean request-context rules used by clipboard and browser capture.
 - [ ] Add focused tests for request context, validation, empty-input handling, and user-visible failure wording for each entry point.
 
 ### Exit Criteria
 
-- [ ] Services, App Intents, and URL scheme handoffs can queue speech through SayBar's existing embedded runtime path.
+- [ ] Services, App Intents, URL scheme handoffs, Finder, Mail, and approved shell or terminal integrations can queue speech through SayBar's existing embedded runtime path.
 - [ ] Each entry point has clear request context that identifies its originating surface without irrelevant metadata.
 - [ ] Empty, malformed, or unsupported requests fail with human-readable app-facing errors.
 - [ ] New entry points do not introduce compatibility shims, duplicate runtime owners, or browser-adapter-specific code paths.
@@ -259,4 +262,5 @@ Planned
 - 2026-06-26: Added browser page capture as an in-progress milestone for the Safari Web Extension branch.
 - 2026-06-26: Added Safari native-message queueing with SwiftSoup-backed Markdown formatting and lean browser-origin request context.
 - 2026-06-26: Added planned system speech entry points for macOS Services, App Intents, and a custom URL scheme.
+- 2026-06-28: Added Finder, Mail, and shell or terminal integration exploration to the system speech entry-points milestone.
 - Earlier roadmap history lives in the Git history before the canonical roadmap migration.
