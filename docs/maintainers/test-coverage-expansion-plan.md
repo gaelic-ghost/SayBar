@@ -35,7 +35,7 @@ Current test coverage is intentionally narrow:
 - `MenuBarDisplaySupportTests` covers menu status priority, playback and runtime status wording, queue-slot clamping, selected voice fallback, and control symbol selection
 - `MenuBarActionSupportTests` covers implemented menu action routing for resident model power actions, playback actions, voice-profile refresh, default voice selection, backend switching, and clipboard speech submission
 - `SettingsDisplaySupportTests` covers Settings transport summary formatting
-- `SettingsDisplayStateMappingTests` covers v11 Settings display mapping for runtime ducking fields, transport enabled/advertised-address/stream-count fields, network audio receiver selection, network audio destination details, and recent-error code/time metadata
+- `SettingsDisplayStateMappingTests` covers v12 Settings display mapping for runtime ducking fields, transport enabled/advertised-address/stream-count fields, network audio receiver selection, network audio destination details, and recent-error code/time metadata
 - `SayBarUITests` covers launch, termination, the stable menu-shell accessibility surface, menu quick-action reachability, deterministic queue and quick-config menu-surface reachability, opening Settings from the menu extra with embedded runtime startup skipped, and fixture-backed Settings app, runtime, transport, network-audio, and recent-error values
 - `SayBarUITestsLaunchTests` covers relaunch after termination with embedded runtime startup skipped
 
@@ -89,7 +89,7 @@ Implementation notes:
 - if a seam is needed, keep it as a local implementation detail for app action testing, not as a new app-owned runtime model
 - do not adopt `SpeakSwiftlyServerTool` install layout, retained-log helpers, LaunchAgent install helpers, or standalone-server paths in this phase
 - runtime-on integration tests should be explicit and isolated from the existing runtime-startup-skipped shell UI tests
-- do not add remote-generation display tests until `SpeakSwiftlyServer.EmbeddedServer` publishes remote-generation status directly; `HostStateSnapshot.remoteGeneration` exists in v11, but SayBar does not bypass the direct embedded observable to read it
+- do not add remote-generation display tests until `SpeakSwiftlyServer.EmbeddedServer` publishes remote-generation status directly; `HostStateSnapshot.remoteGeneration` exists in v12, but SayBar does not bypass the direct embedded observable to read it
 
 ### Phase 3: UI Implementation Review And Streamlining
 
@@ -126,9 +126,9 @@ Planned coverage:
 - Settings opens reliably from the app shell: done for the menu-extra Settings button
 - Settings app section displays version and menu bar insertion state: done for fixture-backed Settings
 - Runtime section displays status, worker stage, playback, speech backend, default voice profile, generation queue count, and playback queue count: done for fixture-backed Settings
-- Transport section renders empty and populated transport states, including v11 enabled, advertised-address, and active-stream diagnostics: done for fixture-backed populated diagnostics
+- Transport section renders empty and populated transport states, including v12 enabled, advertised-address, and active-stream diagnostics: done for fixture-backed populated diagnostics
 - Network Audio section renders receiver selection diagnostics and visible destination rows: done for fixture-backed populated diagnostics
-- Recent errors section renders empty and populated error states, including v11 code and timestamp metadata: done for fixture-backed populated diagnostics
+- Recent errors section renders empty and populated error states, including v12 code and timestamp metadata: done for fixture-backed populated diagnostics
 - menu surface exposes stable accessibility identifiers for the primary status and controls, with split queue and quick-config surfaces separated behind horizontal menu navigation: done for the current menu shell and deterministic initial-surface UI coverage
 - Settings Queues tab exposes split generation/playback panels, fixture-backed request rows, and playback queue controls: done for fixture-backed UI coverage and runtime-startup-skipped reachability
 - menu quick actions remain available without layout regressions: done for runtime-startup-skipped UI reachability

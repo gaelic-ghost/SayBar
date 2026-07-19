@@ -1132,7 +1132,7 @@
 			repositoryURL = "https://github.com/gaelic-ghost/SpeakSwiftlyServer";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
+				minimumVersion = 12.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

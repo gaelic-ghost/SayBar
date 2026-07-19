@@ -1,5 +1,5 @@
 {
-  "originHash" : "18d8f75b4bcf8646381ca2aa921830a1b1bfe5a98d3e39bccf0106ad43351f6b",
+  "originHash" : "1633d5a16ef74ef09f4aabb80a2f4a0b877c1dfe1a2de8f3fe735eb62e5b8c9a",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hummingbird-project/hummingbird.git",
       "state" : {
-        "revision" : "a2ed0a0294de56e18ba55344eafc801a7a385a90",
-        "version" : "2.22.0"
+        "revision" : "eebb5ecf8a39beea87401f014fdf87f0ce5b159d",
+        "version" : "2.25.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/mlx-audio-swift.git",
       "state" : {
-        "revision" : "856e04afb3c6eb931d92bb0d6ae7bbfbdfa89b15",
-        "version" : "0.100.0"
+        "revision" : "3f6b0553188a921f635df54b5e20442001037336",
+        "version" : "0.101.0-gaelic.1"
       }
     },
     {
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/SpeakSwiftly.git",
       "state" : {
-        "revision" : "c88211814092a2368c670a79539090dc17b7fb9a",
-        "version" : "11.0.0"
+        "revision" : "55c1adb1d913a5fa0bf3f8dc077c3c282c335168",
+        "version" : "12.0.0"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gaelic-ghost/SpeakSwiftlyServer",
       "state" : {
-        "revision" : "49d3f4e77a1813a3c6a239ad52a13ff3fe4c7619",
-        "version" : "11.0.0"
+        "revision" : "8c8bf17ad27aaf5dcef14b4b053939ee9d202bc8",
+        "version" : "12.0.0"
       }
     },
     {
@@ -231,8 +231,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
-        "revision" : "558f24a4647193b5a0e2104031b71c55d31ff83a",
-        "version" : "2.97.1"
+        "revision" : "0b18836bd8b0162e7e17a995a3fbee20ed8f3b2b",
+        "version" : "2.101.3"
       }
     },
     {
@@ -240,8 +240,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio-extras.git",
       "state" : {
-        "revision" : "abcf5312eb8ed2fb11916078aef7c46b06f20813",
-        "version" : "1.33.0"
+        "revision" : "88a51340f59cf181ebde888bd1b749296b3ec029",
+        "version" : "1.34.3"
       }
     },
     {
@@ -249,8 +249,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio-http2.git",
       "state" : {
-        "revision" : "6d8d596f0a9bfebb925733003731fe2d749b7e02",
-        "version" : "1.42.0"
+        "revision" : "61d1b44f6e4e118792be1cff88ee2bc0267c6f9a",
+        "version" : "1.44.0"
       }
     },
     {
@@ -341,15 +341,6 @@
       "state" : {
         "revision" : "6c7915e16f729857aec3e99068c361e58a00ed68",
         "version" : "2.13.4"
-      }
-    },
-    {
-      "identity" : "textforspeech",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gaelic-ghost/TextForSpeech.git",
-      "state" : {
-        "revision" : "089c387690afb6c0b9b91629f69bf22ce8a2bd14",
-        "version" : "0.23.0"
       }
     },
     {

@@ -39,7 +39,7 @@ final class SettingsDisplayStateMappingTests: XCTestCase {
         XCTAssertEqual(rows.first { $0.id == "configuration-exists" }?.value, "Yes")
     }
 
-    func testTransportRowIncludesV11TransportMetadata() throws {
+    func testTransportRowIncludesV12TransportMetadata() throws {
         let transport = try decoded(
             TransportStatusSnapshot.self,
             from: """

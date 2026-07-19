@@ -222,7 +222,7 @@ create_or_update_pr() {
 
 ## Review Loop
 
-Before merge and tagging, \`scripts/repo-maintenance/release.sh\` watches CI and stops on review comments unless the maintainer has already addressed or resolved them and reruns with \`--review-comments-addressed\`.
+Before merge and tagging, \`Scripts/repo-maintenance/release.sh\` watches CI and stops on review comments unless the maintainer has already addressed or resolved them and reruns with \`--review-comments-addressed\`.
 EOF
 
   pr_number="$(gh pr list --head "$branch_name" --base "$base_branch" --json number --jq '.[0].number // empty' --limit 1)"
@@ -272,8 +272,9 @@ defer_remote_ci_if_requested() {
   pr_url="$(gh pr view "$pr_number" --json url --jq '.url')"
   log "Remote CI mode is defer, so release.sh is pausing after local validation, branch push, PR creation, and initial check discovery."
   log "Release is not complete yet. Let GitHub finish CI for PR #$pr_number, then continue from branch $branch_name with:"
-  log "  bash scripts/repo-maintenance/release.sh --mode standard --version $RELEASE_TAG"
-  log "Codex should use a native thread Timer/Wakeup or heartbeat automation for this wait when available, then resume by checking $pr_url and rerunning the command above instead of leaving a shell script open to poll GitHub."
+  log "  bash Scripts/repo-maintenance/release.sh --mode standard --version $RELEASE_TAG"
+  log "Codex should create a same-thread heartbeat automation for this wait when available, then resume by checking $pr_url and rerunning the command above instead of leaving a shell script open to poll GitHub."
+  log "The heartbeat should also wait for review-bot status contexts such as CodeRabbit to finish before merging; pending review contexts are not a clean merge signal."
   return 0
 }
 

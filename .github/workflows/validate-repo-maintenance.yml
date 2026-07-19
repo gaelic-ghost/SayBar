@@ -23,4 +23,4 @@ jobs:
       - name: Install Swift repo-maintenance tools
         run: brew install swiftformat swiftlint xcodegen
       - name: Run repo-maintenance validation
-        run: bash scripts/repo-maintenance/validate-all.sh
+        run: bash Scripts/repo-maintenance/validate-all.sh
