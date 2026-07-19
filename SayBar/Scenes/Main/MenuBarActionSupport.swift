@@ -7,6 +7,7 @@
 
 import Foundation
 import SpeakSwiftly
+import SpeakSwiftlyCore
 
 enum MenuBarActionSupport {
     enum ResidentModelCommand: Equatable {

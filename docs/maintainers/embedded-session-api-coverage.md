@@ -2,7 +2,7 @@
 
 ## Source Of Truth
 
-This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `11.0.0`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
+This matrix audits SayBar against the embedded app-facing API exposed by `SpeakSwiftlyServer` `12.0.0`, resolved in `SayBar.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`.
 
 The current SayBar product baseline is still embedded-runtime-first. That means `EmbeddedServer` is in scope for active app behavior, while standalone LaunchAgent install helpers remain future-scope until SayBar intentionally grows an app-managed standalone-server mode.
 
@@ -134,7 +134,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `networkAudioDestinations[].capabilities` | `NetworkAudioDestinationSnapshot` | Implemented | Displayed as protocol, sample format, sample rate, and channel-count details in Settings. |
 | `networkAudioDestinations[].lastSeen` | `NetworkAudioDestinationSnapshot` | Implemented | Displayed in each Settings network-audio destination row. |
 | `networkAudioReceiverSelection` | `EmbeddedServer` | Implemented | Settings displays selected destination, destination count, token state, endpoint readiness, LAN output readiness, and blocked reasons. |
-| `remoteGeneration` | `HostStateSnapshot` | Not exposed by `EmbeddedServer` | `SpeakSwiftlyServer` 11.0.0 includes this in `HostStateSnapshot`, but the public `EmbeddedServer` observable does not publish or apply it, so SayBar does not add a side channel in this direct-ownership pass. |
+| `remoteGeneration` | `HostStateSnapshot` | Not exposed by `EmbeddedServer` | `SpeakSwiftlyServer` 12.0.0 includes this in `HostStateSnapshot`, but the public `EmbeddedServer` observable does not publish or apply it, so SayBar does not add a side channel in this direct-ownership pass. |
 | `recentErrors` | `EmbeddedServer` | Implemented | Menu uses the newest error message as high-priority status detail; Settings lists retained errors with source, code, timestamp, and message. |
 | `recentErrors[].occurredAt` | `RecentErrorSnapshot` | Implemented | Displayed in each Settings error row. |
 | `recentErrors[].source` | `RecentErrorSnapshot` | Implemented | Displayed as the Settings error row headline. |
@@ -168,7 +168,7 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 | `HostStateSnapshot.runtimeBackendTransition` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays backend transition diagnostics. |
 | `HostStateSnapshot.currentGenerationJobs` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays active generation job diagnostics. |
 | `HostStateSnapshot.runtimeConfiguration` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays active, next-start, persisted, and restart-impact configuration diagnostics. |
-| `HostStateSnapshot.remoteGeneration` | `HostStateSnapshot` | Not consumed | The v11 `HostStateSnapshot` has this field, but `EmbeddedServer.applyHostStateSnapshot(_:)` does not publish it on `EmbeddedServer`; SayBar intentionally leaves it unsurfaced until the embedded library exposes it directly. |
+| `HostStateSnapshot.remoteGeneration` | `HostStateSnapshot` | Not consumed | The v12 `HostStateSnapshot` has this field, but `EmbeddedServer.applyHostStateSnapshot(_:)` does not publish it on `EmbeddedServer`; SayBar intentionally leaves it unsurfaced until the embedded library exposes it directly. |
 | `HostStateSnapshot.transports` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays transport diagnostics. |
 | `HostStateSnapshot.networkAudioDestinations` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays visible LAN audio receiver diagnostics. |
 | `HostStateSnapshot.networkAudioReceiverSelection` | `HostStateSnapshot` | Consumed indirectly | Applied by `EmbeddedServer`; Settings displays LAN audio receiver selection diagnostics. |
@@ -178,6 +178,6 @@ The current SayBar product baseline is still embedded-runtime-first. That means 
 
 SayBar covers the core embedded-session baseline: app-owned lifecycle, observable status, queue counts and request rows, playback state and buffering diagnostics, runtime refresh and backend-transition diagnostics, runtime configuration including ducking fields, transport diagnostics, network audio receiver diagnostics, recent errors, voice profile refresh and selection, speech backend switching, resident model load/unload, playback pause/resume, playback queue clear/cancel controls, and clipboard-to-speech submission.
 
-The main embedded-session gaps are operator controls and diagnostics that are still either intentionally out of scope or not exposed through the direct `EmbeddedServer` observable: generation queue clear/cancel actions, full playback event details, generation-job submitted/start timestamps, profile metadata beyond profile names, and remote-generation status. `remoteGeneration` exists on `HostStateSnapshot` in `SpeakSwiftlyServer` 11.0.0, but SayBar cannot read it without bypassing the app-facing `EmbeddedServer` model. Generation queue controls are tracked upstream in `SpeakSwiftlyServer#126` so SayBar can keep using direct embedded ownership instead of adding local HTTP or MCP side channels.
+The main embedded-session gaps are operator controls and diagnostics that are still either intentionally out of scope or not exposed through the direct `EmbeddedServer` observable: generation queue clear/cancel actions, full playback event details, generation-job submitted/start timestamps, profile metadata beyond profile names, and remote-generation status. `remoteGeneration` exists on `HostStateSnapshot` in `SpeakSwiftlyServer` 12.0.0, but SayBar cannot read it without bypassing the app-facing `EmbeddedServer` model. Generation queue controls are tracked upstream in `SpeakSwiftlyServer#126` so SayBar can keep using direct embedded ownership instead of adding local HTTP or MCP side channels.
 
-The standalone install and retained-log helpers are intentionally not implemented in this SayBar pass. In `SpeakSwiftlyServer` 11.0.0, those helpers still live outside the embedded library contract SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.
+The standalone install and retained-log helpers are intentionally not implemented in this SayBar pass. In `SpeakSwiftlyServer` 12.0.0, those helpers still live outside the embedded library contract SayBar imports. Adopting them would widen the product from embedded-runtime-first into app-managed standalone-server behavior.

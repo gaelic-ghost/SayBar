@@ -13,7 +13,7 @@ The current boundary is intentionally direct:
 
 ## Why This Shape
 
-`SpeakSwiftlyServer` 11.0.0 provides the app-facing `@Observable` object that a host app is supposed to own. That surface includes:
+`SpeakSwiftlyServer` 12.0.0 provides the app-facing `@Observable` object that a host app is supposed to own. That surface includes:
 
 - lifecycle entrypoints such as `liftoff()` and `land()`
 - observable snapshots for overview, queues, playback, playback events, runtime configuration, backend transitions, current generation jobs, transports, network audio receivers, and recent errors
@@ -26,9 +26,9 @@ Because the package already owns those responsibilities, SayBar should stay focu
 - app wording and app-specific control arrangement
 - native macOS affordances like settings presentation and clipboard access
 
-SayBar is intentionally not adopting the standalone-install helper surface in this embedded-runtime-first pass. In `SpeakSwiftlyServer` 11.0.0, that helper surface remains outside the embedded library contract SayBar imports. The current product baseline is still the embedded runtime that lives inside the app process.
+SayBar is intentionally not adopting the standalone-install helper surface in this embedded-runtime-first pass. In `SpeakSwiftlyServer` 12.0.0, that helper surface remains outside the embedded library contract SayBar imports. The current product baseline is still the embedded runtime that lives inside the app process.
 
-`SpeakSwiftlyServer` 11.0.0 also carries remote-generation status on `HostStateSnapshot`, but the public `EmbeddedServer` observable does not publish that snapshot. SayBar stays on direct `EmbeddedServer` ownership and does not add a separate HTTP, MCP, or host-state side channel just to read remote-generation diagnostics.
+`SpeakSwiftlyServer` 12.0.0 also carries remote-generation status on `HostStateSnapshot`, but the public `EmbeddedServer` observable does not publish that snapshot. SayBar stays on direct `EmbeddedServer` ownership and does not add a separate HTTP, MCP, or host-state side channel just to read remote-generation diagnostics.
 
 See [embedded-session-api-coverage.md](embedded-session-api-coverage.md) for the complete matrix of available embedded session API surfaces, current SayBar implementation coverage, and future-scope gaps.
 

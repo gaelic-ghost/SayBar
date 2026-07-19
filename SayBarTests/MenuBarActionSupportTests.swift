@@ -1,5 +1,6 @@
 @testable import SayBar
 import SpeakSwiftly
+import SpeakSwiftlyCore
 import XCTest
 
 @MainActor
