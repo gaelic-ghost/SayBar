@@ -16,7 +16,7 @@ Add repo-specific executable `.sh` files here only when the repository needs det
 
 ## Usage
 
-The top-level `scripts/repo-maintenance/sync-shared.sh` entrypoint discovers and runs every `*.sh` file in this directory in lexical order.
+The top-level `Scripts/repo-maintenance/sync-shared.sh` entrypoint discovers and runs every `*.sh` file in this directory in lexical order.
 
 ## Development
 

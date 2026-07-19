@@ -15,9 +15,9 @@ agents_path="$REPO_ROOT/AGENTS.md"
 [ -s "$agents_path" ] || die "Expected $agents_path to be non-empty."
 
 for needle in \
-  "scripts/repo-maintenance/validate-all.sh" \
-  "scripts/repo-maintenance/sync-shared.sh" \
-  "scripts/repo-maintenance/release.sh"
+  "Scripts/repo-maintenance/validate-all.sh" \
+  "Scripts/repo-maintenance/sync-shared.sh" \
+  "Scripts/repo-maintenance/release.sh"
 do
   grep -F "$needle" "$agents_path" >/dev/null 2>&1 || die "Expected $agents_path to mention $needle so the maintainer validation, sync, and release entrypoints stay discoverable."
 done

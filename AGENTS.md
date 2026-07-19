@@ -143,13 +143,20 @@ There are no deeper repo-local `AGENTS.md` files in this repository right now. I
 - Use `apple-ui-accessibility-workflow` when the task is primarily about SwiftUI accessibility semantics, Apple UI accessibility review, accessibility tree shaping, or UIKit/AppKit accessibility bridge behavior.
 - Use `sync-xcode-project-guidance` when the repo guidance for this project drifts and needs to be refreshed or merged forward.
 - Re-run `sync-xcode-project-guidance` after substantial Xcode-workflow or plugin updates so local guidance stays aligned.
+- Use `Scripts/repo-maintenance/validate-all.sh` for local maintainer validation and `Scripts/repo-maintenance/sync-shared.sh` for repo-local sync steps.
+- Use `Scripts/repo-maintenance/release.sh --mode standard --version vX.Y.Z` from a feature branch or worktree only for protected-main release, publish, merge, tag, or release-PR work.
+- Treat `Scripts/repo-maintenance/config/profile.env` as the installed `maintain-project-repo` profile marker, and keep it on the `xcode-app` profile.
 - Read relevant Apple documentation before proposing or making Xcode, SwiftUI, lifecycle, architecture, or build-configuration changes.
 - Prefer Dash or local Apple docs first, then official Apple docs when local docs are insufficient.
 - Prefer the simplest correct Swift that is easiest to read and reason about.
 - Prefer synthesized and framework-provided behavior over extra wrappers and boilerplate.
 - Keep data flow straight and dependency direction unidirectional.
+- Use `SAY` as the three-letter uppercase prefix for new project-owned Swift files and declarations; preserve existing names unless a complete naming migration is explicitly in scope.
 - Treat `project.yml` and `Config/SayBar.xcconfig` as the source of truth for app integration, schemes, package dependencies, file membership, and shared build settings. Treat the `.xcodeproj` as generated output that remains tracked and reviewed.
 - Prefer Xcode-aware tooling or `xcodebuild` over ad hoc filesystem assumptions when project structure or target membership is involved.
+- Treat `Sources/Views/Shared`, `Sources/Views/macOS`, and `Sources/Views/iOS` as the baseline view roots when future project-structure work adopts the standard layout.
+- Treat `Sources/Services/` as the baseline root for direct app capability services when future project-structure work adopts the standard layout; do not use it to justify wrappers around `EmbeddedServer`.
+- Require a target-owned `Localizable.xcstrings` default String Catalog when localization structure is brought into scope, and add it through `project.yml` plus XcodeGen rather than by editing the generated project.
 - Never edit `.pbxproj` files directly. When Xcode or another project-aware workflow legitimately changes the tracked `.pbxproj`, treat that diff as critical project state: review it, stage it, and commit it with the branch before any push, merge, release, or cleanup.
 - Prefer Swift Testing for modern unit-style tests, keep XCTest where Apple tooling or dependencies still require it, and use XCUITest with explicit element wait APIs instead of fixed sleeps.
 - Keep `.xctestplan` files versioned when the project depends on repeatable test-plan configurations, and inspect or run them explicitly with `xcodebuild -showTestPlans` and `xcodebuild -testPlan ...`.
